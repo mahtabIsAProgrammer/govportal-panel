@@ -1,10 +1,11 @@
 import { createContext } from "react";
+
 import {
-  DEFAULT_LOCALE,
   DEFAULT_THEME,
   LOCALE_BY_DIR,
+  DEFAULT_LOCALE,
+  DEFAULT_SIDE_BAR_SIZE,
 } from "../constants/statics";
-import { DEFAULT_SIDE_BAR_SIZE } from "../constants/materials";
 
 export const MainContext = createContext<IMainContext>({
   lng: DEFAULT_LOCALE,

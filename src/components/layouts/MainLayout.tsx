@@ -17,6 +17,8 @@ export const MainLayout = () => {
   const navigate = useNavigate();
   const children = useRoutes(routes);
 
+  // const queryClient = new QueryClient();
+
   useEffect(() => {
     if (pathname == "/") navigate("/dashboard", { replace: true });
   }, [navigate, pathname]);

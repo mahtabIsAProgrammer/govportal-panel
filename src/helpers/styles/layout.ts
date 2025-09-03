@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from "@mui/material";
-import { SIDE_BAR_SIZE } from "../constants/materials";
+import { SIDE_BAR_SIZE } from "../constants/statics";
 
 export const DashboardLayoutSX = (
   theme: string,

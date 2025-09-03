@@ -16,3 +16,14 @@ export const SYSTEM_FONT: TSystemFont = {
 
 export const STALE_TIME = 1000 * 5; //? 5s
 export const CASH_TIME = 1000 * 60 * 60; //? 1h
+
+export const DEFAULT_SIDE_BAR_SIZE = "normal";
+
+export const SIDE_BAR_SIZE = {
+  normal: "250px",
+  medium: "125px",
+  none: "0px",
+};
+
+export const API_URL = "http://localhost:3000";
+export const TOKEN_VALUE = localStorage.getItem("token") || null;

@@ -13,12 +13,12 @@ import {
   DEFAULT_THEME,
   LOCALE_BY_DIR,
   DEFAULT_LOCALE,
+  DEFAULT_SIDE_BAR_SIZE,
   LANGUAGE_NAME_LOCAL_STORAGE,
 } from "../../helpers/constants/statics";
 import type { RouteObject } from "react-router-dom";
 import { dashboardRoutes } from "../setting/DashboardRoutes";
 import { MainContext } from "../../helpers/others/mainContext";
-import { DEFAULT_SIDE_BAR_SIZE } from "../../helpers/constants/materials";
 
 export const MainContextProvider: FC<{ children: ReactNode }> = ({
   children,

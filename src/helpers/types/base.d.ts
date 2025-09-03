@@ -7,3 +7,5 @@ type TSystemFont = {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TAny = any;
+
+type TEmptyVoidFunction = () => void | TAnyObjects | Promise<TAnyObjects>;
