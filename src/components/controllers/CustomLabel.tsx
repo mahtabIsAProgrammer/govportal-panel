@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
-import { COLOR_TEXT } from "../../helpers/constants/colors";
+import { COLOR_PRIMARY_TEXT } from "../../helpers/constants/colors";
 import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
 import { FONT_BUTTON, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
 
@@ -47,7 +47,7 @@ export const CustomLabel = memo<ICustomLabel>(
 
 const STYLE_LABEL = (disabled?: boolean): SxProps<Theme> => ({
   display: "flex",
-  color: COLOR_TEXT,
+  color: COLOR_PRIMARY_TEXT,
   fontSize: FONT_BUTTON,
   marginBottom: SPACE_SM,
   fontWeight: FONT_WEIGHT_BLOD,

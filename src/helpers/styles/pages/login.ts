@@ -8,7 +8,7 @@ import {
 } from "../../constants/fonts";
 import {
   COLOR_WHITE,
-  COLOR_SECEONDRY,
+  COLOR_SECONDRY,
   COLOR_MUTED_TEXT,
 } from "../../constants/colors";
 import { SPACE_MD, SPACE_SM, SPACE_XL } from "../../constants/spaces";
@@ -41,7 +41,7 @@ export const loginSX: SxProps<Theme> = {
           fontWeight: FONT_WEIGHT_BLOD,
           "& span": {
             cursor: "pointer",
-            color: COLOR_SECEONDRY,
+            color: COLOR_SECONDRY,
             textDecoration: "underline",
           },
         },

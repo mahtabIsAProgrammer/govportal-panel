@@ -1,3 +1,4 @@
+import { getCurrentDir } from "./handlers";
 import { enqueueSnackbar, type OptionsObject } from "notistack";
 
 interface PropsSimple {
@@ -12,7 +13,7 @@ const defaultAlert = (): OptionsObject<TAny> => ({
   autoHideDuration: 1000 * 3,
   preventDuplicate: true,
   anchorOrigin: {
-    horizontal: "left",
+    horizontal: getCurrentDir() == "rtl" ? "right" : "left",
     vertical: "bottom",
   },
 });

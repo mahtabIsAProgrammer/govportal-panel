@@ -9,9 +9,9 @@ import { merge } from "lodash";
 import { type DOMAttributes, memo } from "react";
 
 import {
-  COLOR_TEXT,
   COLOR_WHITE,
   COLOR_PRIMARY,
+  COLOR_PRIMARY_TEXT,
 } from "../../helpers/constants/colors";
 import { SPACE_LG, SPACE_SM } from "../../helpers/constants/spaces";
 import { FONT_BUTTON, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
@@ -54,7 +54,7 @@ const buttonSX: SxProps<Theme> = {
     border: `1px solid transparent`,
   },
   "&.MuiButton-outlined": {
-    color: COLOR_TEXT,
+    color: COLOR_PRIMARY_TEXT,
     backgroundColor: "transparent",
     border: `1px solid transparent`,
     "&:hover": {

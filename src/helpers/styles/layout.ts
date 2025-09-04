@@ -1,5 +1,7 @@
 import type { SxProps, Theme } from "@mui/material";
+
 import { SIDE_BAR_SIZE } from "../constants/statics";
+import { COLOR_BACKGROUND, COLOR_DARK_BACKGROUND } from "../constants/colors";
 
 export const DashboardLayoutSX = (
   theme: string,
@@ -8,8 +10,9 @@ export const DashboardLayoutSX = (
   width: "100%",
   display: "flex",
   minHeight: "100vh",
-  "& content": {
-    backgroundColor: theme === "light" ? " " : "   ",
+  "& .content": {
+    backgroundColor:
+      theme === "light" ? COLOR_BACKGROUND : COLOR_DARK_BACKGROUND,
     width: `calc(100% - ${SIDE_BAR_SIZE[sidebarSize]})`,
     overflow: "auto",
     transition: ".2s all",

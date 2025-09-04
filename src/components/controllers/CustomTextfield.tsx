@@ -1,4 +1,3 @@
-import { memo, useCallback, useState, type FC, type ReactElement } from "react";
 import {
   Box,
   Grid,
@@ -11,6 +10,7 @@ import {
   type TextFieldProps,
   type TextFieldVariants,
 } from "@mui/material";
+import { memo, useCallback, useState, type FC, type ReactElement } from "react";
 
 import {
   eyeIcon,
@@ -20,7 +20,7 @@ import {
   eyeSlashIcon,
 } from "../other/FunctionalSVG";
 import {
-  COLOR_TEXT,
+  COLOR_PRIMARY_TEXT,
   COLOR_BORDER,
   COLOR_PRIMARY,
 } from "../../helpers/constants/colors";
@@ -153,7 +153,7 @@ const textfieldSX = (
   },
   "& .MuiInputBase-root": {
     outline: "none",
-    color: COLOR_TEXT,
+    color: COLOR_PRIMARY_TEXT,
     fontSize: FONT_SMALL_TEXT,
     borderRadius: "12px",
     fontWeight: FONT_WEIGHT_MEDUIM,
@@ -187,7 +187,7 @@ const textfieldSX = (
     padding: "0px !important",
   },
   "& .MuiInputBase-input": {
-    color: `${COLOR_TEXT} !important`,
+    color: `${COLOR_PRIMARY_TEXT} !important`,
     fontSize: `${FONT_SMALL_TEXT} !important`,
     fontWeight: `${FONT_WEIGHT_MEDUIM} !important`,
     pl: "14px",

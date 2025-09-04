@@ -2,6 +2,7 @@ import {
   type FC,
   useMemo,
   useState,
+  useEffect,
   useCallback,
   type ReactNode,
   type ProviderProps,
@@ -92,6 +93,32 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       changeSidebarSize,
     ]
   );
+
+  useEffect(() => {
+    if (document.querySelector("html") && document.querySelector("body")) {
+      const html = document.querySelector("html") as HTMLHtmlElement;
+      const body = document.querySelector("body") as HTMLBodyElement;
+
+      html.dir = dir;
+      html.lang = i18n.language;
+      html.className = dir + " " + theme;
+
+      body.dir = dir;
+      body.style.fontFamily = fontFamily;
+    }
+  }, [dir, fontFamily, i18n.language, locale, theme]);
+
+  useEffect(() => {
+    const currentLng = localStorage.getItem(LANGUAGE_NAME_LOCAL_STORAGE);
+    if (!currentLng && locale)
+      localStorage.setItem(LANGUAGE_NAME_LOCAL_STORAGE, locale);
+    if (currentLng && currentLng != locale) changeLanguage(currentLng);
+  }, [changeLanguage, locale]);
+
+  useEffect(() => {
+    const currentLng = localStorage.getItem(LANGUAGE_NAME_LOCAL_STORAGE);
+    if (!currentLng && !locale) changeLanguage(DEFAULT_LOCALE);
+  }, [changeLanguage, locale]);
 
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;
 };

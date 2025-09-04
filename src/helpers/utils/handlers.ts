@@ -16,6 +16,11 @@
 //       data: { succeeded, messages },
 //     } = result;
 
+import {
+  LANGUAGE_NAME_LOCAL_STORAGE,
+  LOCALE_BY_DIR,
+} from "../constants/statics";
+
 //     if (isBoolean(succeeded) && succeeded == false) throw messages;
 
 //     if (!successMessage && (succeeded == undefined || succeeded == true))
@@ -32,3 +37,10 @@
 //     return undefined;
 //   }
 // };
+
+export const getCurrentDir = (): TDirection =>
+  LOCALE_BY_DIR.rtl.includes(
+    localStorage.getItem(LANGUAGE_NAME_LOCAL_STORAGE) as TLanguages
+  )
+    ? "rtl"
+    : "ltr";
