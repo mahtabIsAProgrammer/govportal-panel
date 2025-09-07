@@ -1,14 +1,44 @@
-import { CustomImageBox } from "../../components/controllers/CustomImage";
-
-import emptyImage from "../../assets/images/empty-image.webp";
+import { PageProvider } from "../../components/advances/PageProvider";
 
 export const Dashboard = () => {
   return (
-    <div>
-      Dashboard
-      <div>
-        <CustomImageBox src={emptyImage} />
-      </div>
-    </div>
+    <>
+      <PageProvider
+        breadcrumbs={[{ link: "/dashboard", name: "Dashboard", type: "" }]}
+        texts={{
+          title: "Dashboard",
+          buttonInsert: "Add",
+        }}
+        withoutInsert
+        tableData={{
+          useListRows: () => undefined,
+          tableOptions: {
+            groupBy: [""],
+            headerCells: [
+              { id: "hi", label: "hi" },
+              { id: "Hey", label: "Hey" },
+              { id: "Heo", label: "Heo" },
+            ],
+          },
+        }}
+        tabData={[
+          {
+            label: "hi",
+            tabNumber: 1,
+            component: {
+              useListRows: () => undefined,
+              tableOptions: {
+                groupBy: [""],
+                headerCells: [
+                  { id: "hi", label: "hi" },
+                  { id: "Hey", label: "Hey" },
+                  { id: "Heo", label: "Heo" },
+                ],
+              },
+            },
+          },
+        ]}
+      />
+    </>
   );
 };

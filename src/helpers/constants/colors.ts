@@ -13,3 +13,5 @@ export const COLOR_DARK_BACKGROUND = "#080808";
 export const COLOR_BLACK = "#000000";
 export const COLOR_WHITE = "#FFFFFF";
 export const COLOR_SIDEBAR_HOVER = "#F4F6F8";
+
+export const COLOR_GREEN = "#2DCD82";

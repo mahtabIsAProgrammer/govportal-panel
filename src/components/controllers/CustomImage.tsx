@@ -1,22 +1,36 @@
 import { assign } from "lodash";
-import { memo, type ReactNode } from "react";
-import { Box, Grid, type Theme, type SxProps, IconButton } from "@mui/material";
+import {
+  memo,
+  useRef,
+  useCallback,
+  type ReactNode,
+  type SyntheticEvent,
+} from "react";
+import {
+  Box,
+  Grid,
+  Skeleton,
+  IconButton,
+  type Theme,
+  type SxProps,
+  type BoxProps,
+} from "@mui/material";
 
-// import emptyImage from "../../assets/images/empty-image.webp";
-// import emptyImageUser from "../../assets/images/empty-image-user.webp";
+import emptyImage from "../../assets/images/empty-image.webp";
+import emptyImageUser from "../../assets/images/empty-image-user.webp";
 
-interface ICustomImageBox {
+interface ICustomImageBox extends BoxProps {
   sx?: SxProps<Theme>;
   src: string;
   width?: string;
   height?: string;
-  hasBorder?: boolean;
+  isAvatar?: boolean;
   withOutPreview?: boolean;
   onClick?: (e: TAny) => void;
   variant?: "circular" | "rounded" | undefined;
 }
 
-interface ICustomIcon {
+interface ICustomIcon extends BoxProps {
   src: ReactNode;
   width?: number;
   height?: number;
@@ -24,7 +38,13 @@ interface ICustomIcon {
 }
 
 export const CustomImageBox = memo<ICustomImageBox>(
-  ({ sx, src, variant, hasBorder, height, width }) => {
+  ({ sx, src, variant, height, width, onClick, withOutPreview, isAvatar }) => {
+    const ref = useRef(null);
+
+    const handleImageLoad = useCallback(() => {
+      if (ref.current) (ref.current as TAny).classList.add("non-opacity");
+    }, []);
+
     return (
       <Grid
         sx={{
@@ -36,8 +56,32 @@ export const CustomImageBox = memo<ICustomImageBox>(
           src={src}
           component="img"
           className="image-box"
-          sx={assign(customImageBoxSX(hasBorder || false, variant), sx || {})}
+          onLoad={handleImageLoad}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+            e.currentTarget.src = isAvatar ? emptyImageUser : emptyImage;
+            handleImageLoad();
+          }}
+          onClick={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+            const srcImage = (e.target as unknown as { src: string }).src;
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            onClick && onClick(e);
+            if (!srcImage.includes("assets") && !withOutPreview)
+              window.open(srcImage, "__blank");
+          }}
+          sx={assign(customImageBoxSX(variant), sx || {})}
         />
+        <Box
+          component="div"
+          className={"skeleton-local-image "}
+          // sx={localImageBoxSX( variant)}
+          ref={ref}
+        >
+          <Skeleton
+            variant={variant == "circular" ? "circular" : "rounded"}
+            width="100%"
+            height="100%"
+          />
+        </Box>
       </Grid>
     );
   }
@@ -86,7 +130,6 @@ export const CustomIconButton = ({
 };
 
 const customImageBoxSX = (
-  hasBorder: ICustomImageBox["hasBorder"],
   variant: ICustomImageBox["variant"]
 ): SxProps<Theme> => ({
   borderRadius: "8px",
@@ -95,7 +138,6 @@ const customImageBoxSX = (
     width: "100% !important",
     height: "100% !important",
     transition: "0.2s all ",
-    border: hasBorder ? `4px solid #EBF2FF` : "unset",
     borderRadius:
       variant == "circular" ? "50%" : variant == "rounded" ? "8px" : undefined,
   },

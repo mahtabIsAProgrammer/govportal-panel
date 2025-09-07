@@ -30,6 +30,7 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
   const [sidebarSize, setSidebarSize] = useState<TSidebarSize>(
     DEFAULT_SIDE_BAR_SIZE
   );
+  const [isLoadingUploader, changeLoadingUploader] = useState<boolean>(false);
   const [dir, setDir] = useState<TDirection>(
     LOCALE_BY_DIR.rtl.includes(locale || DEFAULT_LOCALE) ? "rtl" : "ltr"
   );
@@ -73,6 +74,8 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       dir,
       theme,
       fontFamily,
+      isLoadingUploader,
+      changeLoadingUploader,
       changeTheme,
       sidebarSize,
       changeLanguage,
@@ -84,13 +87,14 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
     [
       dir,
       theme,
-      locale,
       fontFamily,
+      isLoadingUploader,
       changeTheme,
       sidebarSize,
-      routesResult,
       changeLanguage,
       changeSidebarSize,
+      routesResult,
+      locale,
     ]
   );
 

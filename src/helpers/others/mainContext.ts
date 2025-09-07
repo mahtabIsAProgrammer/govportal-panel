@@ -18,4 +18,6 @@ export const MainContext = createContext<IMainContext>({
   sidebarSize: DEFAULT_SIDE_BAR_SIZE,
   theme: DEFAULT_THEME,
   routes: { dashboardRoutes: [] },
+  isLoadingUploader: false,
+  changeLoadingUploader: () => undefined,
 });

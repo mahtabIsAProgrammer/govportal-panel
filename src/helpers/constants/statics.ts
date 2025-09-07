@@ -28,4 +28,15 @@ export const SIDE_BAR_SIZE = {
 export const NAVBAR_HEIGHT_SIZE = "70px";
 
 export const API_URL = "http://localhost:3000";
+export const BASE_URL = "http://localhost:3000";
 export const TOKEN_VALUE = localStorage.getItem("token") || null;
+
+export const ROWS_PER_PAGES = [
+  { value: "10" },
+  { value: "20" },
+  { value: "50" },
+];
+
+export const TEXT_TOOLTIP_LENGTH = 35;
+export const ROWS_PER_PAGE_DEFILE = 10;
+export const DEBOUNCE_SEARCH_TIME = 1000;

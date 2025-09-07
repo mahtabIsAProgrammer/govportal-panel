@@ -10,7 +10,7 @@ import type { FC, ReactNode } from "react";
 
 import { COLOR_WHITE } from "../../helpers/constants/colors";
 
-interface ICustomPopper {
+export interface ICustomPopper {
   open: boolean;
   children: ReactNode;
   sx?: SxProps<Theme> | undefined;
@@ -33,7 +33,6 @@ export const CustomPopper: FC<ICustomPopper> = ({
       <Popper
         open={open}
         sx={combinedStyles}
-        className="notification"
         anchorEl={anchorEl || null}
         placement={placement || "bottom-end"}
       >

@@ -9,6 +9,8 @@ interface IMainContext<T = unknowm, TRouteObject = TAnyObjects> {
   changeTheme: (theme: TTheme) => void;
   changeSidebarSize: (sidebarSize: TSidebarSize) => void;
   routes: { dashboardRoutes: TRouteObject[] };
+  isLoadingUploader: boolean;
+  changeLoadingUploader: (value: boolean) => void;
 }
 
 type TChangeLanguage = (lng: string, hasReload?: boolean) => void;
