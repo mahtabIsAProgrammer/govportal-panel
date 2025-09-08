@@ -4,9 +4,11 @@ import {
   type SxProps,
   type ButtonTypeMap,
   type ButtonBaseProps,
+  Typography,
 } from "@mui/material";
 import { merge } from "lodash";
-import { type DOMAttributes, memo } from "react";
+import { LoadingButton } from "@mui/lab";
+import { type AriaAttributes, type DOMAttributes, memo } from "react";
 
 import {
   COLOR_WHITE,
@@ -25,6 +27,17 @@ export type TCustomButton = ButtonTypeMap<
   ButtonBaseProps &
   DOMAttributes<unknown>;
 
+export type TLoadingButton = ButtonTypeMap<
+  {
+    text: string;
+    customColor?: string;
+  },
+  "button"
+>["props"] &
+  ButtonBaseProps &
+  DOMAttributes<unknown> &
+  AriaAttributes;
+
 export const CustomButton = memo<TCustomButton>(
   ({ text, sx, variant, ...props }) => {
     const mergeSx = merge({}, buttonSX, sx);
@@ -36,6 +49,30 @@ export const CustomButton = memo<TCustomButton>(
     );
   }
 );
+
+export const CustomLoadingButton = memo<TCustomButton>(({ text, ...props }) => {
+  return (
+    <LoadingButton
+      loadingPosition={"end"}
+      className={"loading-button"}
+      loadingIndicator={
+        ""
+        // <CustomIconButton
+        //   src={
+        //     variant == "outlined" || variant == "text"
+        //       ? loadingPrimary
+        //       : loadingWhite
+        //   }
+        // />
+      }
+      endIcon={<></>}
+      sx={buttonSX}
+      {...props}
+    >
+      <Typography className="button-text">{text}</Typography>
+    </LoadingButton>
+  );
+});
 
 const buttonSX: SxProps<Theme> = {
   px: SPACE_LG,

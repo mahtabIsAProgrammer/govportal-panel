@@ -1,5 +1,11 @@
+import {
+  enqueueSnackbar,
+  type SnackbarKey,
+  type OptionsObject,
+} from "notistack";
+
 import { getCurrentDir } from "./handlers";
-import { enqueueSnackbar, type OptionsObject } from "notistack";
+import { ActionAlert } from "../../components/controllers/CustomAlert";
 
 interface PropsSimple {
   title: string;
@@ -39,4 +45,35 @@ export const successAlert: TSimpleAlert = ({ title, timer }) => {
     timer: timer ?? autoHideDuration,
   });
   console.log("hi");
+};
+
+export const warningAlert: TSimpleAlert = ({ title, timer }) => {
+  const defaultAlertObj = defaultAlert();
+  const { autoHideDuration } = defaultAlertObj;
+  enqueueSnackbar(title, {
+    variant: "warning",
+    ...defaultAlertObj,
+    autoHideDuration: timer ?? autoHideDuration,
+    timer: timer ?? autoHideDuration,
+  });
+};
+
+export const infoAlert: TSimpleAlert = ({
+  title,
+  timer,
+  onClickOk,
+  onClickCancel,
+}) => {
+  const defaultAlertObj = defaultAlert();
+  const { autoHideDuration } = defaultAlertObj;
+  enqueueSnackbar(title, {
+    variant: "info",
+    ...defaultAlertObj,
+    persist: onClickOk || onClickCancel ? false : true,
+    action: onClickOk
+      ? (snackbarId: SnackbarKey) =>
+          ActionAlert({ snackbarId, onClickOk, onClickCancel })
+      : undefined,
+    autoHideDuration: timer ?? autoHideDuration,
+  });
 };

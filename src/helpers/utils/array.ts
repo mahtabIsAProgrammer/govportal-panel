@@ -9,6 +9,17 @@ export const stringSepratorToArry = (
     ? map(split(string, seperator), (i) => (isNaN(+i) ? 0 : +i))
     : split(string, seperator);
 
+export const commaStringToArray = (
+  string: string,
+  isNumber?: boolean
+): (string | number)[] =>
+  isNumber
+    ? string.split(",").map((i) => (isNaN(+i) ? 0 : +i))
+    : string.split(",");
+
+export const arrayToCommaString = (array: (string | number)[]): string =>
+  array.join(",");
+
 export const guidGenerator = () => {
   const S4 = () =>
     (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);

@@ -5,21 +5,21 @@ import {
 } from "./array";
 import { errorHookHandler } from "./handlers";
 import { BASE_URL } from "../constants/statics";
-import { errorAlert, successAlert } from "./messages";
+import { successAlert, warningAlert } from "./messages";
 import apiClient from "../../services/configs/apiClient";
 
 export const checkImage = (file: File) => {
   const fileType = ["image/png", "image/jpeg", "image/webp"];
   if (file.size > 3000000) {
-    errorAlert({ title: "Maximum File : 3MB" });
+    warningAlert({ title: "Maximum File : 3MB" });
     return false;
   }
   if (file.name.length > 50) {
-    errorAlert({ title: "Long File Name" });
+    warningAlert({ title: "Long File Name" });
     return false;
   }
   if (!fileType.includes(file.type)) {
-    errorAlert({ title: "Correct Format: jpg | jpeg | png | webp" });
+    warningAlert({ title: "Correct Format: jpg | jpeg | png | webp" });
     return false;
   }
   return true;
@@ -28,15 +28,15 @@ export const checkImage = (file: File) => {
 export const checkVideo = (file: File) => {
   const fileType = ["video/mp4"];
   if (file.size > 1000000000) {
-    errorAlert({ title: "Maximum File Size : 1GB" });
+    warningAlert({ title: "Maximum File Size : 1GB" });
     return false;
   }
   if (file.name.length > 50) {
-    errorAlert({ title: "Long File Name" });
+    warningAlert({ title: "Long File Name" });
     return false;
   }
   if (!fileType.includes(file.type)) {
-    errorAlert({ title: "Correct Format: mp4" });
+    warningAlert({ title: "Correct Format: mp4" });
     return false;
   }
   return true;
@@ -45,15 +45,15 @@ export const checkVideo = (file: File) => {
 export const checkAudio = (file: File) => {
   const fileType = ["audio/mpeg"];
   if (file.size > 30000000) {
-    errorAlert({ title: "Maximum File Size : 30MB" });
+    warningAlert({ title: "Maximum File Size : 30MB" });
     return false;
   }
   if (file.name.length > 50) {
-    errorAlert({ title: "Long File Name" });
+    warningAlert({ title: "Long File Name" });
     return false;
   }
   if (!fileType.includes(file.type)) {
-    errorAlert({ title: "Correct Format: mp3" });
+    warningAlert({ title: "Correct Format: mp3" });
     return false;
   }
   return true;
@@ -61,11 +61,11 @@ export const checkAudio = (file: File) => {
 
 export const checkFile = (file: File) => {
   if (file.size > 1500000000) {
-    errorAlert({ title: "Maximum File Size : 1.5GB" });
+    warningAlert({ title: "Maximum File Size : 1.5GB" });
     return false;
   }
   if (file.name.length > 50) {
-    errorAlert({ title: "Long File Name" });
+    warningAlert({ title: "Long File Name" });
     return false;
   }
 };

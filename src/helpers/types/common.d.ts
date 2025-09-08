@@ -37,3 +37,15 @@ type TFileUploaderTypes = { [key in TFileUploaderType]: Tany };
 type TFileUploaderTypeAccept = { [key in TFileUploaderType]: string[] };
 
 type TUploaderIcons = { [key in TUpladerIcon]: TAny };
+
+interface IProfileUploader extends IStaticControllerProps {
+  defaultValue?: string;
+  filesState?: (value: string, resetValue: TEmptyVoidFunction) => void;
+  thumbnailsState?: (value: string) => void;
+  variant?: TImageVariant;
+  helperText?: string;
+}
+
+interface IQRCodeBox extends IStaticControllerProps {
+  value?: string;
+}

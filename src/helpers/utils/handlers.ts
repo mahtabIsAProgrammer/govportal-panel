@@ -1,45 +1,44 @@
-// export const handlerCallTryCatch = async ({
-//   handler,
-//   successMessageContentKT,
-//   notShowMessage,
-//   errorCallback,
-// }: {
-//   handler: TEmptyVoidPromiseFunction;
-//   errorCallback?: (error: TAnyObjects) => void;
-//   successMessageContentKT?: TKeyTranslate;
-//   notShowMessage?: { errorMessage?: boolean; successMessage?: boolean };
-// }) => {
-//   const { errorMessage, successMessage } = notShowMessage || {};
-//   try {
-//     const result = (await handler()) || ({ data: {} } as TAnyObjects);
-//     const {
-//       data: { succeeded, messages },
-//     } = result;
+import { map, isArray, isString, isBoolean } from "lodash";
 
 import {
   LOCALE_BY_DIR,
   LANGUAGE_NAME_LOCAL_STORAGE,
 } from "../constants/statics";
-import { errorAlert } from "./messages";
 import { arrayToStringHnadler } from "./array";
-import { map, isArray, isString } from "lodash";
+import { errorAlert, successAlert } from "./messages";
 
-//     if (isBoolean(succeeded) && succeeded == false) throw messages;
+export const tryCatchHandler = async ({
+  handler,
+  notShowMessage,
+  errorCallback,
+  successMessage,
+}: {
+  successMessage?: string;
+  handler: TEmptyVoidFunction;
+  errorCallback?: (error: TAny) => void;
+  notShowMessage?: { isErrorMessage?: boolean; isSuccessMessage?: boolean };
+}) => {
+  const { isErrorMessage, isSuccessMessage } = notShowMessage || {};
+  try {
+    const result = (await handler()) || ({ data: {} } as TAny);
+    const {
+      data: { succeeded, messages },
+    } = result;
 
-//     if (!successMessage && (succeeded == undefined || succeeded == true))
-//       successAlert({
-//         title: translateControlWithExtraText(
-//           successMessageContentKT ?? "operation_success"
-//         ),
-//       });
-//     return result;
-//   } catch (error) {
-//     console.info("error:", error);
-//     if (errorCallback) errorCallback(error);
-//     if (!errorMessage) errorHooksHandler({ error });
-//     return undefined;
-//   }
-// };
+    if (isBoolean(succeeded) && succeeded == false) throw messages;
+
+    if (!isSuccessMessage && (succeeded == undefined || succeeded == true))
+      successAlert({
+        title: successMessage ?? "operation_success",
+      });
+    return result;
+  } catch (error) {
+    console.info("error:", error);
+    if (errorCallback) errorCallback(error);
+    if (!isErrorMessage) errorHookHandler({ error });
+    return undefined;
+  }
+};
 
 export const getCurrentDir = (): TDirection =>
   LOCALE_BY_DIR.rtl.includes(

@@ -626,3 +626,87 @@ export const downloadICON = (color?: string) => (
     />
   </svg>
 );
+
+export const checkBoxFilledICON = (fill?: string, color?: string) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="18" height="18" rx="4" fill={fill || "#377DFF"} />
+    <path
+      d="M5 8.54699L7.547 11.094L12.65 6"
+      stroke={color || "white"}
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const checkBoxOutlineICON = (color?: string) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="0.7"
+      y="0.7"
+      width="16.6"
+      height="16.6"
+      rx="3.3"
+      stroke={color || "#637381"}
+      strokeWidth="1"
+    />
+  </svg>
+);
+
+export const dialogDeleteICON = () => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clipPath="url(#clip0_1126_21369)">
+      <mask
+        id="mask0_1126_21369"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="48"
+        height="48"
+      >
+        <path d="M48 0H0V48H48V0Z" fill="white" />
+      </mask>
+      <g mask="url(#mask0_1126_21369)">
+        <g opacity="0.109609">
+          <path
+            d="M23.8966 3.83154C35.0447 3.83154 44.096 12.8829 44.096 24.0309C44.096 35.1789 35.0447 44.2303 23.8966 44.2303C12.7486 44.2303 3.69727 35.1789 3.69727 24.0309C3.69727 12.8829 12.7486 3.83154 23.8966 3.83154Z"
+            stroke="#F04438"
+            strokeWidth="1.65862"
+          />
+        </g>
+        <path
+          d="M24 7.92041C32.8808 7.92041 40.0801 15.1197 40.0801 24.0005C40.0801 32.8813 32.8808 40.0806 24 40.0806C15.1192 40.0806 7.91992 32.8813 7.91992 24.0005C7.91992 15.1197 15.1192 7.92041 24 7.92041Z"
+          fill="#F04438"
+        />
+        <path
+          d="M24.088 28.491C25.1672 28.491 25.9201 29.4635 25.9201 30.3362C25.9201 31.3586 25.1672 32.3311 24.088 32.3311C22.833 32.3311 22.0801 31.3586 22.0801 30.3362C22.0801 29.4635 22.833 28.491 24.088 28.491ZM24.5965 14.9497C25.0793 14.9497 25.4917 15.3391 25.5149 15.8063L25.5159 15.8477V25.1677C25.5159 25.6392 25.1173 26.042 24.6389 26.0647L24.5965 26.0657H23.4037C22.9209 26.0657 22.5085 25.6763 22.4853 25.2091L22.4843 25.1677V15.8477C22.4843 15.3762 22.8829 14.9734 23.3613 14.9507L23.4037 14.9497H24.5965Z"
+          fill="white"
+        />
+      </g>
+    </g>
+    <defs>
+      <clipPath id="clip0_1126_21369">
+        <rect width="48" height="48" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);

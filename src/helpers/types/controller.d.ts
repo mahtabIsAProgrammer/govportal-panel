@@ -27,3 +27,37 @@ interface IOption {
   value: number | string;
   subLabel?: string;
 }
+
+interface IActionAlert {
+  snackbarId: TAny;
+  onClickOk: TEmptyVoidFunction;
+  onClickCancel?: TEmptyVoidFunction;
+}
+
+interface IDataCheckbox {
+  id: number;
+  label?: string;
+  checked?: boolean;
+}
+
+interface IStaticControllerProps {
+  disabled?: boolean;
+  required?: boolean;
+  customLabel?: string;
+  tooltip?: {
+    text: string;
+    placement?: "bottom" | "top" | "right" | "left";
+  };
+  errorMessage?: IErrorMessage;
+}
+
+interface IDataRadio {
+  label: string;
+  control?: JSX.Element;
+  value: string | number | boolean;
+  labelPlacement?: "bottom" | "top" | "end" | "start" | undefined;
+}
+
+type TImageVariant = "circular" | "rounded";
+
+type TDialogSize = "fullScreen" | "large" | "medium" | "small";

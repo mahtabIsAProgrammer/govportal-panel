@@ -1,9 +1,9 @@
 import {
   Stack,
   Chip,
-  type ChipProps,
-  type SxProps,
   type Theme,
+  type SxProps,
+  type ChipProps,
 } from "@mui/material";
 import { memo } from "react";
 
@@ -13,7 +13,6 @@ import { COLOR_MUTED_TEXT, COLOR_WHITE } from "../../helpers/constants/colors";
 
 export interface IChipProps extends ChipProps {
   className?: string;
-  lng?: string;
 }
 export const CustomChip = memo<IChipProps>(({ ...props }) => {
   const { className } = props;

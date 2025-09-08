@@ -1,4 +1,5 @@
 import { isBoolean, isEmpty, isNumber, isObject, isString } from "lodash";
+import { fa2enDigits } from "./numbers";
 
 export const checkFalsyValue = <T = TAny>(
   value: T,
@@ -15,3 +16,12 @@ export const checkFalsyValue = <T = TAny>(
 
 export const checkUndefiendOrNull = (value: TAny): value is null | undefined =>
   value == null || value == undefined;
+
+export const checkSubmitValue = <T extends Record<string, TAny>>(values: T) => {
+  const finalValues: TAny = {};
+  for (const key in values) {
+    const value = values[key];
+    finalValues[key] = isString(value) ? fa2enDigits(value.trim()) : value;
+  }
+  return finalValues as T;
+};

@@ -1,11 +1,11 @@
 import {
+  Box,
   Grid,
   Autocomplete,
   type Theme,
   type SxProps,
   type AutocompleteProps,
   type FilterOptionsState,
-  Box,
 } from "@mui/material";
 import { memo } from "react";
 import { filter } from "lodash";
@@ -21,14 +21,14 @@ import {
   SPACE_XS,
 } from "../../helpers/constants/spaces";
 import {
+  COLOR_WHITE,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
-  COLOR_WHITE,
 } from "../../helpers/constants/colors";
 import { CustomTextfield } from "./CustomTextfield";
 import { STYLE_AUTOCOMPLETE_ITEMS } from "../../helpers/constants/materials";
 
-export interface ICustomAutoComplete
+export interface ICustomAutocomplete
   extends Omit<
     AutocompleteProps<
       IOption,
@@ -78,11 +78,11 @@ const getOptionDisabled = (option: IOption) => {
   return option?.isEmpty ? true : false;
 };
 
-export const CustomAutoComplete = memo<ICustomAutoComplete>(
+export const CustomAutocomplete = memo<ICustomAutocomplete>(
   ({ errorMessage, options, customLabel, required, ...props }) => {
     return (
       <Grid
-        sx={customAutoCompleteSX}
+        sx={customAutocompleteSX}
         component="div"
         className="autocomplete-chip-wrapper"
       >
@@ -113,7 +113,7 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
   }
 );
 
-const customAutoCompleteSX: SxProps<Theme> = {
+const customAutocompleteSX: SxProps<Theme> = {
   "& .MuiInputBase-root": {
     borderRadius: "12px",
     paddingRight: `${SPACE_MD} !important`,

@@ -10,3 +10,8 @@ export const priceFormatter = (x: number | string, abs?: boolean) => {
     ? value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     : value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const fa2enDigits = (s: string) =>
+  s.replace(/[۰-۹]/g, (w: string) =>
+    String.fromCharCode(w.charCodeAt(0) - 1728)
+  );

@@ -1,223 +1,526 @@
-import { isArray } from "lodash";
-import { useFormik } from "formik";
-import { Box, Grid } from "@mui/material";
-import { memo, useContext, type FC } from "react";
+import {
+  memo,
+  useMemo,
+  Fragment,
+  useState,
+  type JSX,
+  useContext,
+  useCallback,
+} from "react";
+import { isFunction, map } from "lodash";
+import { useFormik, type FormikHelpers } from "formik";
+import type { PickerValue } from "@mui/x-date-pickers/internals";
+import { Fade, Grid, type SxProps, type Theme } from "@mui/material";
 
+import {
+  arrayToCommaString,
+  commaStringToArray,
+} from "../../helpers/utils/array";
+import {
+  checkSubmitValue,
+  checkUndefiendOrNull,
+} from "../../helpers/utils/values";
+import {
+  CustomRadioGroup,
+  type ICustomRadioGroup,
+} from "../controllers/CustomRadio";
+import {
+  DateFormatIsoMOMENT,
+  DatePickerComponentObject,
+  DateTimeFormatIsoMOMENT,
+  DateTimePickerComponentObject,
+} from "../../helpers/utils/dateTime";
+import {
+  CustomCheckbox,
+  type ICustomCheckbox,
+} from "../controllers/CustomCheckbox";
 import {
   CustomTextfield,
   type TCustomTextfield,
 } from "../controllers/CustomTextfield";
 import {
-  CustomAutoComplete,
-  type ICustomAutoComplete,
-} from "../controllers/CustomAutoComplete";
-import { HeaderPage } from "../common/HeaderPage";
-import { CustomButton } from "../controllers/CustomButton";
-import { Uploader, type IUploader } from "../common/Uploader";
+  CustomTimePicker,
+  type ICustomDatePicker,
+  type ICustomTimePicker,
+  type ICustomDateTimePicker,
+} from "../controllers/CustomDatePicker";
+import {
+  CustomAutocomplete,
+  type ICustomAutocomplete,
+} from "../controllers/CustomAutocomplete";
+import { HeaderPage } from "../common/Header";
+import { FileUploader } from "../common/Uploader";
+import { LoadingAddEdit } from "../common/Loading";
+import { SPACE_MD } from "../../helpers/constants/spaces";
+import { ProfileUploader } from "../common/ProfileUploader";
 import { MainContext } from "../../helpers/others/mainContext";
-import { addEditPrivderSX } from "../../helpers/styles/advance";
-import { EditorQuill, type IEditorQuill } from "../common/EditorQuill";
+import { CustomDialogMessage } from "../common/CustomDialogMessages";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
+import { CustomButton, CustomLoadingButton } from "../controllers/CustomButton";
 
-export type TInputTypesObject = {
-  TInput: TCustomTextfield;
+export type TPropsInputTypesObject = {
   TSelect: ICustomSelect;
-  TAutoComplete: ICustomAutoComplete;
+  TInput: TCustomTextfield;
+  TCheckbox: ICustomCheckbox;
+  TRadioGroup: ICustomRadioGroup;
+  TDatePicker: ICustomDatePicker;
+  TTimePicker: ICustomTimePicker;
+  TAutocomplete: ICustomAutocomplete;
+  TDateTimePicker: ICustomDateTimePicker;
 };
 
-interface IInputs {
-  columnGridSize?: TColumnGridSize;
-  side?: {
-    uploader?: {
-      name: string;
-      props: IUploader;
-    };
+export type TFullInputsAddEdit = IInputsAddEdit<
+  TPropsInputTypesObject,
+  SxProps<Theme>
+>;
 
-    columnGridSize?: TColumnGridSize;
-  };
-  fields: Array<
-    | {
-        isFullWidth?: boolean;
-        type: "textfield";
-        props: TCustomTextfield;
-        name: string;
-      }
-    | {
-        isFullWidth?: boolean;
-        type: "autocomplete";
-        props: ICustomAutoComplete;
-        name: string;
-      }
-    | {
-        isFullWidth?: boolean;
-        type: "select";
-        props: ICustomSelect;
-        name: string;
-      }
-    | {
-        isFullWidth?: boolean;
-        type: "editorQuill";
-        props: IEditorQuill;
-        name: string;
-      }
-  >;
-  form: {
-    validations: TEmptyFunctionVoid;
-    initialValues: Record<string, TAny>;
-    onSubmit: (values: TAny) => void;
-    onCancel?: () => void;
-    loading?: boolean;
-  };
-}
-
-interface IAddEditProvider {
-  title: string;
-  breadcrumbs: IBreadcrumbsItems[];
-  isEdit?: boolean;
-  isLoading: boolean;
-  inputs?: IInputs;
-}
-
-export const AddEditProvider: FC<IAddEditProvider> = ({
-  breadcrumbs,
-  // isLoading,
-  title,
-  inputs,
-  isEdit,
-}) => {
-  const { theme } = useContext(MainContext);
-
-  const formIK = useFormik({
-    initialValues: inputs?.form.initialValues,
-    enableReinitialize: true,
-    validateOnChange: false,
-    validateOnBlur: false,
-    validationSchema: inputs?.form.validations
-      ? inputs?.form.validations()
-      : undefined,
-    onSubmit: (values: TAny) => {
-      return inputs?.form.onSubmit(values);
+export const AddEditProvider = memo<
+  IAddEditProvider<TFullInputsAddEdit, FormikHelpers<TAny>>
+>(
+  ({
+    breadcrumbs,
+    forms: { initialValues, loading, onCancel, onSubmit, validationFunctions },
+    isLoading,
+    options: {
+      content: { CustomSections, normalContent },
     },
-  });
+    texts: { title, cancelText, submitText },
+  }) => {
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  return (
-    <Grid sx={addEditPrivderSX(theme)}>
-      <HeaderPage
-        title={isEdit ? "Edit " + title : "Add " + title}
-        breadcrumbData={breadcrumbs}
-      />
-      <Box className="page-container">
-        {inputs ? (
-          <Box
-            className="form-container"
-            component="form"
-            method="post"
-            onSubmit={formIK.handleSubmit}
-          >
-            <Grid container className="grid-container">
-              <Grid container className="inputs-wrapper">
-                {inputs.fields.map((field, index) => {
-                  return (
-                    <InputItems
-                      key={index}
-                      type={field.type}
-                      props={field.props}
-                      name={field.name}
-                      formIK={formIK}
-                      isFullWidth={field.isFullWidth}
-                      columnGridSize={inputs.columnGridSize}
-                    />
-                  );
-                })}
-              </Grid>
-              <Box className="buttons-wrapper">
-                <CustomButton
-                  type="submit"
-                  variant="contained"
-                  disabled={inputs.form.loading}
-                  text="Submit"
+    const { isLoadingUploader } = useContext(MainContext);
+
+    const formIK = useFormik({
+      initialValues,
+      enableReinitialize: true,
+      validateOnChange: false,
+      validateOnBlur: false,
+      validationSchema: validationFunctions ? validationFunctions() : undefined,
+      onSubmit: (values: TAny, formikHelpers: FormikHelpers<TAny>) => {
+        const finalValues = checkSubmitValue(values);
+        return onSubmit(finalValues, formikHelpers);
+      },
+    });
+
+    const NormalContentCallBack: () => INormalContentAddEdit<TFullInputsAddEdit> =
+      useCallback(
+        () =>
+          normalContent
+            ? isFunction(normalContent)
+              ? normalContent(formIK)
+              : normalContent
+            : { inputs: [] },
+        [formIK, normalContent]
+      );
+
+    const normalContentInputsCallBack = useCallback(() => {
+      const pageMain = NormalContentCallBack();
+
+      return checkUndefiendOrNull(pageMain.inputs)
+        ? []
+        : isFunction(pageMain.inputs)
+        ? pageMain.inputs(formIK)
+        : pageMain.inputs;
+    }, [NormalContentCallBack, formIK]);
+
+    const ContentPage = useCallback(() => {
+      const normalContent = NormalContentCallBack();
+      const normalContnetInputs = normalContentInputsCallBack();
+      return (
+        <>
+          {normalContnetInputs.length > 0 && (
+            <AddEditProviderContent
+              sideData={normalContent?.side}
+              content={
+                <InputsBox
+                  formIK={formIK}
+                  inputs={normalContnetInputs}
+                  columnGridSize={normalContent?.columnGridSize}
                 />
-
-                {inputs.form.onCancel && (
-                  <CustomButton
-                    text="cancel"
-                    variant="outlined"
-                    onClick={inputs.form.onCancel}
-                  />
-                )}
-              </Box>
+              }
+              formIK={formIK}
+            />
+          )}
+          {normalContnetInputs.length > 0 && <></>}
+          <Fade in={!isLoading && CustomSections !== undefined}>
+            <Grid container size={{ xs: 12 }}>
+              {CustomSections}
             </Grid>
-            {inputs?.side?.uploader && (
-              <Uploader
-                value={formIK.values[inputs?.side?.uploader.name]}
-                onChange={(file) =>
-                  formIK.setFieldValue(
-                    (inputs?.side?.uploader as TAny).name,
-                    file
-                  )
-                }
-                errorMessage={
-                  inputs?.side?.uploader.name &&
-                  formIK.errors[inputs?.side?.uploader.name]
-                    ? {
-                        text: formIK.errors[
-                          inputs?.side?.uploader.name
-                        ] as string,
-                        type: "error",
-                      }
-                    : inputs?.side?.uploader?.props?.errorMessage
-                }
-                {...inputs?.side?.uploader["props"]}
+          </Fade>
+        </>
+      );
+    }, [
+      CustomSections,
+      NormalContentCallBack,
+      formIK,
+      isLoading,
+      normalContentInputsCallBack,
+    ]);
+
+    const formButtons = useMemo(
+      () =>
+        isLoading ? undefined : (
+          <Grid
+            size={{ md: 12 }}
+            // sx={formButtonsSX}
+          >
+            {onCancel && (
+              <CustomButton
+                text={cancelText || "cancel"}
+                variant="outlined"
+                onClick={() => setOpenDeleteDialog(true)}
+                disabled={isLoadingUploader || loading}
               />
             )}
-          </Box>
-        ) : null}
-      </Box>
+
+            <CustomDialogMessage
+              type="other"
+              open={openDeleteDialog}
+              onClose={() => setOpenDeleteDialog(false)}
+              loading={isLoading}
+              texts={{
+                title: "cancel",
+                subtitle: "cancel_dialog_message",
+                content: "cancel_dialog_message",
+              }}
+              onSubmit={async () => (
+                setOpenDeleteDialog(false), onCancel && onCancel(formIK)
+              )}
+            />
+
+            <CustomLoadingButton
+              type="submit"
+              text={submitText || "save"}
+              variant="contained"
+              disabled={isLoadingUploader}
+              loading={loading}
+            />
+          </Grid>
+        ),
+      [
+        cancelText,
+        formIK,
+        isLoading,
+        isLoadingUploader,
+        loading,
+        onCancel,
+        openDeleteDialog,
+        submitText,
+      ]
+    );
+
+    return (
+      <Grid>
+        {isLoading && <LoadingAddEdit />}
+        {title && breadcrumbs && (
+          <HeaderPage title={title} breadcrumbData={breadcrumbs} />
+        )}
+        <form style={{ width: "100%" }} onSubmit={formIK.handleSubmit}>
+          <Grid container className="content-page">
+            {ContentPage()}
+          </Grid>
+          {formButtons}
+        </form>
+      </Grid>
+    );
+  }
+);
+
+export const AddEditProviderContent = memo<
+  IAddEditProviderContent<TFullInputsAddEdit>
+>(({ content, formIK, sideData, withoutSideNav }) => {
+  const hasinputSidebar = sideData?.inputs && sideData?.inputs?.length > 0;
+  const hasSidebar =
+    hasinputSidebar ||
+    (sideData?.fileUploader?.length ?? 0) > 0 ||
+    sideData?.QrCodeBox ||
+    sideData?.profileUploader;
+  return (
+    <Grid container spacing={SPACE_MD} component="div" tabIndex={1}>
+      <Grid
+        size={{
+          lg: hasSidebar ? (withoutSideNav ? 9 : 9.2) : 12,
+        }}
+      >
+        <Grid
+          width="100%"
+          sx={{
+            justifyContent: "space-between",
+            "& .uploader-container": {
+              boxShadow: "none !important",
+              padding: "0px !important",
+              mb: SPACE_MD,
+            },
+          }}
+          container
+          className="inputs-box"
+        >
+          {content}
+        </Grid>
+      </Grid>
+      {hasSidebar && (
+        <Grid
+          size={{
+            lg: withoutSideNav ? 3 : 2.8,
+          }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: SPACE_MD,
+          }}
+        >
+          {hasinputSidebar && (
+            <Grid
+              className="inputs-box"
+              container
+              width="100%"
+              sx={{
+                "& .uploader-container": {
+                  boxShadow: "none !important",
+                  padding: "0px !important",
+                  mb: SPACE_MD,
+                },
+              }}
+            >
+              <InputsBox
+                formIK={formIK}
+                inputs={sideData?.inputs ?? []}
+                columnGridSize={sideData?.columnGridSize}
+              />
+            </Grid>
+          )}
+          {sideData?.profileUploader && (
+            <ProfileUploader
+              {...(sideData?.profileUploader.props ?? {})}
+              defaultValue={
+                formIK.values[sideData?.profileUploader.name] ?? undefined
+              }
+              filesState={(value) =>
+                sideData?.profileUploader &&
+                sideData?.profileUploader.name &&
+                formIK.values[sideData?.profileUploader.name] !== value &&
+                formIK.setFieldValue(sideData?.profileUploader.name, value)
+              }
+              thumbnailsState={(value) =>
+                sideData?.profileUploader &&
+                sideData?.profileUploader?.thumbName &&
+                formIK.values[sideData?.profileUploader?.thumbName] !== value &&
+                formIK.setFieldValue(
+                  sideData?.profileUploader?.thumbName,
+                  value
+                )
+              }
+              errorMessage={
+                sideData?.profileUploader.name &&
+                formIK.errors[sideData?.profileUploader.name]
+                  ? {
+                      text: formIK.errors[
+                        sideData?.profileUploader.name
+                      ] as string,
+                      type: "error",
+                    }
+                  : sideData?.profileUploader?.props?.errorMessage
+              }
+            />
+          )}
+          {sideData?.fileUploader &&
+            sideData?.fileUploader?.length > 0 &&
+            map(
+              sideData?.fileUploader,
+              ({ name, props, thumbName }, key: number) => (
+                <FileUploader
+                  key={key}
+                  {...(props ?? {})}
+                  defaultFiles={
+                    formIK.values[name]
+                      ? (commaStringToArray(formIK.values[name]) as string[])
+                      : undefined
+                  }
+                  filesState={(value) =>
+                    sideData?.fileUploader &&
+                    name &&
+                    (formIK.values[name] || "") !== arrayToCommaString(value) &&
+                    formIK.setFieldValue(name, arrayToCommaString(value))
+                  }
+                  thumbnailsState={(value) =>
+                    sideData?.fileUploader &&
+                    thumbName &&
+                    (formIK.values[thumbName] || "") !=
+                      arrayToCommaString(value) &&
+                    formIK.setFieldValue(thumbName, arrayToCommaString(value))
+                  }
+                  errorMessage={
+                    name && formIK.errors[name]
+                      ? {
+                          message: formIK.errors[name] as string,
+                          type: "error",
+                        }
+                      : props?.errorMessage
+                  }
+                />
+              )
+            )}
+          {/* {sideData?.QRCodeBox && (
+            <QRcodeBox
+              {...(sideData?.QRCodeBox?.props ?? {})}
+              value={
+                sideData?.QRCodeBox?.name
+                  ? formIK.values[sideData?.QRCodeBox?.name] ?? ""
+                  : sideData?.QRCodeBox?.props?.value ?? ""
+              }
+            />
+          )} */}
+        </Grid>
+      )}
     </Grid>
   );
-};
+});
 
-const InputItems = memo(
-  ({ type, props, name, formIK, columnGridSize, isFullWidth }: TAny) => {
+export const InputsBox = memo<{
+  inputs: TFullInputsAddEdit[];
+  columnGridSize: TColumnGridSize;
+  formIK?: TAny;
+}>(({ columnGridSize, inputs, formIK }) => {
+  return (
+    <>
+      {map(
+        inputs,
+        (
+          {
+            name,
+            type,
+            Component,
+            InputsChildren,
+            disabled,
+            inputsChildrenJSX,
+            isFullWidth,
+            props,
+            sx,
+            thumbName,
+          },
+          key
+        ) => {
+          return (
+            <Fragment key={key}>
+              <InputBoxItems
+                sx={sx}
+                type={type}
+                props={props}
+                name={name}
+                isFullWidth={isFullWidth}
+                thumbName={thumbName}
+                Component={Component}
+                disabled={disabled}
+                formIK={formIK}
+                columnGridSize={columnGridSize}
+                InputsChildren={InputsChildren}
+                inputsChildrenJSX={inputsChildrenJSX}
+              />
+            </Fragment>
+          );
+        }
+      )}
+    </>
+  );
+});
+
+export const InputBoxItems = memo<{
+  type: TFullInputsAddEdit["type"];
+  sx: TFullInputsAddEdit["sx"];
+  props: TFullInputsAddEdit["props"];
+  name: TFullInputsAddEdit["name"];
+  isFullWidth: TFullInputsAddEdit["isFullWidth"];
+  thumbName: TFullInputsAddEdit["thumbName"];
+  Component: TFullInputsAddEdit["Component"];
+  disabled: TFullInputsAddEdit["disabled"];
+  InputsChildren: TFullInputsAddEdit["InputsChildren"];
+  inputsChildrenJSX: TFullInputsAddEdit["inputsChildrenJSX"];
+  columnGridSize: TColumnGridSize;
+  formIK: TAny;
+}>(
+  ({
+    Component,
+    InputsChildren,
+    columnGridSize,
+    disabled,
+    formIK,
+    inputsChildrenJSX,
+    isFullWidth,
+    name,
+    props,
+    sx,
+    thumbName,
+    type,
+  }) => {
+    const { lng } = useContext(MainContext);
+
     let result;
 
-    switch (type) {
-      case "textfield":
-        result = (
-          <CustomTextfield
-            fullWidth
-            name={name}
-            errorMessage={{ text: formIK && formIK.errors[name] }}
-            onChange={formIK.handleChange}
-            value={formIK.values[name] || ""}
-            {...props}
-          />
-        );
-        break;
+    const value = useMemo(
+      () => (formIK ? formIK.values[name] : props?.[type]?.value),
+      [formIK, name, props, type]
+    );
 
+    const InputChildeHandler = useCallback(() => {
+      return (
+        <>
+          {InputsChildren &&
+            (!inputsChildrenJSX ? (
+              <InputsBox
+                columnGridSize={columnGridSize}
+                inputs={
+                  InputsChildren({
+                    value,
+                    formIK,
+                    columnGridSize,
+                  }) as TFullInputsAddEdit[]
+                }
+                formIK={formIK}
+              />
+            ) : (
+              (InputsChildren({
+                value: formIK && formIK.values[name],
+                formIK,
+                columnGridSize,
+              }) as JSX.Element)
+            ))}
+        </>
+      );
+    }, [
+      InputsChildren,
+      columnGridSize,
+      formIK,
+      inputsChildrenJSX,
+      name,
+      value,
+    ]);
+
+    const DateTimePickerComponent = DateTimePickerComponentObject[lng];
+    const DatePickerComponent = DatePickerComponentObject[lng];
+
+    switch (type) {
       case "autocomplete":
         result = (
-          <CustomAutoComplete
+          <CustomAutocomplete
+            disablePortal
             isOptionEqualToValue={({ label }, value) =>
               label.toString() == value.toString()
             }
-            onChange={(_, newValue) => {
-              const values = isArray(newValue)
-                ? newValue?.map((item: TAny) =>
-                    typeof item === "string" ? item : item.value
-                  )
-                : newValue;
-              formIK.setFieldValue(name, (values as IOption)?.value);
-            }}
-            value={formIK.values[name] || ""}
+            value={(formIK && formIK.values[name]) || ""}
+            onChange={(_, value) =>
+              formIK && formIK.setFieldValue(name, (value as IOption)?.value)
+            }
+            disabled={disabled}
             errorMessage={
               formIK && formIK.errors[name]
                 ? {
                     text: formIK && formIK.errors[name],
+                    type: "error",
                   }
-                : props?.errorMessage
+                : props?.["autocomplete"]?.errorMessage
             }
-            {...(props ?? { options: [] })}
+            forcePopupIcon={true}
+            {...(props?.["autocomplete"] ?? { options: [] })}
           />
         );
         break;
@@ -228,34 +531,246 @@ const InputItems = memo(
             name={name}
             value={(formIK && formIK.values[name]) ?? ""}
             onChange={formIK && formIK.handleChange}
+            disabled={disabled}
             errorMessage={
               formIK && formIK.errors[name]
                 ? {
                     text: formIK && formIK.errors[name],
+                    type: "error",
                   }
-                : props?.errorMessage
+                : props?.["select"]?.errorMessage
             }
-            {...(props ?? { items: [] })}
+            {...(props?.["select"] ?? { items: [] })}
+          />
+        );
+        break;
+      case "input":
+        result = (
+          <>
+            <CustomTextfield
+              autoComplete="off"
+              // inputProps={{
+              //   maxLength: props?.["input"]?.currency?.has
+              //     ? MAX_LENGTH_CURRENCY_INPUT
+              //     : MAX_LENGTH_INPUT,
+              // }}
+              name={name}
+              value={formIK && formIK.values[name]}
+              onChange={formIK && formIK.handleChange}
+              disabled={disabled}
+              errorMessage={
+                formIK && formIK.errors[name]
+                  ? {
+                      text: formIK && formIK.errors[name],
+                      type: "error",
+                    }
+                  : props?.["input"]?.errorMessage
+              }
+              {...(props?.["input"] ?? {})}
+            />
+          </>
+        );
+        break;
+
+      case "checkbox":
+        result = (
+          <CustomCheckbox
+            name={name}
+            checked={formIK && formIK.values[name]}
+            onChange={(_, checked) =>
+              formIK && formIK.setFieldValue(name, checked)
+            }
+            disabled={disabled}
+            {...(props?.["checkbox"] ?? {})}
           />
         );
         break;
 
-      case "editorQuill":
+      case "datePicker":
         result = (
-          <EditorQuill
-            value={formIK && formIK.values[name]}
-            onChange={(value) => formIK && formIK.setFieldValue(name, value)}
+          <DatePickerComponent
+            slotProps={{
+              field: { clearable: true },
+            }}
+            value={
+              formIK && formIK.values[name]
+                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                : null
+            }
+            onChange={(value) =>
+              formIK &&
+              formIK.setFieldValue(name, value && DateFormatIsoMOMENT(value))
+            }
+            disabled={disabled}
             errorMessage={
               formIK && formIK.errors[name]
                 ? {
-                    message: formIK && formIK.errors[name],
+                    text: formIK && formIK.errors[name],
                     type: "error",
                   }
-                : props?.["editorQuill"]?.errorMessage
+                : props?.["datePicker"]?.errorMessage
             }
-            {...(props?.["editorQuill"] ?? {})}
+            {...(props?.["datePicker"] ?? {})}
           />
         );
+
+        break;
+
+      case "dateTimePicker":
+        result = (
+          <DateTimePickerComponent
+            slotProps={{
+              field: { clearable: true },
+            }}
+            value={
+              formIK && formIK.values[name]
+                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                : null
+            }
+            onChange={
+              ((value: string) =>
+                formIK &&
+                formIK.setFieldValue(
+                  name,
+                  DateTimeFormatIsoMOMENT(value)
+                )) as TAny
+            }
+            disabled={disabled}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["dateTimePicker"]?.errorMessage
+            }
+            {...(props?.["dateTimePicker"] ?? {})}
+          />
+        );
+
+        break;
+
+      case "radioGroup":
+        result = (
+          <CustomRadioGroup
+            name={name}
+            value={formIK && formIK.values[name]}
+            onChange={formIK && formIK.handleChange}
+            disabled={disabled}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["radioGroup"]?.errorMessage
+            }
+            {...(props?.["radioGroup"] ?? {})}
+          />
+        );
+        break;
+
+      case "timePicker":
+        result = (
+          <CustomTimePicker
+            slotProps={{
+              field: { clearable: true },
+            }}
+            name={name}
+            value={
+              formIK && formIK.values[name]
+                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                : null
+            }
+            onChange={(value: PickerValue) =>
+              formIK &&
+              formIK.setFieldValue(
+                name,
+                DateTimeFormatIsoMOMENT(value as unknown as string)
+              )
+            }
+            disabled={disabled}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["timePicker"]?.errorMessage
+            }
+            {...(props?.["timePicker"] ?? {})}
+          />
+        );
+        break;
+
+      case "fileUploader":
+        result = (
+          <FileUploader
+            defaultFiles={
+              formIK && formIK.values[name]
+                ? formIK && commaStringToArray(formIK.values[name])
+                : undefined
+            }
+            filesState={(value) =>
+              name &&
+              ((formIK && formIK.values[name]) || "") !==
+                arrayToCommaString(value) &&
+              formIK &&
+              formIK.setFieldValue(name, arrayToCommaString(value))
+            }
+            thumbnailsState={(value) =>
+              thumbName &&
+              ((formIK && formIK.values[thumbName]) || "") !=
+                arrayToCommaString(value) &&
+              formIK &&
+              formIK.setFieldValue(thumbName, arrayToCommaString(value))
+            }
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["fileUploader"]?.errorMessage
+            }
+            {...(props?.fileUploader ?? {})}
+          />
+        );
+        break;
+
+      case "profileUploader":
+        result = (
+          <ProfileUploader
+            defaultValue={(formIK && formIK.values[name]) ?? undefined}
+            filesState={(value) =>
+              name &&
+              formIK.values[name] !== value &&
+              formIK.setFieldValue(name, value)
+            }
+            thumbnailsState={(value) =>
+              thumbName &&
+              formIK.values[thumbName] !== value &&
+              formIK.setFieldValue(thumbName, value)
+            }
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["profileUploader"]?.errorMessage
+            }
+            {...(props?.profileUploader ?? {})}
+          />
+        );
+        break;
+
+      case "custom":
+        result = Component ? Component(name, formIK) : <></>;
+        break;
+
+      case "emptyInput":
+        result = <></>;
         break;
 
       default:
@@ -264,6 +779,7 @@ const InputItems = memo(
     return (
       <>
         <Grid
+          sx={sx}
           size={{
             md: isFullWidth ? 12 : columnGridSize ?? 5.9,
             lg: isFullWidth ? 12 : columnGridSize ?? 5.9,
@@ -273,6 +789,7 @@ const InputItems = memo(
         >
           {result}
         </Grid>
+        {InputChildeHandler()}
       </>
     );
   }

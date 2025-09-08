@@ -5,3 +5,7 @@ export const Loading = () => {
 export const LoadingTable = () => {
   return <>Loading</>;
 };
+
+export const LoadingAddEdit = () => {
+  return <>Loading</>;
+};

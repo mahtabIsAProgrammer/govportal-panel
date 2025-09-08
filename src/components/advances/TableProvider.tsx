@@ -13,21 +13,21 @@ import {
 } from "../../helpers/constants/statics";
 import { LoadingTable } from "../common/Loading";
 import { searchStatusICON } from "../other/FunctionalSVG";
-import type { TInputTypesObject } from "./AddEditProvider";
 import { CustomSelect } from "../controllers/CustomSelect";
+import type { TPropsInputTypesObject } from "./AddEditProvider";
 import { CustomTextfield } from "../controllers/CustomTextfield";
-import { CustomAutoComplete } from "../controllers/CustomAutoComplete";
+import { CustomAutocomplete } from "../controllers/CustomAutocomplete";
 import { responsePropsByLengthOnStandard } from "../../helpers/utils/handlers";
 
 export type TTableProvider<T = TAny> = ITableProvider<
   IHeaderCell<T>,
-  TInputTypesObject,
+  TPropsInputTypesObject,
   ICustomTable
 >;
 
 export type TTableProviderTableSetting<T = TAny> = ITableProviderTableSetting<
   IHeaderCell<T>,
-  TInputTypesObject,
+  TPropsInputTypesObject,
   ICustomTable
 >;
 
@@ -82,7 +82,7 @@ export const TableProvider = memo<TTableProvider>(
           : { ...baseData }),
       [baseData]
     );
-    const filterItems: IFilterItem<TInputTypesObject>[] = useMemo(
+    const filterItems: IFilterItem<TPropsInputTypesObject>[] = useMemo(
       () => [
         ...(extraFilterItemList ?? []),
         ...((withOutSearch
@@ -102,7 +102,7 @@ export const TableProvider = memo<TTableProvider>(
                   },
                 },
               },
-            ]) as IFilterItem<TInputTypesObject>[]),
+            ]) as IFilterItem<TPropsInputTypesObject>[]),
       ],
       [extraFilterItemList, withOutSearch, backToFirstPage]
     );
@@ -148,7 +148,7 @@ export const TableProvider = memo<TTableProvider>(
   }
 );
 
-const FilterTableInputs: FC<IFilterTableInputs<TInputTypesObject>> = ({
+const FilterTableInputs: FC<IFilterTableInputs<TPropsInputTypesObject>> = ({
   backToFirstPage,
   extraFilterfinal,
   filterItems,
@@ -168,12 +168,12 @@ const FilterTableInputs: FC<IFilterTableInputs<TInputTypesObject>> = ({
         switch (type) {
           case "autocomplete":
             result = (
-              <CustomAutoComplete
+              <CustomAutocomplete
                 disablePortal
                 isOptionEqualToValue={({ label }, value) =>
                   label.toString() == value.toString()
                 }
-                {...(props?.["autoComplete"] ?? { options: [] })}
+                {...(props?.["autocomplete"] ?? { options: [] })}
                 forcePopupIcon={true}
                 value={
                   !isNumber(extraFilterfinal?.[name]) &&
