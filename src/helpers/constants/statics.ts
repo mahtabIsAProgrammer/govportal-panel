@@ -27,7 +27,7 @@ export const SIDE_BAR_SIZE = {
 };
 export const NAVBAR_HEIGHT_SIZE = "70px";
 
-export const API_URL = "http://localhost:3000";
+export const API_URL = "http://localhost:3000/api";
 export const BASE_URL = "http://localhost:3000";
 export const TOKEN_VALUE = localStorage.getItem("token") || null;
 

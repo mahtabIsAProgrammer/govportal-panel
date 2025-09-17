@@ -60,7 +60,7 @@ export const CustomPagination: FC<ICustomPagination> = ({
 };
 
 const customPaginationSX: SxProps<Theme> = {
-  "& .local-pagination": {
+  "& .custom-pagination": {
     "& .MuiPagination-ul": {
       "& .MuiPaginationItem-previousNext": {
         background: "transparent",

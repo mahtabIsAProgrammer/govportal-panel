@@ -9,6 +9,10 @@ interface ICustomLabel {
   //   subTitleLabel?: string;
   required?: boolean;
   disabled?: boolean;
+  tooltip?: {
+    text: string;
+    placement?: "bottom" | "top" | "right" | "left";
+  };
   gap?: number | string;
 }
 

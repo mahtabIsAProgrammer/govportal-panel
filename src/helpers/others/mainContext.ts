@@ -20,4 +20,5 @@ export const MainContext = createContext<IMainContext>({
   routes: { dashboardRoutes: [] },
   isLoadingUploader: false,
   changeLoadingUploader: () => undefined,
+  isLoadingProfileInformation: false,
 });

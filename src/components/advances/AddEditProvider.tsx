@@ -9,7 +9,6 @@ import {
 } from "react";
 import { isFunction, map } from "lodash";
 import { useFormik, type FormikHelpers } from "formik";
-import type { PickerValue } from "@mui/x-date-pickers/internals";
 import { Fade, Grid, type SxProps, type Theme } from "@mui/material";
 
 import {
@@ -57,6 +56,10 @@ import { MainContext } from "../../helpers/others/mainContext";
 import { CustomDialogMessage } from "../common/CustomDialogMessages";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 import { CustomButton, CustomLoadingButton } from "../controllers/CustomButton";
+import {
+  addEditProviderSX,
+  formButtonsSX,
+} from "../../helpers/styles/advances";
 
 export type TPropsInputTypesObject = {
   TSelect: ICustomSelect;
@@ -160,10 +163,7 @@ export const AddEditProvider = memo<
     const formButtons = useMemo(
       () =>
         isLoading ? undefined : (
-          <Grid
-            size={{ md: 12 }}
-            // sx={formButtonsSX}
-          >
+          <Grid size={{ md: 12 }} sx={formButtonsSX}>
             {onCancel && (
               <CustomButton
                 text={cancelText || "cancel"}
@@ -210,7 +210,7 @@ export const AddEditProvider = memo<
     );
 
     return (
-      <Grid>
+      <Grid container sx={addEditProviderSX}>
         {isLoading && <LoadingAddEdit />}
         {title && breadcrumbs && (
           <HeaderPage title={title} breadcrumbData={breadcrumbs} />
@@ -594,7 +594,7 @@ export const InputBoxItems = memo<{
             }}
             value={
               formIK && formIK.values[name]
-                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                ? (new Date(formIK && formIK.values[name]) as Date)
                 : null
             }
             onChange={(value) =>
@@ -624,7 +624,7 @@ export const InputBoxItems = memo<{
             }}
             value={
               formIK && formIK.values[name]
-                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                ? (new Date(formIK && formIK.values[name]) as Date)
                 : null
             }
             onChange={
@@ -679,10 +679,10 @@ export const InputBoxItems = memo<{
             name={name}
             value={
               formIK && formIK.values[name]
-                ? (new Date(formIK && formIK.values[name]) as PickerValue)
+                ? (new Date(formIK && formIK.values[name]) as Date)
                 : null
             }
-            onChange={(value: PickerValue) =>
+            onChange={(value: Date | null) =>
               formIK &&
               formIK.setFieldValue(
                 name,

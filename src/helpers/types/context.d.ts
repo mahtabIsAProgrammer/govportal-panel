@@ -11,6 +11,7 @@ interface IMainContext<T = unknowm, TRouteObject = TAnyObjects> {
   routes: { dashboardRoutes: TRouteObject[] };
   isLoadingUploader: boolean;
   changeLoadingUploader: (value: boolean) => void;
+  isLoadingProfileInformation: boolean;
 }
 
 type TChangeLanguage = (lng: string, hasReload?: boolean) => void;

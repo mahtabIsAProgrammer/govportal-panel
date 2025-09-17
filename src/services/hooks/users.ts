@@ -1,22 +1,59 @@
-import { useQuery } from "react-query";
-import { getUsers } from "../configs/apiEndPoint";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
-// export const useUsersData = (
-//   pageNumber?: number,
-//   pageSize?: number,
-//   keyword?: string
-// ) =>
-//   useQuery(
-//     ["users-data", pageNumber, pageSize, keyword],
-//     getUsers({ pageNumber, pageSize, keyword, orderBy: ["id desc"] }),
-//     { keepPreviousData: true }
-//   );
+import {
+  createUser,
+  updateUser,
+  getUserById,
+  getUserData,
+  type UserDataApi,
+} from "../configs/apiEndPoint";
 
-export const useGetUsers = () => {
+export const useUserData = (
+  pageNumber?: number,
+  pageSize?: number,
+  keyword?: string
+) =>
+  useQuery(["users-data", pageNumber, pageSize, keyword], () =>
+    getUserData({ pageNumber, pageSize, keyword })
+  );
+
+// Get user by id
+export const useGetUserById = (id?: string) => {
   return useQuery({
-    queryKey: ["users-search"],
-    queryFn: () => getUsers(),
-    placeholderData: (prev: TAny) => prev,
-    enabled: true,
+    queryKey: ["user-get", id],
+    queryFn: async () => (id ? await getUserById(id!) : {}),
+  });
+};
+
+// Create a user
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UserDataApi) => createUser(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["users-data"],
+      });
+    },
+  });
+};
+
+// Update a user
+export const useUpdateUser = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UserDataApi) => updateUser(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["users-data"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user-get"],
+      });
+    },
+    onError: (error) => {
+      console.error("Mutation failed:", error);
+      alert(`Error: ${error || "Something went wrong."}`);
+    },
   });
 };

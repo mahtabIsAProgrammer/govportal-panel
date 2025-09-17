@@ -1,9 +1,11 @@
 import { map } from "lodash";
 import { type FC } from "react";
-import { Box, type SxProps, type Theme } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { HeaderPage } from "../common/Header";
 import { addICON } from "../other/FunctionalSVG";
+import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { pageProviderSX } from "../../helpers/styles/advances";
 import { CustomTab, type ITabData } from "../controllers/CustomTab";
 import { TableProvider, type TTableProvider } from "./TableProvider";
 
@@ -30,16 +32,16 @@ export const PageProvider: FC<
         localNavigate={localNavigate}
         breadcrumbData={breadcrumbs}
         button={{
-          props: !withoutInsert
+          props: (!withoutInsert
             ? {
-                text: buttonInsert || "",
+                text: buttonInsert,
                 size: "large",
-                startIcon: addICON(),
+                startIcon: addICON(COLOR_WHITE),
                 color: "primary",
                 variant: "contained",
                 onClick: handleInsertButton ?? undefined,
               }
-            : undefined,
+            : "") as TAny,
           link: buttonLink ?? undefined,
         }}
         otherComponent={otherComponentHeader}
@@ -74,5 +76,3 @@ export const PageProvider: FC<
     </Box>
   );
 };
-
-const pageProviderSX: SxProps<Theme> = {};

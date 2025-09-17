@@ -87,9 +87,16 @@ export const CustomImageBox = memo<ICustomImageBox>(
   }
 );
 
-export const CustomIcon = ({ src, className, height, width }: ICustomIcon) => {
+export const CustomIcon = ({
+  src,
+  className,
+  height,
+  width,
+  ...props
+}: ICustomIcon) => {
   return (
     <Box
+      {...props}
       component="div"
       className={className}
       sx={{

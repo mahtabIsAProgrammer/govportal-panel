@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { isUndefined } from "lodash";
 import { Box, Grid, MenuItem, Typography } from "@mui/material";
 import { useCallback, useContext, useRef, useState } from "react";
 
@@ -21,11 +21,18 @@ import { CustomSwitch } from "../controllers/CustomSwitch";
 import { CustomPopper } from "../controllers/CustomPopper";
 import { CustomButton } from "../controllers/CustomButton";
 import { MainContext } from "../../helpers/others/mainContext";
+import { emptyValueString } from "../other/EmptyComponents";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
 export const Navbar = () => {
-  const { theme, changeTheme, changeLanguage, lng } = useContext(MainContext);
+  const {
+    theme,
+    changeTheme,
+    changeLanguage,
+    lng,
+    globalProfileInformation: { firstName, lastName, profileImage, email },
+  } = useContext(MainContext);
   const [checked, setChecked] = useState<boolean>(false);
   const [openPopper, setOpenPopper] = useState<TPopperTypes | undefined>(
     undefined
@@ -72,7 +79,8 @@ export const Navbar = () => {
       <Box ref={userRef}>
         <CustomImageBox
           isAvatar
-          src={"./"}
+          withOutPreview
+          src={profileImage}
           variant="circular"
           onClick={(e) => handleOpenPopper(e, "userPopper")}
         />
@@ -113,17 +121,27 @@ export const Navbar = () => {
       >
         <Grid sx={userInfoSX}>
           <Grid className="info">
-            <Typography className="name"></Typography>
-            <Typography className="email"></Typography>
+            <Typography className="name">
+              {isUndefined(firstName)
+                ? `${firstName} ${lastName}`
+                : emptyValueString}
+            </Typography>
+            <Typography className="email">
+              {email || emptyValueString}
+            </Typography>
           </Grid>
           <Grid className="action-items">
-            <Box>
+            <Box className="item">
               <CustomIcon src={undefined} />
-              <Typography></Typography>
+              <Typography>Edit Profile</Typography>
+            </Box>
+            <Box className="item">
+              <CustomIcon src={undefined} />
+              <Typography>Change Password</Typography>
             </Box>
           </Grid>
           <Grid className="log-out">
-            <CustomButton text={"Logout"} />
+            <CustomButton sx={{ width: "100%" }} text={"Logout"} />
           </Grid>
         </Grid>
       </CustomPopper>

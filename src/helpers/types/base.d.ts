@@ -37,3 +37,7 @@ interface IFileProps {
   isAborted?: boolean;
   uploadObject?: TAny;
 }
+
+interface IMutateAsyncResponseGuid {
+  data: { data: string };
+}

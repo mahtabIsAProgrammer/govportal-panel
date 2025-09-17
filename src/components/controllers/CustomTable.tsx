@@ -23,6 +23,13 @@ import {
 import { map } from "lodash";
 
 import {
+  COLOR_WHITE,
+  COLOR_BORDER,
+  COLOR_PRIMARY,
+  COLOR_MUTED_TEXT,
+  COLOR_PRIMARY_TEXT,
+} from "../../helpers/constants/colors";
+import {
   ROWS_PER_PAGES,
   ROWS_PER_PAGE_DEFILE,
 } from "../../helpers/constants/statics";
@@ -31,7 +38,9 @@ import { TextTooltip } from "../common/TextTooltip";
 import { EmptyValue } from "../other/EmptyComponents";
 import { CustomPagination } from "./CustomPagination";
 import { checkFalsyValue } from "../../helpers/utils/values";
+import { SPACE_LG, SPACE_XS } from "../../helpers/constants/spaces";
 import { en2faDigits, priceFormatter } from "../../helpers/utils/numbers";
+import { FONT_BUTTON, FONT_CAPTION } from "../../helpers/constants/fonts";
 
 type TRowDefault = TAny & {
   id: number | string;
@@ -63,7 +72,6 @@ export interface ICustomTable<T = TAny & { id: number | string }> {
   setPage?: (perPage: number) => void;
   setPerPage?: (perPage: number) => void;
   setting: {
-    groupBy?: string[];
     hasIndex?: boolean;
     totalCount?: number;
     RenderRowIndex?: FC<{
@@ -153,18 +161,22 @@ export const CustomTableContent = memo(() => {
           )}
         </TableContainer>
       </Box>
-      {valueRows.length > 0 &&
+      {valueRows?.length > 0 &&
         (totalCount || page !== undefined || perPage != undefined) && (
           <>
             <Grid container className="footer-table-container">
-              <Grid container className="footer-table-counter" size={{ md: 3 }}>
+              <Grid
+                container
+                className="footer-table-counter"
+                size={{ md: 2.5 }}
+              >
                 {totalCount && (
                   <>
-                    <Box component="p" className="count">
-                      {totalCount ?? "0"}
-                    </Box>
                     <Box component="p" className="text">
                       total Number
+                    </Box>
+                    <Box component="p" className="count">
+                      {totalCount ?? "0"}
                     </Box>
                   </>
                 )}
@@ -172,7 +184,7 @@ export const CustomTableContent = memo(() => {
 
               <Grid
                 container
-                size={{ md: 6 }}
+                size={{ md: 5.5 }}
                 className="footer-table-pagination"
               >
                 {page != undefined && (
@@ -187,11 +199,13 @@ export const CustomTableContent = memo(() => {
                 )}
               </Grid>
 
-              <Grid container className="footer-table-pager" size={{ md: 3 }}>
+              <Grid container className="footer-table-pager" size={{ md: 2.5 }}>
                 {perPage != undefined && (
                   <>
                     <Box component="p">{"row"}</Box>
                     <CustomSelect
+                      menuItemSX={footerTablePagerMenuItemSX}
+                      menuPaperSX={footerTablePagerMenuPaperSX}
                       items={ROWS_PER_PAGES?.map(() => ({
                         value: "value",
                         label: "value",
@@ -221,17 +235,17 @@ const CustomTableHead: FC = () => {
   } = useContext(CustomTableContext);
 
   return (
-    <TableHead className="table-head-container">
+    <TableHead sx={tableHeadContainerSX} className="table-head-container">
       <TableRow className="table-head-row">
         <>
           {hasIndex && (
             <TableCell className="table-head-cell-index">
-              <Box className="head-box">row</Box>
+              <Box className="header-box">row</Box>
             </TableCell>
           )}
           {map(headerCells, ({ isCenter, width, label, renderHeader }, key) => (
             <TableCell
-              className="table-head-celss"
+              className="table-head-cells"
               key={key}
               sx={tableHeadCellsSX(width, isCenter)}
             >
@@ -265,7 +279,12 @@ const CustomTableBodyRow: FC<ICustomTableBodyRow> = ({ index, row }) => {
 
   return (
     <>
-      <TableRow hover tabIndex={-1} className="table-body-row">
+      <TableRow
+        hover
+        tabIndex={-1}
+        className="table-body-row"
+        sx={tableBodyContainerSX}
+      >
         {map(
           hasIndex
             ? [
@@ -320,19 +339,19 @@ const CustomTableBodyRowCell: FC<ICustomTableBodyRowCell> = ({
     page,
     perPage,
     valueRows,
-    setting: { RenderRowIndex, groupBy },
+    setting: { RenderRowIndex },
   } = useContext(CustomTableContext);
 
   const RenderRowComponent = useCallback(
     () =>
       RenderRow &&
-      RenderRow({
+      (RenderRow({
         row: row,
         index: index,
         rows: valueRows,
         value: row?.[id],
         colIndex: colIndex,
-      }),
+      }) as ReactNode),
 
     [RenderRow, colIndex, id, index, row, valueRows]
   );
@@ -340,20 +359,17 @@ const CustomTableBodyRowCell: FC<ICustomTableBodyRowCell> = ({
   const RenderRowIndexComponent = useCallback(
     () =>
       RenderRowIndex &&
-      RenderRowIndex({
+      (RenderRowIndex({
         row: row,
         index: index,
         rows: valueRows,
         value: row?.[id],
         colIndex: colIndex,
-      }),
+      }) as ReactNode),
     [RenderRowIndex, colIndex, id, index, row, valueRows]
   );
 
-  const rowSpanCount = (id: string | number | symbol) =>
-    valueRows.filter((item) => item[id] == row?.[id]).length;
-
-  return (!groupBy || []).includes(id as string) ? (
+  return (
     <TableCell
       scope="row"
       id={labelId}
@@ -361,11 +377,8 @@ const CustomTableBodyRowCell: FC<ICustomTableBodyRowCell> = ({
       padding="none"
       className="table-body-cells"
       sx={tableBodyCellsSX(width, isCenter)}
-      rowSpan={
-        (groupBy || []).includes(id as string) ? rowSpanCount(id) : undefined
-      }
     >
-      <Box className="body-cell-box">
+      <Box className="body-cells-box">
         {!checkFalsyValue(row?.[id]) &&
         id != "index_row_local_table" &&
         !RenderRow ? (
@@ -385,17 +398,256 @@ const CustomTableBodyRowCell: FC<ICustomTableBodyRowCell> = ({
         )}
       </Box>
     </TableCell>
-  ) : undefined;
+  );
 };
 
-const customTableSX: SxProps<Theme> = {};
+const tableBodyContainerSX: SxProps<Theme> = {
+  "&.table-body-row": {
+    backgroundColor: "white",
+    "& .MuiTableCell-root": {
+      py: "12px",
+      px: "12px",
+      borderBottom: `1px solid ${COLOR_BORDER}`,
+    },
+  },
+};
+
+const tableHeadContainerSX: SxProps<Theme> = {
+  "& .table-head-row": {
+    "& .table-head-cell-index": {
+      width: ROW_WIDTH + "px",
+      minWidth: ROW_WIDTH + "px",
+      maxWidth: ROW_WIDTH + "px",
+      "& .header-box": {
+        width: ROW_WIDTH + "px",
+        minWidth: ROW_WIDTH + "px",
+        maxWidth: ROW_WIDTH + "px",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        fontWeight: "600",
+        color: COLOR_MUTED_TEXT,
+        gap: SPACE_XS,
+        textAlign: "center",
+      },
+    },
+    background: COLOR_WHITE,
+    "& .MuiTableCell-root": {
+      borderBottom: `1px solid ${COLOR_BORDER}`,
+      background: "#F7F7F7",
+      py: "12px",
+      "&:first-of-type": {
+        borderTopLeftRadius: "12px",
+      },
+      "&:last-child": {
+        borderTopRightRadius: "12px",
+      },
+    },
+  },
+};
+
+const footerTablePagerMenuPaperSX: SxProps = {
+  "& .MuiMenu-paper": {
+    my: "0px !important",
+    borderRadius: "8px",
+    padding: "6px",
+  },
+  "& .MuiList-root": {
+    py: "0px !important",
+  },
+  "& .MuiMenuItem-root": {
+    my: "0 !important",
+    py: "4px !important",
+  },
+};
+
+const footerTablePagerMenuItemSX: SxProps = {
+  width: "100%",
+
+  borderRadius: "4px",
+  "& .MuiMenu-list": {
+    backgroundColor: "red",
+  },
+  "& .select-item": {
+    height: "fit-content",
+    fontSize: FONT_CAPTION,
+    fontWeight: "600",
+  },
+};
+
+const customTableSX: SxProps<Theme> = {
+  "&.custom-table": {
+    width: "100%",
+    "& .table-container-wrapper": {
+      display: "flex ",
+      justifyContent: "center",
+      width: "100%",
+      "& .table-container": {
+        height: "unset",
+        minHeight: "auto",
+        // px: "6px",
+        animation: "fadeIn 0.3s",
+        "& .empty-table-body": {
+          "& .empty-table-row": {
+            "& .empty-table-cell": {
+              textAlign: "center",
+              animation: "fadeIn 0.5s",
+              "& .empty-table-cell-container": {
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              },
+            },
+          },
+        },
+        "& .table": {
+          borderSpacing: "0px",
+          borderTopRightRadius: "12px",
+          borderTopLeftRadius: "12px",
+          borderLeft: `1px solid ${COLOR_BORDER}`,
+          borderTop: `1px solid ${COLOR_BORDER}`,
+          borderRight: `1px solid ${COLOR_BORDER}`,
+        },
+      },
+    },
+    "& .footer-table-container": {
+      alignContent: "center",
+      px: SPACE_LG,
+      py: "8px",
+      // mx: "6px",
+      gap: "6px",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      borderSpacing: "0px",
+      backgroundColor: "#F7F7F7",
+      borderTop: `1px solid transparent`,
+      borderBottomLeftRadius: "12px",
+      borderBottomRightRadius: "12px",
+      borderLeft: `1px solid ${COLOR_BORDER}`,
+      borderRight: `1px solid ${COLOR_BORDER}`,
+      borderBottom: `1px solid ${COLOR_BORDER}`,
+      justifyContent: "space-between",
+      color: "#A3A3A3",
+      fontSize: FONT_CAPTION,
+      fontWeight: "600",
+
+      "& .footer-table-pagination": {
+        display: "flex",
+        justifyContent: "center",
+      },
+      "& .footer-table-pager": {
+        gap: "12px",
+        display: "flex",
+        color: COLOR_PRIMARY_TEXT,
+        alignItems: "center",
+        justifyContent: "end",
+        fontSize: FONT_CAPTION,
+        fontWeight: "600",
+        lineHeight: "22px ",
+
+        "& .wrapper-custom-select": {
+          width: "80px",
+          p: "0px",
+          "& .custom-select": {
+            height: "36px",
+          },
+          "& *": {
+            border: "none",
+            borderRadius: "6px",
+          },
+        },
+      },
+      "& .footer-table-counter": {
+        gap: "12px",
+        display: "flex",
+        alignItems: "flex-start",
+        "& .count": {
+          lineHeight: "18px",
+          color: COLOR_PRIMARY,
+          fontSize: FONT_BUTTON,
+          fontWeight: "600",
+        },
+        "& .text": { color: "#B2B2B2", fontSize: "12px" },
+      },
+
+      "& .wrapper-local-select": {
+        width: "70px",
+        p: "0px",
+        "& .local-select": {
+          minHeight: "40px",
+          background: COLOR_WHITE,
+        },
+        "& *": {
+          FontSize: FONT_CAPTION,
+          borderRadius: "4px",
+        },
+      },
+      "& .count, .text": {
+        color: COLOR_PRIMARY_TEXT,
+        fontSize: FONT_CAPTION,
+        fontWeight: "600",
+      },
+      "& .text": {
+        color: "",
+      },
+    },
+  },
+};
 
 const tableHeadCellsSX = (
   width?: number,
   isCenter?: boolean
-): SxProps<Theme> => ({});
+): SxProps<Theme> => ({
+  "&.table-head-cells": {
+    display: "table-cell",
+    width: width ? width + "px" : "unset",
+    minWidth: width ? width + "px" : "unset",
+    maxWidth: width ? width + "px" : "unset",
+    "& .header-box": {
+      width: width ? width + "px" : "unset",
+      minWidth: width ? width + "px" : "unset",
+      maxWidth: width ? width + "px" : "unset",
+      display: "flex !important",
+      flexDirection: "row",
+      justifyContent: isCenter ? "center" : "flex-start",
+      alignItems: "center",
+      fontWeight: "600",
+      color: COLOR_MUTED_TEXT,
+      gap: SPACE_XS,
+      textAlign: "center",
+      fontSize: FONT_BUTTON,
+    },
+  },
+});
 
 const tableBodyCellsSX = (
   width?: number,
   isCenter?: boolean
-): SxProps<Theme> => ({});
+): SxProps<Theme> => ({
+  "&.table-body-cells": {
+    display: "table-cell",
+    width: width ? width + "px" : "unset",
+    minWidth: width ? width + "px" : "unset",
+    maxWidth: width ? width + "px" : "unset",
+    "& .body-cells-box": {
+      textAlign: "left",
+      width: width ? width + "px" : "unset",
+      minWidth: width ? width + "px" : "unset",
+      maxWidth: width ? width + "px" : "unset",
+      height: "100%",
+      display: "flex !important",
+      justifyContent: isCenter ? "center" : "flex-start",
+      alignItems: isCenter ? "center" : "flex-start",
+      color: COLOR_PRIMARY_TEXT,
+      fontSize: FONT_CAPTION,
+      fontWeight: "600",
+      "& span": {
+        color: COLOR_PRIMARY_TEXT,
+        fontSize: FONT_CAPTION,
+        fontWeight: "600",
+      },
+    },
+  },
+});

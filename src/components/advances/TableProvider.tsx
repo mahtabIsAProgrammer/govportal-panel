@@ -1,5 +1,5 @@
+import { Grid } from "@mui/material";
 import { debounce, isEmpty, isNumber } from "lodash";
-import { Grid, type SxProps, type Theme } from "@mui/material";
 import { memo, useCallback, useMemo, useState, type FC } from "react";
 
 import {
@@ -15,6 +15,7 @@ import { LoadingTable } from "../common/Loading";
 import { searchStatusICON } from "../other/FunctionalSVG";
 import { CustomSelect } from "../controllers/CustomSelect";
 import type { TPropsInputTypesObject } from "./AddEditProvider";
+import { tableProviderSX } from "../../helpers/styles/advances";
 import { CustomTextfield } from "../controllers/CustomTextfield";
 import { CustomAutocomplete } from "../controllers/CustomAutocomplete";
 import { responsePropsByLengthOnStandard } from "../../helpers/utils/handlers";
@@ -34,7 +35,6 @@ export type TTableProviderTableSetting<T = TAny> = ITableProviderTableSetting<
 export const TableProvider = memo<TTableProvider>(
   ({ useListRows, tableOptions }) => {
     const {
-      groupBy,
       hasIndex,
       isLoading,
       headerCells,
@@ -108,7 +108,7 @@ export const TableProvider = memo<TTableProvider>(
     );
 
     return (
-      <Grid container className="table-wrapper" sx={tableProviderSX()}>
+      <Grid container className="table-wrapper" sx={tableProviderSX}>
         <Grid className="table-content">
           <Grid className="table-filter-wrapper">
             <Grid className="table-filters">
@@ -133,9 +133,8 @@ export const TableProvider = memo<TTableProvider>(
               }}
               totalPageCount={data?.totalPages}
               setting={{
-                groupBy,
                 hasIndex,
-                totalCount: data?.totalCount,
+                totalCount: data?.count,
                 RenderRowIndex,
               }}
             />
@@ -257,5 +256,3 @@ const FilterTableInputs: FC<IFilterTableInputs<TPropsInputTypesObject>> = ({
       })
   );
 };
-
-const tableProviderSX = (): SxProps<Theme> => ({});

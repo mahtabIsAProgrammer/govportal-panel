@@ -9,24 +9,22 @@ import {
   type SxProps,
   type SelectProps,
 } from "@mui/material";
-import { memo, useContext } from "react";
+import { memo, useMemo } from "react";
 
 import {
-  COLOR_BLACK,
   COLOR_WHITE,
   COLOR_BORDER,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
-  COLOR_DARK_BACKGROUND,
 } from "../../helpers/constants/colors";
 import {
+  FONT_CAPTION,
   FONT_SMALL_TEXT,
   FONT_WEIGHT_BLOD,
   FONT_WEIGHT_MEDUIM,
 } from "../../helpers/constants/fonts";
 import { CustomLabel } from "./CustomLabel";
 import { ErrorMessage } from "./CustomTextfield";
-import { MainContext } from "../../helpers/others/mainContext";
 import { SPACE_MD, SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
 
 export type ICustomSelect = SelectProps & {
@@ -39,12 +37,30 @@ export type ICustomSelect = SelectProps & {
   disabled?: boolean;
   items?: IOption[];
   errorMessage?: IErrorMessage;
+  menuItemSX?: SxProps;
+  menuPaperSX?: SxProps;
 };
 
 export const CustomSelect = memo<ICustomSelect>(
-  ({ errorMessage, className, customLabel, ...props }) => {
+  ({
+    errorMessage,
+    className,
+    customLabel,
+    menuItemSX,
+    menuPaperSX,
+    ...props
+  }) => {
     const { required, items, disabled, label, name } = props;
-    const { theme } = useContext(MainContext);
+
+    const menuPropsManageThemeSX = useMemo(
+      () => ({ ...(menuPaperSX || {}) }),
+      [menuPaperSX]
+    );
+    const menuItemSelectManageThemeSX = useMemo(
+      () => ({ ...localSelectItemsSX, ...(menuItemSX || {}) }),
+      [menuItemSX]
+    );
+
     return (
       <Grid sx={localSelectSX(disabled)} className="wrapper-custom-select">
         {customLabel ? (
@@ -57,21 +73,22 @@ export const CustomSelect = memo<ICustomSelect>(
         <FormControl>
           {label && <InputLabel id={name + "select-label"}>{label}</InputLabel>}
           <Select
+            MenuProps={{
+              disablePortal: true,
+              sx: menuPropsManageThemeSX as SxProps<Theme>,
+            }}
             {...{
               ...props,
               className: className + " custom-select",
               labelId: name + "select-label",
               required: undefined,
             }}
-            MenuProps={{
-              sx: listMuiSelectSX(theme),
-            }}
             displayEmpty
           >
             {items?.map(({ value, label }, key) => (
               <MenuItem
                 key={key}
-                sx={localSelectItemsSX(theme)}
+                sx={menuItemSelectManageThemeSX}
                 className="select-items"
                 value={value}
               >
@@ -93,6 +110,41 @@ export const CustomSelect = memo<ICustomSelect>(
     );
   }
 );
+
+const localSelectItemsSX: SxProps<Theme> = {
+  mb: SPACE_XS,
+  py: "6px",
+  px: SPACE_MD,
+  display: "flex",
+  textAlign: "right",
+  alignItems: "stretch",
+  width: "95% !important",
+  background: COLOR_WHITE,
+  flexDirection: "column",
+  fontSize: FONT_CAPTION,
+  justifyContent: "flex-start",
+  fontWeight: "700",
+  borderRadius: "4px",
+  "&.MuiMenuItem-root": {
+    overflowX: "clip",
+    whiteSpace: "normal",
+    height: "fit-content",
+    width: "95% !important",
+    wordBreak: "break-word",
+    minHeight: "fit-content",
+    "&:hover": {
+      backgroundColor: "#A3A3A3" + "10",
+    },
+  },
+  "& .sub-label": {
+    color: `${COLOR_PRIMARY_TEXT}80`,
+    fontSize: FONT_CAPTION,
+    fontWeight: "700",
+  },
+  "&.Mui-selected": {
+    backgroundColor: `${COLOR_PRIMARY}20 !important`,
+  },
+};
 
 const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
   width: "100%",
@@ -151,78 +203,5 @@ const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
   },
   "& legend": {
     textAlign: "end !important",
-  },
-});
-
-const localSelectItemsSX = (theme: TTheme): SxProps<Theme> => ({
-  display: "flex",
-  alignItems: "stretch",
-  flexDirection: "column",
-  textAlign: "right",
-  fontWeight: FONT_WEIGHT_BLOD,
-  fontSize: FONT_SMALL_TEXT,
-  background: theme == "light" ? COLOR_WHITE : COLOR_BLACK,
-  justifyContent: "flex-start",
-  mb: SPACE_XS,
-  gap: "100px",
-  width: "97% !important",
-  borderRadius: "8px",
-  "& .select-item": {
-    height: "35px",
-    fontWeight: FONT_WEIGHT_BLOD,
-    fontSize: FONT_SMALL_TEXT,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  "& .sub-label": {
-    fontWeight: FONT_WEIGHT_BLOD,
-    fontSize: FONT_SMALL_TEXT,
-    color: `${COLOR_PRIMARY_TEXT}80`,
-  },
-  "&:hover": {
-    background: `${"#919EAB"}20`,
-  },
-
-  "& .MuiInputBase-root": {
-    outline: "none",
-    borderRadius: "12px",
-    border: `1px solid ${COLOR_PRIMARY_TEXT}70`,
-    "& .MuiTouchRipple-root": {
-      backgroundColor: `${COLOR_PRIMARY}10 !important`,
-    },
-  },
-});
-
-const listMuiSelectSX = (theme: TTheme): SxProps<Theme> => ({
-  "& .MuiMenu-paper": {
-    background: theme == "light" ? COLOR_WHITE : COLOR_DARK_BACKGROUND,
-    my: `${SPACE_SM} !important`,
-    borderRadius: `14px`,
-    boxShadow:
-      theme == "light"
-        ? "0px 0px 7px 3px rgba(230,230,230,0.5) !important"
-        : "",
-    "&::-webkit-scrollbar": {
-      width: "5px",
-    },
-    "&::-webkit-scrollbar-track": {
-      my: SPACE_MD,
-      borderRadius: "14px",
-      background: "#0000000A",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: COLOR_PRIMARY,
-      borderRadius: "14px",
-    },
-  },
-  "& .MuiList-root": {
-    maxHeight: "190px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  "& .MuiMenuItem-root": {
-    justifyContent: "center !important",
   },
 });

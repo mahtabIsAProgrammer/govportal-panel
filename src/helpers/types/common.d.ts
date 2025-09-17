@@ -49,3 +49,14 @@ interface IProfileUploader extends IStaticControllerProps {
 interface IQRCodeBox extends IStaticControllerProps {
   value?: string;
 }
+
+interface IIconTable {
+  title: string;
+  className?: string;
+  placement?: "bottom" | "top" | "left" | "right";
+  icon?: JSX.Element | string;
+  onClick?: TEmptyVoidFunction;
+  hasText?: boolean;
+  hasDivider?: boolean;
+  color?: string;
+}

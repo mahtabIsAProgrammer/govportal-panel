@@ -20,6 +20,7 @@ import {
 import type { RouteObject } from "react-router-dom";
 import { dashboardRoutes } from "../setting/DashboardRoutes";
 import { MainContext } from "../../helpers/others/mainContext";
+import { useGetProfileInfo } from "../../services/hooks/ProfileInfo";
 
 export const MainContextProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -34,6 +35,8 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
   const [dir, setDir] = useState<TDirection>(
     LOCALE_BY_DIR.rtl.includes(locale || DEFAULT_LOCALE) ? "rtl" : "ltr"
   );
+  const { data: profileInformation, isLoading: isLoadingProfileInformation } =
+    useGetProfileInfo();
 
   const { i18n } = useTranslation();
 
@@ -81,8 +84,9 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       changeLanguage,
       changeSidebarSize,
       routes: routesResult,
-      globalProfileInformation: {},
+      globalProfileInformation: profileInformation?.data ?? {},
       lng: locale || DEFAULT_LOCALE,
+      isLoadingProfileInformation,
     }),
     [
       dir,
@@ -94,7 +98,9 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       changeLanguage,
       changeSidebarSize,
       routesResult,
+      profileInformation?.data,
       locale,
+      isLoadingProfileInformation,
     ]
   );
 

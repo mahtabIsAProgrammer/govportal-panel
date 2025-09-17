@@ -59,7 +59,6 @@ interface ITableProviderTableSetting<
   withOutSearch?: boolean;
   defaultExtraFilter?: TAnyObjects;
   extraFilterItemList?: IFilterItem<TTypes>[];
-  groupBy: ICustomTable["setting"]["groupBy"];
   hasIndex?: ICustomTable["setting"]["hasIndex"];
   RenderRowIndex?: ICustomTable["setting"]["RenderRowIndex"];
 }
@@ -177,7 +176,7 @@ interface IContentAddEdit<T> {
 }
 
 interface INormalContentAddEdit<T> {
-  side?: ISidePageAddEdit<T>;
+  side?: ISideContentAddEdit<T>;
   inputs: T[] | ((formIK: TAny) => T[]);
   columnGridSize?: TColumnGridSize;
 }
