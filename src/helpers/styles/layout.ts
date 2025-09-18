@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from "@mui/material";
 
-import { SIDE_BAR_SIZE } from "../constants/statics";
+import { NAVBAR_HEIGHT_SIZE, SIDE_BAR_SIZE } from "../constants/statics";
 import { COLOR_BACKGROUND, COLOR_DARK_BACKGROUND } from "../constants/colors";
 
 export const DashboardLayoutSX = (
@@ -20,7 +20,7 @@ export const DashboardLayoutSX = (
   "& .pages": {
     scrollBehavior: "smooth",
     animation: "fadeIn 0.3s",
-    height: "100vh",
+    height: `calc(100vh - ${NAVBAR_HEIGHT_SIZE})`,
     padding: "20px",
     "& .items": {
       maxWidth: "1500px",

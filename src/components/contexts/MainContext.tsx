@@ -84,7 +84,7 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       changeLanguage,
       changeSidebarSize,
       routes: routesResult,
-      globalProfileInformation: profileInformation?.data ?? {},
+      globalProfileInformation: profileInformation ?? {},
       lng: locale || DEFAULT_LOCALE,
       isLoadingProfileInformation,
     }),
@@ -98,7 +98,7 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
       changeLanguage,
       changeSidebarSize,
       routesResult,
-      profileInformation?.data,
+      profileInformation,
       locale,
       isLoadingProfileInformation,
     ]

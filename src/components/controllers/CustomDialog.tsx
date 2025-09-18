@@ -22,8 +22,8 @@ import {
 import {
   SPACE_LG,
   SPACE_MD,
-  SPACE_SM,
   SPACE_2XL,
+  SPACE_XL,
 } from "../../helpers/constants/spaces";
 import { CustomIcon } from "./CustomImage";
 import { clearICON } from "../other/FunctionalSVG";
@@ -103,6 +103,8 @@ export const CustomDialog = memo<ICustomDialog>(
 const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
   width: "100%",
   "& .MuiDialog-paper": {
+    pb: SPACE_LG,
+    mb: "20px",
     width:
       size == "small"
         ? { xs: "100%", md: "405px" }
@@ -114,13 +116,14 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
         ? { xs: "100%", md: "100%" }
         : "405px",
     overflow: "visible",
-    borderRadius: "12px",
+    minHeight: "300px",
+    maxHeight: size == "fullScreen" ? "700px" : "650px",
+    borderRadius: "16px",
   },
   "& .MuiDialogContent-root": {
-    pb: "0px !important",
-    px: SPACE_SM,
+    pb: SPACE_XL,
     display: "flex",
-    alignItems: "center",
+    alignItems: isCenter ? "center" : "unset",
     justifyContent: isCenter ? "center" : "unset",
   },
   "& .MuiBackdrop-root": {

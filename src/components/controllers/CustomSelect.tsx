@@ -12,17 +12,16 @@ import {
 import { memo, useMemo } from "react";
 
 import {
+  FONT_CAPTION,
+  FONT_SMALL_TEXT,
+  FONT_WEIGHT_MEDUIM,
+} from "../../helpers/constants/fonts";
+import {
   COLOR_WHITE,
   COLOR_BORDER,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
 } from "../../helpers/constants/colors";
-import {
-  FONT_CAPTION,
-  FONT_SMALL_TEXT,
-  FONT_WEIGHT_BLOD,
-  FONT_WEIGHT_MEDUIM,
-} from "../../helpers/constants/fonts";
 import { CustomLabel } from "./CustomLabel";
 import { ErrorMessage } from "./CustomTextfield";
 import { SPACE_MD, SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
@@ -159,7 +158,7 @@ const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
     opacity: disabled ? 0.4 : 1,
   },
   "& .MuiOutlinedInput-input": {
-    px: `${SPACE_SM} !important`,
+    px: `${"14px"} !important`,
   },
   "& .MuiInputBase-root": {
     outline: "none",
@@ -188,9 +187,10 @@ const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
     cursor: "pointer",
   },
   "& .select-item": {
-    fontWeight: FONT_WEIGHT_BLOD,
+    fontWeight: "600",
     fontSize: FONT_SMALL_TEXT,
     display: "flex",
+    textTransform: "capitalize",
     justifyContent: "space-between",
     alignItems: "center",
   },

@@ -18,7 +18,7 @@ export interface UserDataApi {
   password?: string;
   role?: TAdminTypes;
   phone_number?: string;
-  department_id?: number;
+  department_id?: number | null;
   profile_image?: string;
   created_at?: string;
   updated_at?: string;
@@ -75,6 +75,9 @@ export interface ServiceDataApi {
 
 export const getToken = async ({ identifier, password }: TAny) =>
   await apiClient.post("/auth/login", { identifier, password });
+
+export const identityVerify = async () =>
+  await apiClient.get("/auth/verify").then((res) => res.data);
 
 // users
 

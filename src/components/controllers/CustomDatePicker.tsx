@@ -2,7 +2,6 @@ import {
   DatePicker,
   TimePicker,
   DateTimePicker,
-  DatePickerToolbar,
   renderTimeViewClock,
   type TimePickerProps,
   type DatePickerProps,
@@ -14,11 +13,15 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 
+import {
+  COLOR_RED,
+  COLOR_BORDER,
+  COLOR_PRIMARY,
+} from "../../helpers/constants/colors";
 import { CustomLabel } from "./CustomLabel";
 import { ErrorMessage } from "./CustomTextfield";
 import { SPACE_MD } from "../../helpers/constants/spaces";
 import { FONT_BODY } from "../../helpers/constants/fonts";
-import { COLOR_RED } from "../../helpers/constants/colors";
 
 export interface ICustomDatePicker
   extends DatePickerProps<TAny>,
@@ -61,7 +64,7 @@ export const CustomDatePickerEnglish = memo<ICustomDatePicker>((props) => {
   return (
     <Grid
       sx={datePickerSX(disabled || false, isErrorMessage)}
-      className="date-picker-english"
+      className="custom-date-picker"
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         {customLabel ? (
@@ -71,7 +74,7 @@ export const CustomDatePickerEnglish = memo<ICustomDatePicker>((props) => {
             // tooltip={tooltip}
           />
         ) : undefined}
-        <DatePickerToolbar {...props} />
+        <DatePicker {...props} />
       </LocalizationProvider>
       {errorMessage ? (
         <ErrorMessage
@@ -327,49 +330,30 @@ const datePickerSX = (
   display: "flex",
   flexDirection: "column",
   pb: SPACE_MD,
-  "& .custom-date-picker": {
-    width: "100%",
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        border: disabled ? "none" : `1px solid #EEEEEE`,
-        borderColor: isErrorMessage ? COLOR_RED : " #EEEEEE",
-      },
+  opacity: disabled ? 0.4 : 1,
+  "& .MuiPickersInputBase-root": {
+    borderRadius: "12px",
+    fontFamily: "Poppins",
+    "& fieldset": {
+      border: disabled ? "none" : `1px solid ${COLOR_BORDER}`,
+      borderColor: isErrorMessage ? COLOR_RED : COLOR_BORDER,
     },
-    "& .MuiInputBase-root": {
-      borderRadius: "8px",
-      fontWeight: "700",
-      fontSize: FONT_BODY,
-      backgroundColor: disabled ? "#EEEEEE" : "none",
-      "&:hover fieldset": {
-        borderColor: isErrorMessage ? COLOR_RED : "#EEEEEE",
-      },
-      "&.Mui-focused": {
-        "& fieldset": {
-          border: `1px solid #EEEEEE`,
-        },
-      },
-      "&.Mui-error": {
-        "& fieldset": {
-          borderColor: COLOR_RED,
-        },
-        "&:hover fieldset": {
-          borderColor: COLOR_RED,
-        },
-        "&.Mui-focused": {
-          "& fieldset": {
-            border: `1px solid ${COLOR_RED}`,
-          },
-        },
-      },
-      "& .MuiInputBase-input": {
-        "::placeholder": {
-          opacity: 1,
-          color: "#E6E6E6",
-        },
-      },
+    "&.Mui-focused": {
+      backgroundColor: `${COLOR_PRIMARY}10 !important`,
+    },
+    "&:hover fieldset": {
+      borderColor: !isErrorMessage
+        ? disabled
+          ? "none"
+          : COLOR_PRIMARY
+        : COLOR_RED,
     },
   },
-
+  "& .MuiInputBase-input": {
+    "&::placeholder": {
+      color: `${"#A3A3A3"} !important`,
+    },
+  },
   "& .MuiFormLabel-root ": {
     fontSize: FONT_BODY,
     fontWeight: "700",

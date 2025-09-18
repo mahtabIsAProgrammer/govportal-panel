@@ -1,8 +1,8 @@
 import {
   Box,
   Grid,
-  Autocomplete,
   type Theme,
+  Autocomplete,
   type SxProps,
   type AutocompleteProps,
   type FilterOptionsState,
@@ -15,17 +15,12 @@ import {
   FONT_WEIGHT_MEDUIM,
 } from "../../helpers/constants/fonts";
 import {
-  SPACE_LG,
-  SPACE_MD,
-  SPACE_SM,
-  SPACE_XS,
-} from "../../helpers/constants/spaces";
-import {
   COLOR_WHITE,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
 } from "../../helpers/constants/colors";
 import { CustomTextfield } from "./CustomTextfield";
+import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
 import { STYLE_AUTOCOMPLETE_ITEMS } from "../../helpers/constants/materials";
 
 export interface ICustomAutocomplete
@@ -116,7 +111,7 @@ export const CustomAutocomplete = memo<ICustomAutocomplete>(
 const customAutocompleteSX: SxProps<Theme> = {
   "& .MuiInputBase-root": {
     borderRadius: "12px",
-    paddingRight: `${SPACE_MD} !important`,
+    px: `${"14px"} !important`,
     "&.Mui-focused": {
       backgroundColor: `${`${COLOR_PRIMARY}20`}10`,
     },
@@ -135,13 +130,11 @@ const customAutocompleteSX: SxProps<Theme> = {
     boxShadow: "unset !important",
     borderRadius: `12px`,
     "& .MuiPaper-root ": {
-      py: SPACE_XS,
       maxHeight: "340px",
       minWidth: "100px !important",
       overflowY: "hidden",
       background: COLOR_WHITE,
-      pl: `${SPACE_LG} !important`,
-      pr: `${SPACE_MD} !important`,
+      p: `${SPACE_XS} !important`,
       borderRadius: "12px",
     },
   },
@@ -157,13 +150,16 @@ const customAutocompleteSX: SxProps<Theme> = {
   "& .MuiAutocomplete-option": {
     display: "flex",
     justifyContent: "flex-start",
-    mb: SPACE_XS,
+    my: SPACE_XS,
     height: "45px",
-    width: "97% !important",
+    width: "100% !important",
     borderRadius: "8px",
     fontSize: `${FONT_SMALL_TEXT} !important`,
     "&:hover": {
       background: `${"#919EAB"}20`,
     },
+  },
+  "& ul": {
+    p: "0 !important",
   },
 };

@@ -1,4 +1,3 @@
-import { memo, type JSX } from "react";
 import {
   Box,
   Grid,
@@ -8,12 +7,10 @@ import {
   type SxProps,
   type TooltipProps,
 } from "@mui/material";
+import { memo, type JSX } from "react";
 
-import {
-  COLOR_SECONDRY,
-  COLOR_PRIMARY_TEXT,
-} from "../../helpers/constants/colors";
 import { SPACE_XS } from "../../helpers/constants/spaces";
+import { COLOR_PLACEHOLDER } from "../../helpers/constants/colors";
 import { FONT_BODY, FONT_WEIGHT_REGULAR } from "../../helpers/constants/fonts";
 
 type TCustomTooltip = {
@@ -66,9 +63,9 @@ const localTooltipSX = (
   justifyContent: "center",
   textAlign: textAlign ?? "start",
   borderRadius: "8px",
-  background: background ?? COLOR_SECONDRY,
+  background: background ?? COLOR_PLACEHOLDER,
   "& span": {
-    color: COLOR_PRIMARY_TEXT,
+    color: COLOR_PLACEHOLDER,
   },
   "& .title-tooltip": {
     wordBreak: "break-all",

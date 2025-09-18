@@ -28,3 +28,8 @@ export const DocumentsList = lazy(() => import("../../pages/documents"));
 export const DocumentsAddEdit = lazy(
   () => import("../../pages/documents/AddEdit")
 );
+
+export const MyProfileList = lazy(() => import("../../pages/myProfile"));
+export const MyProfileAddEdit = lazy(
+  () => import("../../pages/myProfile/AddEdit")
+);

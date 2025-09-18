@@ -2,11 +2,6 @@ import { useMemo, type FC } from "react";
 import { useParams } from "react-router-dom";
 
 import {
-  useCreateUser,
-  useUpdateUser,
-  useGetUserById,
-} from "../../services/hooks/users";
-import {
   tryCatchHandler,
   localNavigateHandler,
 } from "../../helpers/utils/handlers";
@@ -18,15 +13,11 @@ import { optionCreator } from "../../helpers/utils/others";
 import { ROLE_TYPES_DATA } from "../../helpers/utils/types";
 import { UserValidation } from "../../helpers/validations/users";
 import { useDepartmentData } from "../../services/hooks/departments";
+import { useUpdateUser, useGetUserById } from "../../services/hooks/users";
 import { AddEditProvider } from "../../components/advances/AddEditProvider";
 
-interface IAddEdit {
-  isEdit?: boolean;
-}
-
-const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
+const AddEdit: FC = () => {
   const { id } = useParams();
-  const { mutateAsync: createUser, isLoading: loadingCreate } = useCreateUser();
 
   const { mutateAsync: userUpdate, isLoading: isLoadingUserUpdate } =
     useUpdateUser(id ?? "");
@@ -70,15 +61,15 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     <AddEditProvider
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "users", link: "/dashboard/users", type: "list" },
-        { name: `${isEdit ? "edit" : "Add"} user`, link: "", type: "add" },
+        { name: "My Profile", link: "/dashboard/me", type: "list" },
+        { name: `Edit My Profile`, link: "", type: "add" },
       ]}
-      isLoading={(isEdit && isLoadingPage) || false}
+      isLoading={isLoadingPage}
       setting={{
-        isEdit: isEdit ?? false,
+        isEdit: true,
       }}
       texts={{
-        title: `${isEdit ? "edit" : "Add"} user`,
+        title: `Edit My Profile`,
       }}
       options={{
         content: {
@@ -139,7 +130,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                     type: "password",
                     placeholder: "password",
                     customLabel: "password",
-                    disabled: isEdit ? true : false,
+                    disabled: true,
                   },
                 },
               },
@@ -264,19 +255,16 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 username: username || "",
               };
 
-              let data: object;
-
-              if (isEdit) data = await userUpdate(finalValues);
-              else data = await createUser(finalValues);
+              const data = await userUpdate(finalValues);
 
               localNavigateHandler("/dashboard/users");
               return data;
             },
           });
         },
-        loading: loadingCreate || isLoadingUserUpdate,
+        loading: isLoadingUserUpdate,
         onCancel: () => localNavigateHandler("/dashboard/users"),
-        validationFunctions: () => UserValidation(isEdit),
+        validationFunctions: () => UserValidation(true),
       }}
     />
   );

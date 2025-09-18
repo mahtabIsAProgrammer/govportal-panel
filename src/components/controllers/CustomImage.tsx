@@ -47,6 +47,7 @@ export const CustomImageBox = memo<ICustomImageBox>(
 
     return (
       <Grid
+        className="image-box-wrapper"
         sx={{
           width: width || "50px",
           height: height || "50px",
@@ -55,7 +56,7 @@ export const CustomImageBox = memo<ICustomImageBox>(
         <Box
           src={src}
           component="img"
-          className="image-box"
+          className={"image-box"}
           onLoad={handleImageLoad}
           onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
             e.currentTarget.src = isAvatar ? emptyImageUser : emptyImage;

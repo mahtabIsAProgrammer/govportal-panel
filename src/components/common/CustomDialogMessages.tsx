@@ -1,12 +1,13 @@
-import { Box, Grid } from "@mui/material";
 import type { FC, JSX, ReactNode } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 
-import { dialogDeleteICON } from "../other/FunctionalSVG";
 import { SPACE_XL } from "../../helpers/constants/spaces";
+import { FONT_BODY } from "../../helpers/constants/fonts";
 import { CustomDialog } from "../controllers/CustomDialog";
 import { CustomImageBox } from "../controllers/CustomImage";
 import { CustomButton, CustomLoadingButton } from "../controllers/CustomButton";
 
+import deleted from "../../assets/images/delete.webp";
 interface ICustomDialogMessage {
   icon?: string;
   type?: "delete" | "other";
@@ -38,8 +39,15 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
   texts,
   type,
 }) => {
-  const { title, cancelButton, component, image, submitButton, subtitle } =
-    texts ?? {};
+  const {
+    title,
+    cancelButton,
+    content,
+    component,
+    image,
+    submitButton,
+    subtitle,
+  } = texts ?? {};
   return (
     <CustomDialog
       size={size ?? "small"}
@@ -50,7 +58,7 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
         closeIconHandler: onClose,
         titleText: title || (type == "delete" ? "delete" : ""),
         subtitle: subtitle,
-        image: type == "delete" ? dialogDeleteICON() : image,
+        image: type == "delete" ? undefined : image,
       }}
       isCenter
       content={
@@ -71,20 +79,43 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
             <CustomImageBox
               variant="rounded"
               src={icon}
+              width="170px"
+              height="170px"
+            />
+          ) : type == "delete" ? (
+            <CustomImageBox
+              variant="rounded"
+              src={deleted}
+              width="170px"
+              height="170px"
               sx={{
                 width: "170px",
                 height: "auto",
               }}
             />
-          ) : undefined}
+          ) : (
+            <></>
+          )}
 
-          {component}
+          <>
+            <Typography
+              sx={{
+                fontSize: FONT_BODY,
+                fontWeight: "900",
+                marginX: "auto",
+              }}
+              variant="caption"
+            >
+              {content ||
+                (type == "delete" ? "Are you sure to delete the item?" : "")}
+            </Typography>
+            {component}
+          </>
         </Box>
       }
       dialogAction={
         <Grid sx={{ width: "100%", display: "flex", gap: SPACE_XL }}>
           <CustomButton
-            sx={{ width: "100%" }}
             fullWidth
             text={cancelButton ? cancelButton : "cancel"}
             size="large"
@@ -92,7 +123,6 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
             onClick={onCancel ?? onClose}
           />
           <CustomLoadingButton
-            sx={{ width: "100%" }}
             fullWidth
             text={
               submitButton ? submitButton : type == "delete" ? "deleted" : "yes"

@@ -1,15 +1,20 @@
-import { type FC } from "react";
 import { Grid } from "@mui/material";
+import { useContext, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useUserData } from "../../services/hooks/users";
 import { IconsTable } from "../../components/common/IconTable";
-import { editICON } from "../../components/other/FunctionalSVG";
+import { MainContext } from "../../helpers/others/mainContext";
+import { COLOR_PRIMARY } from "../../helpers/constants/colors";
 import { PageProvider } from "../../components/advances/PageProvider";
 import type { UserDataApi } from "../../services/configs/apiEndPoint";
+import { editICON, eyeIcon } from "../../components/other/FunctionalSVG";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
 
 const List: FC = () => {
+  const {
+    globalProfileInformation: { role },
+  } = useContext(MainContext);
   return (
     <PageProvider
       breadcrumbs={[
@@ -25,7 +30,7 @@ const List: FC = () => {
         useListRows: useUserData,
         tableOptions: {
           hasIndex: true,
-          headerCells: userHeadCells,
+          headerCells: userHeadCells(role),
         },
       }}
     />
@@ -34,7 +39,7 @@ const List: FC = () => {
 
 export default List;
 
-const userHeadCells: IHeaderCell<UserDataApi>[] = [
+const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
   {
     id: "id",
     label: "Name",
@@ -52,10 +57,19 @@ const userHeadCells: IHeaderCell<UserDataApi>[] = [
       return (
         <>
           <Grid sx={{ display: "flex" }}>
+            {role == "admin" ? (
+              <IconsTable
+                title="edit"
+                icon={editICON(COLOR_PRIMARY)}
+                onClick={() => navigate(`edit/${value}`)}
+              />
+            ) : (
+              ""
+            )}
             <IconsTable
-              title="edit"
-              icon={editICON()}
-              onClick={() => navigate(`edit/${value}`)}
+              title="view"
+              icon={eyeIcon(COLOR_PRIMARY)}
+              onClick={() => navigate(`view/${value}`)}
             />
           </Grid>
         </>

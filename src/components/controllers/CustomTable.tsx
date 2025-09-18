@@ -485,8 +485,7 @@ const customTableSX: SxProps<Theme> = {
       width: "100%",
       "& .table-container": {
         height: "unset",
-        minHeight: "auto",
-        // px: "6px",
+        minHeight: "300px",
         animation: "fadeIn 0.3s",
         "& .empty-table-body": {
           "& .empty-table-row": {

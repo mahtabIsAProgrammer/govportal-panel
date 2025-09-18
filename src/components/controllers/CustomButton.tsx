@@ -1,10 +1,10 @@
 import {
   Button,
   type Theme,
+  Typography,
   type SxProps,
   type ButtonTypeMap,
   type ButtonBaseProps,
-  Typography,
 } from "@mui/material";
 import { merge } from "lodash";
 import { LoadingButton } from "@mui/lab";
@@ -95,6 +95,7 @@ const buttonSX: SxProps<Theme> = {
     backgroundColor: "transparent",
     border: `1px solid transparent`,
     "&:hover": {
+      color: COLOR_WHITE,
       backgroundColor: COLOR_PRIMARY,
     },
   },

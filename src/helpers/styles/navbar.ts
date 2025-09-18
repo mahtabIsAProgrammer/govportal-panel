@@ -2,21 +2,31 @@ import type { SxProps, Theme } from "@mui/material";
 
 import {
   COLOR_WHITE,
+  COLOR_BORDER,
   COLOR_PRIMARY_TEXT,
+  COLOR_SECONDARY_TEXT,
   COLOR_DARK_BACKGROUND,
 } from "../constants/colors";
 import { NAVBAR_HEIGHT_SIZE } from "../constants/statics";
-import { FONT_BUTTON, FONT_CAPTION } from "../constants/fonts";
+import { FONT_CAPTION, FONT_SMALL_TEXT } from "../constants/fonts";
 import { SPACE_MD, SPACE_SM, SPACE_XS } from "../constants/spaces";
 
 export const navbarSX = (theme: TTheme): SxProps<Theme> => ({
   px: SPACE_MD,
   width: "100%",
+  gap: SPACE_MD,
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
   height: NAVBAR_HEIGHT_SIZE,
   backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_DARK_BACKGROUND,
+  "& .notif-icon": {
+    cursor: "pointer",
+    "&:hover": {
+      scale: "1.2",
+      transition: "0.4s",
+    },
+  },
 });
 
 export const languageitemsSX: SxProps<Theme> = {
@@ -47,53 +57,62 @@ export const languageitemsSX: SxProps<Theme> = {
 };
 
 export const userInfoSX: SxProps<Theme> = {
-  width: "180px",
-  padding: SPACE_SM,
+  width: "200px",
   backgroundColor: COLOR_WHITE,
-  borderRadius: "12px",
+  borderRadius: "8px",
   boxShadow:
     "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
   display: "flex",
   flexDirection: "column",
-  gap: SPACE_MD,
   "& .info": {
     width: "100%",
     display: "flex",
     flexDirection: "column",
+    p: `${SPACE_MD} ${SPACE_MD} ${"12px"}`,
+    borderBottom: "1px solid" + COLOR_BORDER,
     "& .name": {
-      fontSize: FONT_BUTTON,
+      fontWeight: "400",
+      fontSize: FONT_SMALL_TEXT,
       color: COLOR_PRIMARY_TEXT,
     },
     "& .email": {
       fontSize: FONT_CAPTION,
+      color: COLOR_SECONDARY_TEXT,
     },
   },
   "& .action-items": {
-    display: "flex",
-    flexDirection: "column",
     gap: SPACE_XS,
-    borderRadius: "8px",
+    display: "flex",
+    padding: SPACE_SM,
+    flexDirection: "column",
+    borderBottom: "1px solid" + COLOR_BORDER,
     "& .item": {
       cursor: "pointer",
       overflowX: "clip",
       whiteSpace: "normal",
       height: "fit-content",
-      width: "95% !important",
-      py: "6px",
-      px: "6px",
+      p: "6px 8px",
+      alignItems: "center",
+      display: "flex",
+      gap: SPACE_SM,
+      borderRadius: "4px",
       wordBreak: "break-word",
       minHeight: "fit-content",
+      "& p": {
+        fontSize: FONT_SMALL_TEXT,
+      },
       "&:hover": {
         backgroundColor: "#A3A3A3" + "10",
       },
     },
-    "& .log-out": {
-      width: "100%",
-    },
+  },
+  "& .log-out": {
+    width: "100%",
+    p: SPACE_SM,
   },
   "& .text": {
-    fontSize: FONT_CAPTION,
     fontWeight: "500",
     marginY: SPACE_XS,
+    fontSize: FONT_CAPTION,
   },
 };

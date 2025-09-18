@@ -1,10 +1,15 @@
 import { type FC } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   tryCatchHandler,
   localNavigateHandler,
 } from "../../helpers/utils/handlers";
-import { useCreateDepartment } from "../../services/hooks/departments";
+import {
+  useCreateDepartment,
+  useUpdateDepartment,
+  useGetDepartmentById,
+} from "../../services/hooks/departments";
 import type { DepartmentDataApi } from "../../services/configs/apiEndPoint";
 import { AddEditProvider } from "../../components/advances/AddEditProvider";
 import { DepartmentValidation } from "../../helpers/validations/departments";
@@ -14,12 +19,24 @@ interface IAddEdit {
 }
 
 const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
+  const { id } = useParams();
+
   const { mutateAsync: createDepartment, isLoading: loadingCreate } =
     useCreateDepartment();
 
+  const {
+    mutateAsync: departmentUpdate,
+    isLoading: isLoadingDepartmentUpdate,
+  } = useUpdateDepartment(id ?? "");
+
+  const { data: departmentGet, isLoading: isLoadingPage } =
+    useGetDepartmentById(id ?? "");
+  const { description, name } =
+    (departmentGet as { data: DepartmentDataApi } | undefined)?.data ?? {};
+
   const initialValues: DepartmentDataApi = {
-    name: "",
-    description: "",
+    name: name || "",
+    description: description || "",
   };
   return (
     <AddEditProvider
@@ -32,7 +49,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
           type: "add",
         },
       ]}
-      isLoading={loadingCreate}
+      isLoading={(isEdit && isLoadingPage) || false}
       setting={{
         isEdit: isEdit ?? false,
       }}
@@ -48,25 +65,26 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 name: "name",
                 props: {
                   input: {
-                    placeholder: "first Name",
-                    customLabel: "first Name",
-                    disabled: true,
+                    placeholder: "Name",
+                    customLabel: "Name",
+                    required: true,
                   },
                 },
               },
               {
                 type: "input",
                 name: "description",
+                isFullWidth: true,
                 props: {
                   input: {
-                    placeholder: "last Name",
-                    customLabel: "last Name",
-                    disabled: true,
+                    isTextarea: true,
+                    placeholder: "description",
+                    customLabel: "description",
                   },
                 },
               },
             ],
-            columnGridSize: 3.9,
+            columnGridSize: 5.9,
           },
         },
       }}
@@ -79,16 +97,18 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 name: name || "",
                 description: description || "",
               };
-              const data = (await createDepartment(
-                finalValues
-              )) as unknown as IMutateAsyncResponseGuid;
+
+              let data: object;
+
+              if (isEdit) data = await departmentUpdate(finalValues);
+              else data = await createDepartment(finalValues);
 
               localNavigateHandler("/dashboard/departments");
               return data;
             },
           });
         },
-        loading: false,
+        loading: isLoadingDepartmentUpdate || loadingCreate,
         onCancel: () => localNavigateHandler("/dashboard/departments"),
         validationFunctions: () => DepartmentValidation(),
       }}

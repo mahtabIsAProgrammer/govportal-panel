@@ -180,8 +180,10 @@ export const AddEditProvider = memo<
               loading={isLoading}
               texts={{
                 title: "cancel",
-                subtitle: "cancel_dialog_message",
-                content: "cancel_dialog_message",
+                subtitle:
+                  "Are you sure to cancel, the entered information will be lost ?",
+                content:
+                  "Are you sure to cancel, the entered information will be lost ?",
               }}
               onSubmit={async () => (
                 setOpenDeleteDialog(false), onCancel && onCancel(formIK)
@@ -236,7 +238,13 @@ export const AddEditProviderContent = memo<
     sideData?.QrCodeBox ||
     sideData?.profileUploader;
   return (
-    <Grid container spacing={SPACE_MD} component="div" tabIndex={1}>
+    <Grid
+      container
+      className="wrapper"
+      spacing={SPACE_MD}
+      component="div"
+      tabIndex={1}
+    >
       <Grid
         size={{
           lg: hasSidebar ? (withoutSideNav ? 9 : 9.2) : 12,

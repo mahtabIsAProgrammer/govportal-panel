@@ -9,7 +9,11 @@ import {
   SPACE_XS,
   SPACE_2XL,
 } from "../constants/spaces";
-import { COLOR_BORDER, COLOR_WHITE } from "../constants/colors";
+import {
+  COLOR_BORDER,
+  COLOR_SECONDARY_TEXT,
+  COLOR_WHITE,
+} from "../constants/colors";
 
 export const pageProviderSX: SxProps<Theme> = {
   "& .progress-box-wrapper": {
@@ -60,9 +64,9 @@ export const formButtonsSX: SxProps<Theme> = {
   justifyContent: "flex-end",
   gap: SPACE_SM,
   position: "sticky",
-  bottom: "-40px",
+  bottom: "30px",
   background: COLOR_WHITE,
-  p: SPACE_XL,
+  p: SPACE_MD,
   borderRadius: "14px",
   boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}`,
   zIndex: "1001",
@@ -79,9 +83,11 @@ export const addEditProviderSX: SxProps<Theme> = {
     py: SPACE_MD,
   },
   "& .content-page": {
-    width: "100%",
+    width: "100% !important",
     gap: SPACE_XL,
-
+    "& .wrapper": {
+      width: "100%",
+    },
     "& .inputs-box": {
       p: SPACE_XL,
       height: "max-content",
@@ -107,6 +113,87 @@ export const addEditProviderSX: SxProps<Theme> = {
         borderRadius: "14px",
         backgroundColor: COLOR_WHITE,
         boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+      },
+    },
+  },
+};
+
+export const viewUserSX: SxProps<Theme> = {
+  width: "100%",
+  "& .container": {
+    width: "100%",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    "& .profile-box": {
+      py: SPACE_LG,
+      pl: SPACE_LG,
+      pr: SPACE_2XL,
+      display: "flex",
+      gap: SPACE_XL,
+      width: "fit-content",
+      borderRadius: "12px",
+      alignItems: "center",
+      backgroundColor: COLOR_WHITE,
+      "& .texts-wrapper": {
+        pr: SPACE_2XL,
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+      },
+    },
+    "& .role-box": {
+      p: SPACE_LG,
+      display: "flex",
+      gap: SPACE_XL,
+      width: "430px",
+      borderRadius: "12px",
+      flexDirection: "column",
+      height: "fit-content",
+      backgroundColor: COLOR_WHITE,
+    },
+    "& .social-media-box": {
+      p: SPACE_MD,
+      display: "flex",
+      gap: SPACE_XL,
+      alignItems: "center",
+      width: "100%",
+      borderRadius: "12px",
+      mt: "12px",
+      height: "fit-content",
+      justifyContent: "space-between",
+      backgroundColor: COLOR_WHITE,
+      "& .item": {
+        display: "flex",
+        flexDirection: "row !important",
+        "& .item-text": {
+          pl: "0",
+          fontWeight: "600",
+          fontSize: "16px",
+          textTransform: "capitalize",
+        },
+      },
+    },
+    "& .item": {
+      gap: SPACE_SM,
+      display: "flex",
+      flexDirection: "column",
+      "& .item-title": {
+        display: "flex",
+        gap: SPACE_XS,
+        alignItems: "center",
+        "& .title": {
+          color: COLOR_SECONDARY_TEXT,
+        },
+        "& svg": {
+          width: "20px",
+        },
+      },
+      "& .item-text": {
+        pl: SPACE_XL,
+        fontWeight: "600",
+        fontSize: "16px",
+        textTransform: "capitalize",
       },
     },
   },

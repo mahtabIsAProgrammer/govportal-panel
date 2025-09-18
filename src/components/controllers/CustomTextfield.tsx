@@ -73,6 +73,7 @@ export const CustomTextfield = memo<TCustomTextfield>(
           ) : undefined}
         </Grid>
         <TextField
+          disabled={disabled}
           rows={isTextarea ? 5 : 0}
           multiline={isTextarea}
           type={
@@ -157,6 +158,7 @@ const textfieldSX = (
     fontSize: FONT_SMALL_TEXT,
     borderRadius: "12px",
     fontWeight: FONT_WEIGHT_MEDUIM,
+
     "& fieldset": {
       borderColor: COLOR_BORDER,
     },
@@ -193,6 +195,7 @@ const textfieldSX = (
     pl: "14px",
     "::placeholder": {
       color: "#919EAB",
+      textTransform: "capitalize",
     },
   },
 

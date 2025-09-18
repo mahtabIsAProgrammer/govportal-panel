@@ -7,7 +7,7 @@ export const LOCALE_BY_DIR: { [key in TDirection]: TLanguages[] } = {
 };
 
 export const DEFAULT_THEME: TTheme = "light";
-export const TOKEN_NAME = "token-goveportal-panel";
+export const TOKEN_NAME = "token";
 
 export const LANGUAGE_NAME_LOCAL_STORAGE = `active_language_${TOKEN_NAME}`;
 export const SYSTEM_FONT: TSystemFont = {

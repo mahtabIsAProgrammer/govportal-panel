@@ -98,6 +98,7 @@ export const TableProvider = memo<TTableProvider>(
                 },
                 props: {
                   input: {
+                    placeholder: "Search",
                     icon: searchStatusICON(),
                   },
                 },

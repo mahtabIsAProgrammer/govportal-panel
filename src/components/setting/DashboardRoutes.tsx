@@ -8,11 +8,13 @@ import {
   UsersAddEdit,
   ServicesList,
   DocumentsList,
+  MyProfileList,
   PaymentsAddEdit,
   RequestsAddEdit,
   ServicesAddEdit,
   DepartmentsList,
   DocumentsAddEdit,
+  MyProfileAddEdit,
   DepartmentsAddEdit,
 } from "../../helpers/others/routeControl";
 import { NotFound } from "../../pages/_root/NotFound";
@@ -35,7 +37,7 @@ export const dashboardRoutes: RouteObject[] = [
           { index: true, element: <UsersList /> },
           { path: "add", element: <UsersAddEdit /> },
           { path: "edit/:id", element: <UsersAddEdit isEdit /> },
-          { path: "view", element: <UsersView /> },
+          { path: "view/:id", element: <UsersView /> },
         ],
       },
       {
@@ -76,6 +78,13 @@ export const dashboardRoutes: RouteObject[] = [
           { index: true, element: <DocumentsList /> },
           { path: "add", element: <DocumentsAddEdit /> },
           { path: "edit/:id", element: <DocumentsAddEdit isEdit /> },
+        ],
+      },
+      {
+        path: "/me",
+        children: [
+          { index: true, element: <MyProfileList /> },
+          { path: "edit/:id", element: <MyProfileAddEdit /> },
         ],
       },
     ],

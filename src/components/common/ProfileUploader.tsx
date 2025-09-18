@@ -17,11 +17,9 @@ import {
 import Cropper from "react-easy-crop";
 
 import {
+  COLOR_RED,
   COLOR_WHITE,
   COLOR_BORDER,
-  COLOR_PRIMARY,
-  COLOR_SECONDRY,
-  COLOR_BACKGROUND,
 } from "../../helpers/constants/colors";
 import { CustomLabel } from "../controllers/CustomLabel";
 import { CustomDialog } from "../controllers/CustomDialog";
@@ -30,7 +28,6 @@ import { ErrorMessage } from "../controllers/CustomTextfield";
 import { MainContext } from "../../helpers/others/mainContext";
 import { cameraICON, trashICON } from "../other/FunctionalSVG";
 import { SPACE_MD, SPACE_XL } from "../../helpers/constants/spaces";
-import { FONT_BODY, FONT_CAPTION } from "../../helpers/constants/fonts";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 import { checkImage, UploadFileNormal } from "../../helpers/utils/files";
 import { getCroppedImg, urlImageHandler } from "../../helpers/utils/images";
@@ -110,132 +107,105 @@ export const ProfileUploader = ({
 
   const resetValue = useCallback(() => {
     setFiles(undefined);
-    filesState && filesState("", resetValue);
+    if (filesState) filesState("", resetValue);
     if (ref.current) (ref.current as { value: string }).value = "";
   }, [filesState]);
 
   const uploaderSX = useCallback(
     (): SxProps<Theme> => ({
-      background: COLOR_WHITE,
       p: SPACE_XL,
-      borderRadius: "14px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
       gap: SPACE_MD,
-
+      display: "flex",
+      borderRadius: "14px",
+      flexDirection: "column",
+      background: COLOR_WHITE,
       border: "1px solid" + COLOR_BORDER,
-      "& .title": {
-        color: COLOR_SECONDRY,
-        marginBottom: SPACE_MD,
-        fontSize: FONT_BODY,
-        fontWeight: "700",
-      },
+      boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+
       "& .wrapper-file-uploader": {
-        pb: "52px",
-        px: "12px",
-        pt: "12px",
-        width: "100%",
-        height: "170px",
-        display: "flex",
+        border: "1px dashed #00000042",
+        borderRadius: variant == "rounded" ? "12px" : "50%",
+        padding: "16px",
         position: "relative",
-        alignItems: "center",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        border: "1px solid" + COLOR_BORDER,
-        backgroundColor: COLOR_BACKGROUND + "!important",
-        borderRadius: variant == "rounded" ? "14px" : "50%",
-        animation: "fadeIn 0.3s",
-        "&:hover": {
-          "& .trash-box": {
-            zIndex: "10000",
-            display: "flex",
-          },
-          "& .img-back-uploader": {
-            transition: "filter 0.3s ease-out",
-            filter: files ? "blur(1px) brightness(0.7)" : undefined,
-          },
-        },
-        "& .trash-box": {
-          top: "0",
-          width: "100%",
-          height: "100%",
-          display: "none",
-          position: "absolute",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "14px",
-          cursor: "pointer",
-          "& img": {
-            width: "16px",
-            height: "16px",
-            filter: "(0)",
-          },
-        },
       },
       "& .file-upload-input": {
         display: "none",
       },
+      "& .trash-box": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: COLOR_RED,
+        borderRadius: "50%",
+        width: "30px",
+        height: "30px",
+        position: "absolute",
+        zIndex: "1000",
+        top: variant == "rounded" ? undefined : "4px",
+        right: variant == "rounded" ? undefined : "4px",
+        border: `3px solid ${COLOR_WHITE}`,
+        cursor: "pointer",
+        "& svg": {
+          width: "16px",
+          height: "16px",
+          filter: "(0)",
+        },
+      },
       "& .file-upload-handler": {
         "& .continuer-uploader": {
-          gap: "10px",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "center",
           cursor: loading ? "" : "pointer",
-          borderRadius: variant == "rounded" ? "14px" : "50%",
+          width: "180px",
+          height: "180px",
+          borderRadius: variant == "rounded" ? "12px" : "50%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+
+          "&:hover": {
+            "& .file-upload-shadow": { backgroundColor: "#2a2a2ade" },
+          },
+
+          "& .file-upload": {
+            width: "35px !important",
+            minWidth: "35px !important",
+            maxWidth: "35px !important",
+            height: "35px !important",
+            minHeight: "35px !important",
+            maxHeight: "35px !important",
+            zIndex: "20",
+            borderRadius: "0px !important",
+          },
+          "& .file-upload-label": {
+            color: "#fff !important",
+            fontSize: "14px !important",
+            zIndex: "20",
+          },
+          "& .file-upload-label-loading": {
+            color: "#000 !important",
+            fontSize: "14px !important",
+            zIndex: "20",
+          },
           "& .file-upload-shadow": {
-            top: "0",
             zIndex: "10",
-            width: "100%",
-            height: "100%",
-            opacity: "0.02",
+            opacity: "0.5",
             position: "absolute",
             backgroundColor: "#000",
-            borderRadius: variant == "rounded" ? "14px" : "50%",
-          },
-          "& .image-avatar": {
-            width: "100%",
-            "& .LocalAvatar": {
-              width: "100%",
-              "& img": {
-                width: "100px",
-                height: "40px",
-              },
-            },
-          },
-          "& .file-upload-label-loading ": {
-            mt: SPACE_XL,
-            color: COLOR_PRIMARY,
-            fontSize: FONT_CAPTION,
-            fontWeight: "500",
+            borderRadius: variant == "rounded" ? "12px" : "50%",
+            width: "180px",
+            height: "180px",
           },
         },
       },
-      "& .img-back-uploader": {
-        right: "0",
-        width: "100%",
-        top: files ? "0" : "52px",
-        height: files ? "100%" : "fit-content",
+      "& .image-box-wrapper": {
         position: "absolute",
         backgroundSize: "cover",
-        borderRadius: "14px",
-        "& img": {
-          width: files ? "100% !important" : "75px !important",
-          height: files ? "100% !important" : "75px !important",
-        },
-      },
-
-      "& .select-file-text": {
-        color: COLOR_PRIMARY,
-        fontSize: FONT_CAPTION,
-        fontWeight: "500",
+        top: "15px",
+        right: "14px",
       },
     }),
-    [files, loading, variant]
+    [loading, variant]
   );
 
   const imageManageTheme = useCallback(() => emptyImage, []);
@@ -290,7 +260,7 @@ export const ProfileUploader = ({
                 <>
                   <CustomIcon src={cameraICON()} className="file-upload" />
                   <Typography className="file-upload-label">
-                    uploader_text
+                    Upload Photo
                   </Typography>
                   <Box className="file-upload-shadow" />
                 </>
@@ -313,13 +283,14 @@ export const ProfileUploader = ({
             loading ? (
               <Skeleton
                 variant={variant ?? "circular"}
-                className="img-back-uploader"
+                className="image-box-wrapper"
               />
             ) : (
               <>
                 <CustomImageBox
                   isAvatar
-                  className="img-back-uploader"
+                  width="180px"
+                  height="180px"
                   src={
                     variant == "circular"
                       ? imageManageTheme()
@@ -334,8 +305,10 @@ export const ProfileUploader = ({
           ) : (
             <CustomImageBox
               isAvatar
+              width="180px"
+              height="180px"
               variant={variant ?? "circular"}
-              className="img-back-uploader"
+              className="image-box-wrapper"
               src={urlImageHandler(files.path)}
             />
           )}
@@ -355,7 +328,7 @@ export const ProfileUploader = ({
           dialogTitle={{
             hasCloseIcon: true,
             closeIconHandler: (() => setTmpFile(undefined)) as TAny,
-            titleText: "image_cropper",
+            titleText: "Photo cropping",
           }}
           content={
             <Grid
@@ -421,8 +394,8 @@ export const ProfileUploader = ({
   }, [defaultUsed, defaultValue, files]);
 
   useEffect(() => {
-    files?.path && filesState && filesState(files.path, resetValue);
-    files?.thumbPath && thumbnailsState && thumbnailsState(files.thumbPath);
+    if (files?.path && filesState) filesState(files.path, resetValue);
+    if (files?.thumbPath && thumbnailsState) thumbnailsState(files.thumbPath);
   }, [files, filesState, resetValue, thumbnailsState]);
 
   useEffect(() => {
@@ -430,5 +403,5 @@ export const ProfileUploader = ({
     else changeLoadingUploader(false);
   });
 
-  return { rendered, resetValue };
+  return <>{rendered()}</>;
 };

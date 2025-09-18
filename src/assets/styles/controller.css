@@ -1,0 +1,74 @@
+.MuiPickersPopper-paper {
+  border: 1px solid #377dff;
+  margin-top: 10px;
+  font-weight: 600;
+  padding-top: 0px !important;
+  font-family:"Poppins";
+  border-radius: 12px !important;
+}
+
+.MuiPickersPopper-root {
+  /* direction: ltr; */
+  color: #e3ecfc;
+}
+
+.MuiSvgIcon-root {
+  cursor: pointer;
+}
+
+.MuiPickersCalendarHeader-root {
+  color: #377dff !important;
+}
+
+.MuiPickersCalendarHeader-switchViewIcon {
+  color: #377dff;
+}
+
+
+.MuiInputBase-root {
+  border-radius: 12px;
+  outline: none;
+}
+
+.MuiPickersLayout-contentWrapper {
+  padding: 10px 5px;
+}
+
+.MuiPickersCalendarHeader-label {
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+}
+
+.MuiDateCalendar-root {
+  background-color: transparent;
+}
+
+.MuiPickersCalendarHeader-root {
+  padding-top: 0px !important;
+}
+
+
+
+
+.MuiDayCalendar-header {
+  display: flex !important;
+  justify-content: space-around !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+  padding-top: 5px;
+  /* flex-direction: row-reverse; */
+}
+
+.MuiAlert-action {
+  padding: 0px !important;
+}
+.MuiClock-root {
+  padding: 35px 0 0px 0 !important;
+}
+.MuiClockNumber-root {
+  font-weight: 400 !important;
+}
+
+.MuiFormControlLabel-label {
+  font-weight: 700 !important;
+}

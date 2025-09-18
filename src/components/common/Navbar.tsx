@@ -1,45 +1,39 @@
-import _, { isUndefined } from "lodash";
-import { Box, Grid, MenuItem, Typography } from "@mui/material";
+import { isUndefined } from "lodash";
+import { useNavigate } from "react-router-dom";
+import { Box, Grid, Typography } from "@mui/material";
 import { useCallback, useContext, useRef, useState } from "react";
 
 import {
-  iranFlagICON,
-  englandFlagICON,
+  homeICON,
   notificationICON,
+  profileUpdateICON,
+  changePasswordICON,
 } from "../other/FunctionalSVG";
-import {
-  navbarSX,
-  userInfoSX,
-  languageitemsSX,
-} from "../../helpers/styles/navbar";
-import {
-  CustomIcon,
-  CustomImageBox,
-  CustomIconButton,
-} from "../controllers/CustomImage";
-import { CustomSwitch } from "../controllers/CustomSwitch";
 import { CustomPopper } from "../controllers/CustomPopper";
 import { CustomButton } from "../controllers/CustomButton";
-import { MainContext } from "../../helpers/others/mainContext";
 import { emptyValueString } from "../other/EmptyComponents";
+import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import { MainContext } from "../../helpers/others/mainContext";
+import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
+import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
+
+import profileImage from "../../assets/images/profile.png";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const {
     theme,
-    changeTheme,
-    changeLanguage,
-    lng,
-    globalProfileInformation: { firstName, lastName, profileImage, email },
+    globalProfileInformation: { first_name, last_name, email },
   } = useContext(MainContext);
-  const [checked, setChecked] = useState<boolean>(false);
+  // const [checked, setChecked] = useState<boolean>(false);
   const [openPopper, setOpenPopper] = useState<TPopperTypes | undefined>(
     undefined
   );
 
   const userRef = useRef(null);
-  const langRef = useRef(null);
+  // const langRef = useRef(null);
 
   const handleOpenPopper = useCallback(
     (e: TAny, type: TPopperTypes) => {
@@ -49,36 +43,47 @@ export const Navbar = () => {
     [openPopper]
   );
 
-  const handleChangeLanguage = useCallback(
-    (newLanguage: string) => {
-      if (newLanguage != lng) changeLanguage(newLanguage, true);
-      handleOpenPopper(_, "languagePopper");
-    },
-    [changeLanguage, handleOpenPopper, lng]
-  );
+  // const handleChangeLanguage = useCallback(
+  //   (newLanguage: string) => {
+  //     if (newLanguage != lng) changeLanguage(newLanguage, true);
+  //     handleOpenPopper(_, "languagePopper");
+  //   },
+  //   [changeLanguage, handleOpenPopper, lng]
+  // );
 
   return (
     <Grid sx={navbarSX(theme)}>
-      <CustomSwitch
+      {/* <CustomSwitch
         checked={checked}
         onChange={(e) => {
           const isChecked = e.target.checked;
           setChecked(isChecked);
           changeTheme(isChecked ? "dark" : "light");
         }}
-      />
-      <Box ref={langRef}>
+      /> */}
+      {/* <Box ref={langRef}>
         <CustomIconButton
           width={30}
           height={30}
           onClick={(e) => handleOpenPopper(e, "languagePopper")}
           src={languageItems.find((i) => i.lng == lng)?.icon()}
         />
-      </Box>
-      <CustomIconButton src={notificationICON()} width={30} height={30} />
+      </Box> */}
+      <CustomIcon
+        className="notif-icon"
+        src={notificationICON(COLOR_PRIMARY)}
+        width={30}
+        height={30}
+      />
       <Box ref={userRef}>
         <CustomImageBox
           isAvatar
+          width="45px"
+          height="45px"
+          sx={{
+            cursor: "pointer",
+            "&:hover": { scale: "1.1", transition: "0.3s" },
+          }}
           withOutPreview
           src={profileImage}
           variant="circular"
@@ -86,7 +91,7 @@ export const Navbar = () => {
         />
       </Box>
 
-      <CustomPopper
+      {/* <CustomPopper
         open={openPopper === "languagePopper"}
         anchorEl={langRef.current}
         onClickAway={() => {
@@ -110,7 +115,7 @@ export const Navbar = () => {
             </MenuItem>
           ))}
         </Grid>
-      </CustomPopper>
+      </CustomPopper> */}
 
       <CustomPopper
         open={openPopper === "userPopper"}
@@ -122,8 +127,8 @@ export const Navbar = () => {
         <Grid sx={userInfoSX}>
           <Grid className="info">
             <Typography className="name">
-              {isUndefined(firstName)
-                ? `${firstName} ${lastName}`
+              {!isUndefined(first_name)
+                ? `${first_name} ${last_name}`
                 : emptyValueString}
             </Typography>
             <Typography className="email">
@@ -131,17 +136,27 @@ export const Navbar = () => {
             </Typography>
           </Grid>
           <Grid className="action-items">
-            <Box className="item">
-              <CustomIcon src={undefined} />
-              <Typography>Edit Profile</Typography>
+            <Box className="item" onClick={() => navigate("/")}>
+              <CustomIcon src={homeICON()} />
+              <Typography>Home</Typography>
             </Box>
+            <Box onClick={() => navigate("/dashboard/me")} className="item">
+              <CustomIcon src={profileUpdateICON()} />
+              <Typography>Profile</Typography>
+            </Box>
+
             <Box className="item">
-              <CustomIcon src={undefined} />
+              <CustomIcon src={changePasswordICON()} />
               <Typography>Change Password</Typography>
             </Box>
           </Grid>
           <Grid className="log-out">
-            <CustomButton sx={{ width: "100%" }} text={"Logout"} />
+            <CustomButton
+              variant="text"
+              sx={{ width: "100%" }}
+              text={"Logout"}
+              onClick={() => navigate("/logout")}
+            />
           </Grid>
         </Grid>
       </CustomPopper>
@@ -149,7 +164,7 @@ export const Navbar = () => {
   );
 };
 
-const languageItems = [
-  { lng: "en", icon: englandFlagICON },
-  { lng: "fa", icon: iranFlagICON },
-];
+// const languageItems = [
+//   { lng: "en", icon: englandFlagICON },
+//   { lng: "fa", icon: iranFlagICON },
+// ];
