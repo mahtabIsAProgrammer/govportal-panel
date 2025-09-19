@@ -40,3 +40,10 @@ export const ROWS_PER_PAGES = [
 export const TEXT_TOOLTIP_LENGTH = 35;
 export const ROWS_PER_PAGE_DEFILE = 10;
 export const DEBOUNCE_SEARCH_TIME = 1000;
+
+export const STATUS_BOX_SIZE: { [key in TStatusBoxSize]: string } = {
+  small: "30px",
+  medium: "50px",
+  large: "80px",
+  extraLarge: "100px",
+};

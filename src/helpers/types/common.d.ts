@@ -60,3 +60,11 @@ interface IIconTable {
   hasDivider?: boolean;
   color?: string;
 }
+
+type TStatusBoxSize = "small" | "medium" | "large" | "extraLarge";
+
+interface IStatusBox {
+  color: string;
+  text: string | undefined;
+  size?: TStatusBoxSize;
+}

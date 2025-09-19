@@ -1,14 +1,19 @@
 import { Grid } from "@mui/material";
-import { useContext, type FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext, useState, type FC } from "react";
 
+import {
+  eyeIcon,
+  editICON,
+  notificationICON,
+} from "../../components/other/FunctionalSVG";
 import { useUserData } from "../../services/hooks/users";
 import { IconsTable } from "../../components/common/IconTable";
 import { MainContext } from "../../helpers/others/mainContext";
 import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import { NotificationSetting } from "../_root/NotificationSetting";
 import { PageProvider } from "../../components/advances/PageProvider";
 import type { UserDataApi } from "../../services/configs/apiEndPoint";
-import { editICON, eyeIcon } from "../../components/other/FunctionalSVG";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
 
 const List: FC = () => {
@@ -54,10 +59,13 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
     label: "actions",
     RenderRow: ({ value }) => {
       const navigate = useNavigate();
+
+      const [openNotifyUserDialog, setOpenNotifyUserDialog] =
+        useState<boolean>(false);
       return (
         <>
           <Grid sx={{ display: "flex" }}>
-            {role == "admin" ? (
+            {role === "admin" ? (
               <IconsTable
                 title="edit"
                 icon={editICON(COLOR_PRIMARY)}
@@ -71,7 +79,18 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
               icon={eyeIcon(COLOR_PRIMARY)}
               onClick={() => navigate(`view/${value}`)}
             />
+            <IconsTable
+              title="Send Notification"
+              icon={notificationICON(COLOR_PRIMARY)}
+              onClick={() => setOpenNotifyUserDialog(true)}
+            />
           </Grid>
+
+          <NotificationSetting
+            userId={value}
+            insertToggleModal={openNotifyUserDialog}
+            setInsertToggleModal={setOpenNotifyUserDialog}
+          />
         </>
       );
     },

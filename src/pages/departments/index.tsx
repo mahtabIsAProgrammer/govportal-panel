@@ -2,9 +2,12 @@ import { Grid } from "@mui/material";
 import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  useDeleteDepartment,
+  useDepartmentData,
+} from "../../services/hooks/departments";
 import { IconsTable } from "../../components/common/IconTable";
 import { tryCatchHandler } from "../../helpers/utils/handlers";
-import { useDepartmentData } from "../../services/hooks/departments";
 import { PageProvider } from "../../components/advances/PageProvider";
 import { editICON, trashICON } from "../../components/other/FunctionalSVG";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
@@ -48,7 +51,8 @@ const userHeadCells: IHeaderCell<DepartmentDataApi>[] = [
     label: "actions",
     RenderRow: ({ value }) => {
       const [open, setOpen] = useState(false);
-      // const { mutateAsync: companyDelete, isLoading } = useCompanyDelete();
+      const { mutateAsync: departmentDelete, isLoading } =
+        useDeleteDepartment();
       const navigate = useNavigate();
       return (
         <>
@@ -66,26 +70,24 @@ const userHeadCells: IHeaderCell<DepartmentDataApi>[] = [
               />
             </Grid>
           </>
-          {
-            <CustomDialogMessage
-              type="delete"
-              open={open}
-              onClose={() => setOpen(false)}
-              loading={false}
-              onSubmit={async () =>
-                tryCatchHandler({
-                  handler: async () => {
-                    // const data = await companyDelete(+value);
 
-                    return setOpen(false);
-                    // return data;
-                  },
+          <CustomDialogMessage
+            type="delete"
+            open={open}
+            onClose={() => setOpen(false)}
+            loading={isLoading}
+            onSubmit={async () =>
+              tryCatchHandler({
+                handler: async () => {
+                  const data = await departmentDelete(value);
+                  setOpen(false);
+                  return data;
+                },
 
-                  successMessage: "successfully_deleted",
-                })
-              }
-            />
-          }
+                successMessage: "Successfully Deleted",
+              })
+            }
+          />
         </>
       );
     },

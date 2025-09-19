@@ -38,6 +38,7 @@ export interface DocumentDataApi {
 export interface NotificationDataApi {
   id?: number;
   user_id?: string;
+  title?: string;
   message?: string;
   is_read?: boolean;
   created_at?: Date;
@@ -65,11 +66,11 @@ export interface RequestDataApi {
 }
 export interface ServiceDataApi {
   id?: number;
-  department_id?: number;
+  department_id?: number | null;
   name?: string;
   description?: string;
-  fee?: number;
-  form_schema?: JSON;
+  fee?: number | null;
+  form_schema?: JSON | null;
   created_at?: Date;
 }
 
@@ -102,16 +103,16 @@ export const getDepartmentData = async (params: TAny) =>
     .get("/departments", { params: params })
     .then((res) => res.data);
 
-export const getDepartmentById = (id: string) =>
+export const getDepartmentById = (id: number) =>
   apiClient.get(`departments/${id}`);
 
 export const createDepartment = (data: DepartmentDataApi) =>
   apiClient.post("/departments", data);
 
-export const updateDepartment = (id: string, data: DepartmentDataApi) =>
+export const updateDepartment = (id: number, data: DepartmentDataApi) =>
   apiClient.put(`/departments/${id}`, data);
 
-export const deleteDepartment = (id: string) =>
+export const deleteDepartment = (id: number) =>
   apiClient.delete(`/departments/${id}`);
 
 // Other Crud

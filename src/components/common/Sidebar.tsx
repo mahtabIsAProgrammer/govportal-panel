@@ -57,4 +57,9 @@ const routes = [
   { name: "services", url: "/dashboard/services", icon: commentICON },
   { name: "requests", url: "/dashboard/requests", icon: blogICON },
   { name: "documents", url: "/dashboard/documents", icon: categoryICON },
+  {
+    name: "notifications",
+    url: "/dashboard/notifications",
+    icon: categoryICON,
+  },
 ];

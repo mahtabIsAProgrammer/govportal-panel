@@ -24,7 +24,7 @@ const AuthorizeLayout: FC<TAuthorizeLayout> = ({ children }) => {
       } catch (error) {
         errorHookHandler({ error });
         if (
-          +((error as TAny)?.response?.status || 0) == 401 &&
+          [401, 403].includes(+((error as TAny)?.response?.status || 0)) &&
           !["/login", "/logout"].includes(pathname)
         )
           navigate("/logout", { replace: true });

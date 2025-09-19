@@ -19,7 +19,7 @@ export const useDepartmentData = (
   );
 
 // Get department by id
-export const useGetDepartmentById = (id?: string) => {
+export const useGetDepartmentById = (id?: number) => {
   return useQuery({
     queryKey: ["department-get", id],
     queryFn: async () => (id ? await getDepartmentById(id!) : {}),
@@ -33,20 +33,20 @@ export const useCreateDepartment = () => {
     mutationFn: (data: DepartmentDataApi) => createDepartment(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["departments-search"],
+        queryKey: ["departments-data"],
       });
     },
   });
 };
 
 // Update a department
-export const useUpdateDepartment = (id: string) => {
+export const useUpdateDepartment = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: DepartmentDataApi) => updateDepartment(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["departments-search"],
+        queryKey: ["departments-data"],
       });
       queryClient.invalidateQueries({
         queryKey: ["department-get"],
@@ -63,10 +63,10 @@ export const useUpdateDepartment = (id: string) => {
 export const useDeleteDepartment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteDepartment(id),
+    mutationFn: (id: number) => deleteDepartment(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["departments-search"],
+        queryKey: ["departments-data"],
       });
     },
     onError: (error) => {

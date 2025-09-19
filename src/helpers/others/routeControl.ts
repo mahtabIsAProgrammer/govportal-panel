@@ -33,3 +33,7 @@ export const MyProfileList = lazy(() => import("../../pages/myProfile"));
 export const MyProfileAddEdit = lazy(
   () => import("../../pages/myProfile/AddEdit")
 );
+
+export const NotificationsList = lazy(
+  () => import("../../pages/notifications")
+);

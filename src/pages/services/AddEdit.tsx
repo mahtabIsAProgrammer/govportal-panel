@@ -1,12 +1,22 @@
-import { type FC } from "react";
+import { useMemo, type FC } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   tryCatchHandler,
   localNavigateHandler,
 } from "../../helpers/utils/handlers";
-import { useCreateService } from "../../services/hooks/services";
+import {
+  useCreateService,
+  useUpdateService,
+  useGetServiceById,
+} from "../../services/hooks/services";
+import type {
+  ServiceDataApi,
+  DepartmentDataApi,
+} from "../../services/configs/apiEndPoint";
+import { optionCreator } from "../../helpers/utils/others";
+import { useDepartmentData } from "../../services/hooks/departments";
 import { ServiceValidation } from "../../helpers/validations/services";
-import type { ServiceDataApi } from "../../services/configs/apiEndPoint";
 import { AddEditProvider } from "../../components/advances/AddEditProvider";
 
 interface IAddEdit {
@@ -14,15 +24,32 @@ interface IAddEdit {
 }
 
 const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
+  const { id } = useParams();
+
   const { mutateAsync: createService, isLoading: loadingCreate } =
     useCreateService();
 
+  const { mutateAsync: serviceUpdate, isLoading: isLoadingServiceUpdate } =
+    useUpdateService(id ?? "");
+
+  const { data: serviceGet, isLoading: isLoadingPage } = useGetServiceById(
+    id ?? ""
+  );
+  const { department_id, description, fee, form_schema, name } =
+    (serviceGet as { data: ServiceDataApi } | undefined)?.data ?? {};
+
+  const { data: departmentData } = useDepartmentData();
+  const departmentSearchData = useMemo(
+    () => (departmentData as { data: DepartmentDataApi[] })?.data ?? [],
+    [departmentData]
+  );
+
   const initialValues: ServiceDataApi = {
-    description: "",
-    department_id: 0,
-    fee: 0,
-    form_schema: JSON,
-    name: "",
+    name: name || "",
+    fee: fee || null,
+    description: description || "",
+    form_schema: form_schema || null,
+    department_id: department_id || null,
   };
   return (
     <AddEditProvider
@@ -31,7 +58,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
         { name: "services", link: "/dashboard/services", type: "list" },
         { name: `${isEdit ? "edit" : "Add"} service`, link: "", type: "add" },
       ]}
-      isLoading={loadingCreate}
+      isLoading={(isEdit && isLoadingPage) || false}
       setting={{
         isEdit: isEdit ?? false,
       }}
@@ -47,42 +74,48 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 name: "name",
                 props: {
                   input: {
-                    placeholder: "first Name",
-                    customLabel: "first Name",
-                    disabled: true,
+                    required: true,
+                    placeholder: "Name",
+                    customLabel: "Name",
                   },
                 },
               },
-              {
-                type: "input",
-                name: "description",
-                props: {
-                  input: {
-                    placeholder: "last Name",
-                    customLabel: "last Name",
-                    disabled: true,
-                  },
-                },
-              },
+
               {
                 type: "input",
                 name: "fee",
                 props: {
                   input: {
-                    placeholder: "Email",
-                    customLabel: "Email",
-                    disabled: true,
+                    type: "number",
+                    placeholder: "Fee",
+                    customLabel: "Fee",
                   },
                 },
               },
               {
-                type: "input",
+                type: "autocomplete",
                 name: "department_id",
                 props: {
+                  autocomplete: {
+                    customLabel: "department",
+                    options: optionCreator({
+                      id: "id",
+                      name: "name",
+                      data: departmentSearchData,
+                    }),
+                  },
+                },
+              },
+
+              {
+                type: "input",
+                name: "description",
+                isFullWidth: true,
+                props: {
                   input: {
-                    placeholder: "servicename",
-                    customLabel: "servicename",
-                    disabled: true,
+                    isTextarea: true,
+                    placeholder: "Description",
+                    customLabel: "Description",
                   },
                 },
               },
@@ -91,9 +124,9 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 name: "form_schema",
                 props: {
                   input: {
-                    placeholder: "Email",
-                    customLabel: "Email",
-                    disabled: true,
+                    required: true,
+                    placeholder: "Form",
+                    customLabel: "Form",
                   },
                 },
               },
@@ -105,31 +138,33 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
       forms={{
         initialValues,
         onSubmit: async ({
-          description,
-          department_id,
           fee,
-          form_schema,
           name,
+          description,
+          form_schema,
+          department_id,
         }) => {
           tryCatchHandler({
             handler: async () => {
               const finalValues = {
-                description: description || "",
-                department_id: department_id || "",
-                fee: fee || "",
-                form_schema: form_schema || "",
+                fee: fee || null,
                 name: name || "",
+                description: description || "",
+                form_schema: form_schema || "{}",
+                department_id: department_id || null,
               };
-              const data = (await createService(
-                finalValues
-              )) as unknown as IMutateAsyncResponseGuid;
+
+              let data: object;
+
+              if (isEdit) data = await serviceUpdate(finalValues);
+              else data = await createService(finalValues);
 
               localNavigateHandler("/dashboard/services");
               return data;
             },
           });
         },
-        loading: false,
+        loading: isLoadingServiceUpdate || loadingCreate,
         onCancel: () => localNavigateHandler("/services"),
         validationFunctions: () => ServiceValidation(),
       }}

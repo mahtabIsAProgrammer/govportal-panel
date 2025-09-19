@@ -7,6 +7,7 @@ import {
   ThemeProvider as MaterialCssVarsProvider,
 } from "@mui/material/styles";
 import { useContext, type FC, type JSX } from "react";
+
 import { MainContext } from "../../helpers/others/mainContext";
 
 interface TThemeLayout {
@@ -38,6 +39,7 @@ const MUI_THEME = (
   typography: {
     fontFamily,
   },
+  // components: { MuiButton: { defaultProps: { sx: { borderRadius: "10px" } } },MuiButton },
   palette: {
     background: {
       default: theme === "light" ? "#FFFFFF" : "#000",

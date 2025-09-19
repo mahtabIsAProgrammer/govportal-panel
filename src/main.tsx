@@ -8,6 +8,7 @@ import { MainLayout } from "./components/layouts/MainLayout.tsx";
 
 import "./assets/styles/reset.css";
 import "./assets/styles/fonts.css";
+import "./assets/styles/controller.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

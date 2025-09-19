@@ -44,7 +44,6 @@ export const successAlert: TSimpleAlert = ({ title, timer }) => {
     autoHideDuration: timer ?? autoHideDuration,
     timer: timer ?? autoHideDuration,
   });
-  console.log("hi");
 };
 
 export const warningAlert: TSimpleAlert = ({ title, timer }) => {

@@ -16,6 +16,7 @@ import {
   DocumentsAddEdit,
   MyProfileAddEdit,
   DepartmentsAddEdit,
+  NotificationsList,
 } from "../../helpers/others/routeControl";
 import { NotFound } from "../../pages/_root/NotFound";
 import { Dashboard } from "../../pages/_root/Dashboard";
@@ -79,6 +80,10 @@ export const dashboardRoutes: RouteObject[] = [
           { path: "add", element: <DocumentsAddEdit /> },
           { path: "edit/:id", element: <DocumentsAddEdit isEdit /> },
         ],
+      },
+      {
+        path: "/notifications",
+        children: [{ index: true, element: <NotificationsList /> }],
       },
       {
         path: "/me",

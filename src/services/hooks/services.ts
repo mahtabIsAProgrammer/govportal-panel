@@ -33,7 +33,7 @@ export const useCreateService = () => {
     mutationFn: (data: ServiceDataApi) => createService(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["services-search"],
+        queryKey: ["service-data"],
       });
     },
   });
@@ -46,7 +46,7 @@ export const useUpdateService = (id: string) => {
     mutationFn: (data: ServiceDataApi) => updateService(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["services-search"],
+        queryKey: ["service-data"],
       });
       queryClient.invalidateQueries({
         queryKey: ["service-get"],
@@ -66,7 +66,7 @@ export const useDeleteService = () => {
     mutationFn: (id: string) => deleteService(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["services-search"],
+        queryKey: ["service-data"],
       });
     },
     onError: (error) => {

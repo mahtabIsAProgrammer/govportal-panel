@@ -6,7 +6,6 @@ import {
   Divider,
   type Theme,
   Typography,
-  IconButton,
   DialogTitle,
   type SxProps,
   DialogContent,
@@ -16,18 +15,14 @@ import {
 import { merge } from "lodash";
 
 import {
+  FONT_BODY,
   FONT_WEIGHT_BLOD,
   FONT_HEADING_SMALL,
 } from "../../helpers/constants/fonts";
-import {
-  SPACE_LG,
-  SPACE_MD,
-  SPACE_2XL,
-  SPACE_XL,
-} from "../../helpers/constants/spaces";
-import { CustomIcon } from "./CustomImage";
+import { CustomIconButton } from "./CustomImage";
 import { clearICON } from "../other/FunctionalSVG";
 import { COLOR_BACKGROUND } from "../../helpers/constants/colors";
+import { SPACE_LG, SPACE_MD, SPACE_XL } from "../../helpers/constants/spaces";
 
 interface ICustomDialog extends Omit<DialogProps, "content"> {
   isCenter?: boolean;
@@ -64,19 +59,18 @@ export const CustomDialog = memo<ICustomDialog>(
       <Dialog sx={mergeSx} open={open}>
         <DialogTitle className="header-title" id="alert-dialog-title">
           {hasCloseIcon && (
-            <IconButton
-              className="close-icon"
+            <CustomIconButton
+              className="icon-close-btn"
+              width={20}
+              height={20}
+              src={clearICON()}
               onClick={(e) => closeIconHandler && (closeIconHandler as TAny)(e)}
-            >
-              {clearICON()}
-            </IconButton>
+            />
           )}
-          <Grid className="icon-title">
-            <CustomIcon src={image} />
-            <Grid className="title-wrapper">
-              <Typography className="title-text">{titleText}</Typography>
-              <Typography className="subtitle">{subtitle}</Typography>
-            </Grid>
+
+          <Grid className="title-wrapper">
+            <Typography className="title-text">{titleText}</Typography>
+            <Typography className="subtitle">{subtitle}</Typography>
           </Grid>
         </DialogTitle>
         <DialogContent>{content}</DialogContent>
@@ -103,11 +97,12 @@ export const CustomDialog = memo<ICustomDialog>(
 const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
   width: "100%",
   "& .MuiDialog-paper": {
+    position: "relative",
     pb: SPACE_LG,
     mb: "20px",
     width:
       size == "small"
-        ? { xs: "100%", md: "405px" }
+        ? { xs: "100%", md: "300px" }
         : size == "medium"
         ? { xs: "100%", md: "500px" }
         : size == "large"
@@ -131,7 +126,7 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
   },
   "& .MuiPaper-root": {
     py: SPACE_LG,
-    px: { xs: SPACE_MD, md: SPACE_2XL },
+    px: { xs: SPACE_MD, md: SPACE_LG },
     minWidth: { xs: "360px" },
     minHeight: "220px",
     borderRadius: "14px",
@@ -156,6 +151,27 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
     },
     "& .MuiDialogActions-root": {
       justifyContent: "center",
+      width: "100%",
+      "& .dialog-action-container": {
+        width: "100%",
+      },
     },
+  },
+  "& .title-wrapper": {
+    width: "100%",
+    display: "flex ",
+    alignItems: "center",
+    justifyContent: "center",
+    mb: SPACE_MD,
+  },
+  "& .title-text": {
+    fontWeight: "500",
+    textAlign: "center",
+    fontSize: FONT_BODY,
+    textTransform: "capitalize",
+  },
+  "& .icon-close-btn": {
+    position: "absolute",
+    top: 20,
   },
 });

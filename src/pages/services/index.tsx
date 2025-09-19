@@ -2,11 +2,18 @@ import { Grid } from "@mui/material";
 import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  useDeleteService,
+  useServiceData,
+} from "../../services/hooks/services";
+import type {
+  DepartmentDataApi,
+  ServiceDataApi,
+} from "../../services/configs/apiEndPoint";
 import { IconsTable } from "../../components/common/IconTable";
 import { tryCatchHandler } from "../../helpers/utils/handlers";
-import { useServiceData } from "../../services/hooks/services";
 import { PageProvider } from "../../components/advances/PageProvider";
-import type { ServiceDataApi } from "../../services/configs/apiEndPoint";
+import { useGetDepartmentById } from "../../services/hooks/departments";
 import { editICON, trashICON } from "../../components/other/FunctionalSVG";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
 import { CustomDialogMessage } from "../../components/common/CustomDialogMessages";
@@ -42,14 +49,24 @@ const userHeadCells: IHeaderCell<ServiceDataApi>[] = [
     label: "Name",
     isCenter: true,
   },
-  { id: "department_id", label: "Department", isCenter: true },
+  {
+    id: "department_id",
+    label: "Department",
+    isCenter: true,
+    RenderRow: ({ value }) => {
+      const { data: departmentById } = useGetDepartmentById(value);
+      const { name } =
+        (departmentById as { data: DepartmentDataApi } | undefined)?.data ?? {};
+      return <>{name}</>;
+    },
+  },
   { id: "fee", label: "Fee", isCenter: true },
   {
     id: "id",
     label: "actions",
     RenderRow: ({ value }) => {
       const [open, setOpen] = useState(false);
-      // const { mutateAsync: companyDelete, isLoading } = useCompanyDelete();
+      const { mutateAsync: serviceDelete, isLoading } = useDeleteService();
       const navigate = useNavigate();
       return (
         <>
@@ -72,17 +89,16 @@ const userHeadCells: IHeaderCell<ServiceDataApi>[] = [
               type="delete"
               open={open}
               onClose={() => setOpen(false)}
-              loading={false}
+              loading={isLoading}
               onSubmit={async () =>
                 tryCatchHandler({
                   handler: async () => {
-                    // const data = await companyDelete(+value);
+                    const data = await serviceDelete(value);
 
-                    return setOpen(false);
-                    // return data;
+                    setOpen(false);
+                    return data;
                   },
-
-                  successMessage: "successfully_deleted",
+                  successMessage: "Successfully Deleted",
                 })
               }
             />

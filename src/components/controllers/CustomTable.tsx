@@ -571,10 +571,10 @@ const customTableSX: SxProps<Theme> = {
         "& .text": { color: "#B2B2B2", fontSize: "12px" },
       },
 
-      "& .wrapper-local-select": {
+      "& .wrapper-custom-select": {
         width: "70px",
         p: "0px",
-        "& .local-select": {
+        "& .custom-select": {
           minHeight: "40px",
           background: COLOR_WHITE,
         },

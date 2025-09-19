@@ -1,7 +1,7 @@
 import type { FC, JSX, ReactNode } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
-import { SPACE_XL } from "../../helpers/constants/spaces";
+import { SPACE_MD } from "../../helpers/constants/spaces";
 import { FONT_BODY } from "../../helpers/constants/fonts";
 import { CustomDialog } from "../controllers/CustomDialog";
 import { CustomImageBox } from "../controllers/CustomImage";
@@ -101,8 +101,9 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
             <Typography
               sx={{
                 fontSize: FONT_BODY,
-                fontWeight: "900",
+                fontWeight: "600",
                 marginX: "auto",
+                mt: SPACE_MD,
               }}
               variant="caption"
             >
@@ -114,12 +115,19 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
         </Box>
       }
       dialogAction={
-        <Grid sx={{ width: "100%", display: "flex", gap: SPACE_XL }}>
+        <Grid
+          sx={{
+            width: "100%",
+            display: "flex",
+            gap: SPACE_MD,
+            mt: SPACE_MD,
+          }}
+        >
           <CustomButton
             fullWidth
             text={cancelButton ? cancelButton : "cancel"}
             size="large"
-            variant="outlined"
+            variant="contained"
             onClick={onCancel ?? onClose}
           />
           <CustomLoadingButton
@@ -128,10 +136,10 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
               submitButton ? submitButton : type == "delete" ? "deleted" : "yes"
             }
             size="large"
+            color={type == "delete" ? "error" : "primary"}
             onClick={onSubmit}
             loading={loading}
-            variant="contained"
-            // customColor={type == "delete" ? COLOR_ERROR : COLOR_PRIMARY}
+            variant="outlined"
           />
         </Grid>
       }
