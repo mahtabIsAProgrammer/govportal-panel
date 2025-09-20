@@ -1,9 +1,12 @@
 import { useMemo, type FC } from "react";
 
+import type {
+  UserDataApi,
+  NotificationDataApi,
+} from "../../services/configs/apiEndPoint";
 import { useUserData } from "../../services/hooks/users";
 import { optionCreator } from "../../helpers/utils/others";
 import { tryCatchHandler } from "../../helpers/utils/handlers";
-import type { UserDataApi } from "../../services/configs/apiEndPoint";
 import { FromModalProvider } from "../../components/advances/FormModal";
 import { useCreateNotification } from "../../services/hooks/notifications";
 import { NotificationValidation } from "../../helpers/validations/notifications";
@@ -44,10 +47,18 @@ export const NotificationSetting: FC<INotificationSetting> = ({
             title: "",
             user_id: userId ? userId : "",
           },
-          onSubmit: async (values, { resetForm }) => {
+          onSubmit: async (
+            { message, title, user_id, is_read },
+            { resetForm }
+          ) => {
             tryCatchHandler({
               handler: async () => {
-                const finalValues = { ...values };
+                const finalValues: NotificationDataApi = {
+                  message: message || "",
+                  title: title || "",
+                  user_id: user_id || "",
+                  is_read: is_read || false,
+                };
 
                 const data = await createNotification(finalValues);
 
@@ -77,9 +88,9 @@ export const NotificationSetting: FC<INotificationSetting> = ({
             : [
                 {
                   name: "user_id",
-                  type: "autoComplete",
+                  type: "autocomplete",
                   props: {
-                    autoComplete: {
+                    autocomplete: {
                       extraLabel: "user",
                       placeholder: "user",
                       options: optionCreator({

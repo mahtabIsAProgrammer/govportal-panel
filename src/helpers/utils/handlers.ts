@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { map, isArray, isString, isBoolean } from "lodash";
 
 import {
@@ -5,7 +6,9 @@ import {
   LANGUAGE_NAME_LOCAL_STORAGE,
 } from "../constants/statics";
 import { arrayToStringHnadler } from "./array";
+import { MainContext } from "../others/mainContext";
 import { errorAlert, successAlert } from "./messages";
+import type { UserDataApi } from "../../services/configs/apiEndPoint";
 
 export const tryCatchHandler = async ({
   handler,
@@ -29,7 +32,7 @@ export const tryCatchHandler = async ({
 
     if (!isSuccessMessage && (succeeded == undefined || succeeded == true))
       successAlert({
-        title: successMessage ?? "operation_success",
+        title: successMessage ?? "Operation Succeed",
       });
     return result;
   } catch (error) {
@@ -125,4 +128,11 @@ export const errorHookHandler = ({ error }: { error: TAny }) => {
         responseErr?.data?.title ??
         "Server Side Error",
   });
+};
+
+export const GetContextValue = <T extends keyof IMainContext<UserDataApi>>(
+  key: T
+) => {
+  const context = useContext(MainContext);
+  return context[key];
 };

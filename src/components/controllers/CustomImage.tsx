@@ -15,6 +15,7 @@ import {
   type SxProps,
   type BoxProps,
 } from "@mui/material";
+import { COLOR_WHITE } from "../../helpers/constants/colors";
 
 import emptyImage from "../../assets/images/empty-image.webp";
 import emptyImageUser from "../../assets/images/empty-image-user.webp";
@@ -35,6 +36,11 @@ interface ICustomIcon extends BoxProps {
   width?: number;
   height?: number;
   className?: string;
+  badge?: {
+    isExist?: boolean;
+    color?: string;
+    count?: number;
+  };
 }
 
 export const CustomImageBox = memo<ICustomImageBox>(
@@ -93,6 +99,7 @@ export const CustomIcon = ({
   className,
   height,
   width,
+  badge,
   ...props
 }: ICustomIcon) => {
   return (
@@ -101,6 +108,7 @@ export const CustomIcon = ({
       component="div"
       className={className}
       sx={{
+        position: "relative",
         width: width + "px" || "24px",
         height: height + "px" || "24px",
         "& svg": {
@@ -109,6 +117,27 @@ export const CustomIcon = ({
         },
       }}
     >
+      {badge?.isExist ? (
+        <Box
+          sx={{
+            top: "-2px",
+            right: "1px",
+            width: "16px",
+            height: "16px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: badge?.color,
+            position: "absolute",
+            borderRadius: "50%",
+            fontSize: "12px",
+            color: COLOR_WHITE,
+            fontWeight: "700",
+          }}
+        >
+          {badge?.count && badge?.count >= 10 ? +9 : badge?.count}
+        </Box>
+      ) : null}
       {src}
     </Box>
   );

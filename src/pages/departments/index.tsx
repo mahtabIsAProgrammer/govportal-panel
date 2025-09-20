@@ -22,7 +22,7 @@ const List: FC = () => {
         { name: "departments", link: "", type: "list" },
       ]}
       texts={{
-        title: "Dashboard",
+        title: "Departments",
         buttonInsert: "Add department",
       }}
       buttonLink="add"
@@ -79,7 +79,7 @@ const userHeadCells: IHeaderCell<DepartmentDataApi>[] = [
             onSubmit={async () =>
               tryCatchHandler({
                 handler: async () => {
-                  const data = await departmentDelete(value);
+                  const data = await departmentDelete(+value);
                   setOpen(false);
                   return data;
                 },

@@ -6,6 +6,8 @@ export const LOCALE_BY_DIR: { [key in TDirection]: TLanguages[] } = {
   ltr: ["en"],
 };
 
+export const PAGE_SIZE = 9999;
+
 export const DEFAULT_THEME: TTheme = "light";
 export const TOKEN_NAME = "token";
 

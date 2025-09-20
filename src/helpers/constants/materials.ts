@@ -1,12 +1,12 @@
 import type { SxProps, Theme } from "@mui/material";
 
-import { SPACE_MD, SPACE_XS } from "./spaces";
 import {
   FONT_CAPTION,
   FONT_SMALL_TEXT,
   FONT_WEIGHT_MEDUIM,
 } from "../constants/fonts";
-import { COLOR_PRIMARY } from "./colors";
+import { SPACE_MD, SPACE_XS } from "./spaces";
+import { COLOR_BORDER, COLOR_PRIMARY } from "./colors";
 
 export const ERROR_MESSAGE_STYLE = (disabled?: boolean): SxProps<Theme> => ({
   width: "100%",
@@ -38,7 +38,7 @@ export const STYLE_AUTOCOMPLETE_ITEMS: SxProps<Theme> = {
   "&::-webkit-scrollbar-track": {
     my: SPACE_MD,
     borderRadius: "14px",
-    background: "#0000000A",
+    background: COLOR_BORDER,
   },
   "&::-webkit-scrollbar-thumb": {
     background: COLOR_PRIMARY,

@@ -55,7 +55,7 @@ export interface IHeaderCell<T = TAny> {
   isCenter?: boolean;
   renderHeader?: ReactNode;
   RenderRow?: FC<{
-    value: string;
+    value: string | number;
     row: T;
     rows: T[];
     index: number;

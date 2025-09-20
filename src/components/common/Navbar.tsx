@@ -1,7 +1,7 @@
-import { isUndefined } from "lodash";
+import { filter, isUndefined, map } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { Box, Grid, Typography } from "@mui/material";
-import { useCallback, useContext, useRef, useState } from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 
 import {
   homeICON,
@@ -12,12 +12,27 @@ import {
 import { CustomPopper } from "../controllers/CustomPopper";
 import { CustomButton } from "../controllers/CustomButton";
 import { emptyValueString } from "../other/EmptyComponents";
-import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import { COLOR_PRIMARY, COLOR_WARNING } from "../../helpers/constants/colors";
 import { MainContext } from "../../helpers/others/mainContext";
 import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 
 import profileImage from "../../assets/images/profile.png";
+import {
+  useNotificationData,
+  useUpdateNotificationIsReadData,
+} from "../../services/hooks/notifications";
+import { PAGE_SIZE } from "../../helpers/constants/statics";
+import type { NotificationDataApi } from "../../services/configs/apiEndPoint";
+import {
+  CommentBoxContainers,
+  NotificationPaper,
+  type ICommentsBox,
+} from "./NotificationPopper";
+import { DateTimeFormatBasicMOMENT } from "../../helpers/utils/dateTime";
+import { NoOptionComponent } from "./NoOptionComponent";
+import { tryCatchHandler } from "../../helpers/utils/handlers";
+import { checkFalsyValue } from "../../helpers/utils/values";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
@@ -25,14 +40,67 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const {
     theme,
-    globalProfileInformation: { first_name, last_name, email },
+    globalProfileInformation: {
+      first_name,
+      last_name,
+      email,
+      id: currentUserId,
+    },
   } = useContext(MainContext);
   // const [checked, setChecked] = useState<boolean>(false);
   const [openPopper, setOpenPopper] = useState<TPopperTypes | undefined>(
     undefined
   );
+  const [openNotifyPaper, setOpenNotifyPaper] = useState<boolean>(false);
 
+  const { data: notificationsSearch } = useNotificationData(
+    1,
+    PAGE_SIZE,
+    undefined,
+    { user_id: currentUserId || undefined }
+  );
+
+  const notificationData = useMemo(
+    () =>
+      (
+        notificationsSearch as unknown as {
+          data: (NotificationDataApi & {
+            createdOn: string;
+            id: number;
+          })[];
+        }
+      )?.data,
+    [notificationsSearch]
+  );
+
+  const filteredNotificationData = useCallback(
+    (isNew: boolean) =>
+      filter(notificationData, ({ is_read }) =>
+        isNew ? is_read == false : is_read == true
+      ),
+    [notificationData]
+  );
+
+  const notificationDataArray = useCallback(
+    (isNew: boolean): ICommentsBox[] => [
+      ...map(
+        filteredNotificationData(isNew),
+        ({ message, title, created_at }) => {
+          return {
+            date: DateTimeFormatBasicMOMENT(created_at),
+            isNew: isNew,
+            title: title || emptyValueString,
+            message: message || emptyValueString,
+          };
+        }
+      ),
+    ],
+    [filteredNotificationData]
+  );
+
+  const ref = useRef<HTMLDivElement | null>(null);
   const userRef = useRef(null);
+  const notifyIconRef = useRef(null);
   // const langRef = useRef(null);
 
   const handleOpenPopper = useCallback(
@@ -41,6 +109,32 @@ export const Navbar = () => {
       setOpenPopper(openPopper == type ? undefined : type);
     },
     [openPopper]
+  );
+
+  const { mutateAsync: notificationUpdateIsRead } =
+    useUpdateNotificationIsReadData();
+
+  const unReadNotify = useMemo(
+    () => map(filteredNotificationData(true), ({ id }) => id),
+    [filteredNotificationData]
+  );
+
+  const openNotifyPopperHandler = useCallback(
+    (e: TAny) => {
+      tryCatchHandler({
+        handler: async () => {
+          e.stopPropagation();
+          setOpenNotifyPaper(!openNotifyPaper);
+          if (checkFalsyValue(unReadNotify)) {
+            const data = notificationUpdateIsRead(unReadNotify);
+            return data;
+          }
+          return;
+        },
+        notShowMessage: { isErrorMessage: true, isSuccessMessage: true },
+      });
+    },
+    [notificationUpdateIsRead, openNotifyPaper, unReadNotify]
   );
 
   // const handleChangeLanguage = useCallback(
@@ -69,11 +163,41 @@ export const Navbar = () => {
           src={languageItems.find((i) => i.lng == lng)?.icon()}
         />
       </Box> */}
-      <CustomIcon
-        className="notif-icon"
-        src={notificationICON(COLOR_PRIMARY)}
-        width={30}
-        height={30}
+      <Box ref={notifyIconRef}>
+        <CustomIcon
+          className="notif-icon"
+          src={notificationICON(COLOR_PRIMARY)}
+          width={35}
+          height={35}
+          onClick={openNotifyPopperHandler}
+          badge={{
+            isExist: filteredNotificationData(true)?.length > 0 ? true : false,
+            color: COLOR_WARNING,
+            count: unReadNotify?.length,
+          }}
+        />
+      </Box>
+      <NotificationPaper
+        notificationCount={notificationData?.length}
+        open={openNotifyPaper}
+        anchorEl={notifyIconRef.current}
+        onClickAway={() => setOpenNotifyPaper(false)}
+        dataComponent={
+          notificationData?.length > 0 ? (
+            <Grid className="wrapper-boxes" ref={ref}>
+              <CommentBoxContainers
+                label={"new messages"}
+                data={notificationDataArray(true)}
+              />
+              <CommentBoxContainers
+                label={"pervious messages"}
+                data={notificationDataArray(false)}
+              />
+            </Grid>
+          ) : (
+            <NoOptionComponent label="No Notification" />
+          )
+        }
       />
       <Box ref={userRef}>
         <CustomImageBox

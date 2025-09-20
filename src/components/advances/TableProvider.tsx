@@ -65,7 +65,7 @@ export const TableProvider = memo<TTableProvider>(
       page,
       perPage,
       keyword || undefined,
-      isEmpty(extraFilterfinal)
+      isEmpty(extraFilterfinal) ? undefined : extraFilterfinal
     );
 
     const { data: baseData, isLoading: isLoadingTable } = useMemo(

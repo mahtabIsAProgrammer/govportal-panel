@@ -1,15 +1,16 @@
 import moment from "moment";
+import jalaliMoment from "jalali-moment";
 import type { NamedExoticComponent } from "react";
-// import jalaliMoment from "jalali-moment";
+
 import {
   CustomDatePickerEnglish,
+  type ICustomDatePicker,
   CustomDatePickerPersian,
+  type ICustomDateTimePicker,
   CustomDateTimePickerEnglish,
   CustomDateTimePickerPersian,
-  type ICustomDatePicker,
-  type ICustomDateTimePicker,
 } from "../../components/controllers/CustomDatePicker";
-import { tryCatchHandler } from "./handlers";
+import { GetContextValue, tryCatchHandler } from "./handlers";
 
 export const DateTimePickerComponentObject: {
   [key in TLanguages]: NamedExoticComponent<ICustomDateTimePicker>;
@@ -46,6 +47,28 @@ export const DateTimeFormatIsoMOMENT = (
     notShowMessage: { isErrorMessage: true, isSuccessMessage: true },
     handler: () => {
       valueReturn = value ? moment(value).format("YYYY-MM-DDTHH:mm") : "";
+    },
+  });
+  return valueReturn;
+};
+
+export const DateTimeFormatBasicMOMENT = (
+  value: string | null | undefined | Date,
+  lngHandy?: TLanguages | undefined,
+  addPersianOffset?: boolean
+) => {
+  let valueReturn = "";
+  tryCatchHandler({
+    notShowMessage: { isErrorMessage: true, isSuccessMessage: true },
+    handler: () => {
+      const lng = lngHandy ? lngHandy : GetContextValue("lng");
+      valueReturn = value
+        ? lng == "fa"
+          ? jalaliMoment(
+              addPersianOffset ? jalaliMoment(value).add(210, "m") : value
+            ).format("HH:mm jYYYY/jMM/jDD")
+          : moment(value).format("MM/DD/YYYY HH:mm")
+        : "";
     },
   });
   return valueReturn;

@@ -149,6 +149,9 @@ export const createNotification = (data: NotificationDataApi) =>
 export const updateNotification = (id: string, data: NotificationDataApi) =>
   apiClient.put(`/notifications/${id}`, data);
 
+export const updateNotificationIsRead = (ids: number[]) =>
+  apiClient.patch(`/notifications/is-read`, { ids });
+
 export const deleteNotification = (id: string) =>
   apiClient.delete(`/notifications/${id}`);
 
@@ -194,14 +197,14 @@ export const deleteRequest = (id: string) =>
 export const getServiceData = async (params: TAny) =>
   await apiClient.get("/services", { params: params }).then((res) => res.data);
 
-export const getServiceById = (id: string) => apiClient.get(`services/${id}`);
+export const getServiceById = (id: number) => apiClient.get(`services/${id}`);
 
 export const createService = (data: ServiceDataApi) =>
   apiClient.post("/services", data);
 
-export const updateService = (id: string, data: ServiceDataApi) =>
+export const updateService = (id: number, data: ServiceDataApi) =>
   apiClient.put(`/services/${id}`, data);
 
-export const deleteService = (id: string) =>
+export const deleteService = (id: number) =>
   apiClient.delete(`/services/${id}`);
 // Other Crud

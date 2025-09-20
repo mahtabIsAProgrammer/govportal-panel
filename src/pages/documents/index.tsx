@@ -19,7 +19,7 @@ const List: FC = () => {
         { name: "documents", link: "", type: "list" },
       ]}
       texts={{
-        title: "Dashboard",
+        title: "Documents",
         buttonInsert: "Add document",
       }}
       buttonLink="add"

@@ -3,12 +3,12 @@ import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  useDeleteService,
   useServiceData,
+  useDeleteService,
 } from "../../services/hooks/services";
 import type {
-  DepartmentDataApi,
   ServiceDataApi,
+  DepartmentDataApi,
 } from "../../services/configs/apiEndPoint";
 import { IconsTable } from "../../components/common/IconTable";
 import { tryCatchHandler } from "../../helpers/utils/handlers";
@@ -26,7 +26,7 @@ const List: FC = () => {
         { name: "services", link: "", type: "list" },
       ]}
       texts={{
-        title: "Dashboard",
+        title: "Services",
         buttonInsert: "Add service",
       }}
       buttonLink="add"
@@ -54,7 +54,7 @@ const userHeadCells: IHeaderCell<ServiceDataApi>[] = [
     label: "Department",
     isCenter: true,
     RenderRow: ({ value }) => {
-      const { data: departmentById } = useGetDepartmentById(value);
+      const { data: departmentById } = useGetDepartmentById(+value);
       const { name } =
         (departmentById as { data: DepartmentDataApi } | undefined)?.data ?? {};
       return <>{name}</>;
@@ -93,7 +93,7 @@ const userHeadCells: IHeaderCell<ServiceDataApi>[] = [
               onSubmit={async () =>
                 tryCatchHandler({
                   handler: async () => {
-                    const data = await serviceDelete(value);
+                    const data = await serviceDelete(+value);
 
                     setOpen(false);
                     return data;

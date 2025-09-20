@@ -12,14 +12,14 @@ import {
 export const useServiceData = (
   pageNumber?: number,
   pageSize?: number,
-  keyword?: string
+  keyword?: number
 ) =>
   useQuery(["service-data", pageNumber, pageSize, keyword], () =>
     getServiceData({ pageNumber, pageSize, keyword })
   );
 
 // Get service by id
-export const useGetServiceById = (id?: string) => {
+export const useGetServiceById = (id?: number) => {
   return useQuery({
     queryKey: ["service-get", id],
     queryFn: async () => (id ? await getServiceById(id!) : {}),
@@ -40,7 +40,7 @@ export const useCreateService = () => {
 };
 
 // Update a service
-export const useUpdateService = (id: string) => {
+export const useUpdateService = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: ServiceDataApi) => updateService(id, data),
@@ -63,7 +63,7 @@ export const useUpdateService = (id: string) => {
 export const useDeleteService = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteService(id),
+    mutationFn: (id: number) => deleteService(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["service-data"],
