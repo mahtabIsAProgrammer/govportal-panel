@@ -14,6 +14,7 @@ import {
 import {
   memo,
   type FC,
+  useMemo,
   useContext,
   useCallback,
   createContext,
@@ -37,7 +38,9 @@ import { CustomSelect } from "./CustomSelect";
 import { TextTooltip } from "../common/TextTooltip";
 import { EmptyValue } from "../other/EmptyComponents";
 import { CustomPagination } from "./CustomPagination";
+import { optionCreator } from "../../helpers/utils/others";
 import { checkFalsyValue } from "../../helpers/utils/values";
+import { NoOptionComponent } from "../common/NoOptionComponent";
 import { SPACE_LG, SPACE_XS } from "../../helpers/constants/spaces";
 import { en2faDigits, priceFormatter } from "../../helpers/utils/numbers";
 import { FONT_BUTTON, FONT_CAPTION } from "../../helpers/constants/fonts";
@@ -127,7 +130,7 @@ export const CustomTableContent = memo(() => {
     valueRows,
     setPerPage,
     totalPageCount,
-    setting: { totalCount },
+    setting: { totalCount, hasIndex },
   } = useContext(CustomTableContext);
 
   const onChangePagination = useCallback(
@@ -136,6 +139,8 @@ export const CustomTableContent = memo(() => {
     },
     [setPage]
   );
+
+  const headCellsLength = useMemo(() => (hasIndex ? 1 : 0), [hasIndex]);
 
   return (
     <Box sx={customTableSX} className="custom-table">
@@ -157,7 +162,18 @@ export const CustomTableContent = memo(() => {
               stickyHeader
               className="table"
               aria-label="sticky table"
-            ></Table>
+            >
+              <TableBody className="empty-table-body">
+                <TableRow className="empty-table-row">
+                  <TableCell
+                    colSpan={headCellsLength}
+                    className="empty-table-cell"
+                  >
+                    <NoOptionComponent imageSize="medium" />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           )}
         </TableContainer>
       </Box>
@@ -206,10 +222,12 @@ export const CustomTableContent = memo(() => {
                     <CustomSelect
                       menuItemSX={footerTablePagerMenuItemSX}
                       menuPaperSX={footerTablePagerMenuPaperSX}
-                      items={ROWS_PER_PAGES?.map(() => ({
-                        value: "value",
-                        label: "value",
-                      }))}
+                      items={optionCreator({
+                        data: ROWS_PER_PAGES,
+                        id: "value",
+                        name: "value",
+                        hasNotEmpty: true,
+                      })}
                       value={(perPage || ROWS_PER_PAGE_DEFILE)?.toString()}
                       onChange={(e) => {
                         setPerPage &&

@@ -13,6 +13,12 @@ import { memo, useCallback, useContext, useEffect, useState } from "react";
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
 import {
+  clearICON,
+  imageICON,
+  trashICON,
+  downloadICON,
+} from "../other/FunctionalSVG";
+import {
   uploaderIcons,
   UploadFileNormal,
   hasPreviewFileType,
@@ -23,31 +29,44 @@ import {
 import {
   COLOR_WHITE,
   COLOR_GREEN,
+  COLOR_PRIMARY,
   COLOR_SECONDRY,
   COLOR_MUTED_TEXT,
 } from "../../helpers/constants/colors";
+import {
+  SPACE_LG,
+  SPACE_MD,
+  SPACE_SM,
+  SPACE_XL,
+  SPACE_XS,
+} from "../../helpers/constants/spaces";
+import {
+  FONT_BODY,
+  FONT_SMALL_TEXT,
+  FONT_HEADING_SMALL,
+} from "../../helpers/constants/fonts";
 import { CustomLabel } from "../controllers/CustomLabel";
+import { errorAlert } from "../../helpers/utils/messages";
 import { BASE_URL } from "../../helpers/constants/statics";
 import { CustomButton } from "../controllers/CustomButton";
-import { errorAlert } from "../../helpers/utils/messages";
 import { ErrorMessage } from "../controllers/CustomTextfield";
 import { MainContext } from "../../helpers/others/mainContext";
 import { CustomLinearProgress } from "../controllers/CustomProgress";
-import { clearICON, downloadICON, trashICON } from "../other/FunctionalSVG";
-import { SPACE_MD, SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
 import { CustomIconButton, CustomImageBox } from "../controllers/CustomImage";
-import { FONT_BODY, FONT_HEADING_SMALL } from "../../helpers/constants/fonts";
 import { guidGenerator, stringSepratorToArry } from "../../helpers/utils/array";
+
+import imageUploader from "../../assets/images/image.webp";
 
 const UploadType: TFileUploaderTypes = {
   audio: "",
   file: "",
-  image: "",
+  image: imageUploader,
   video: "",
 };
 
 export const FileUploader = memo<IFileUploader>(
   ({
+    type,
     customLabel,
     defaultFile,
     deletable,
@@ -58,25 +77,21 @@ export const FileUploader = memo<IFileUploader>(
     helperText,
     multiple,
     required,
-    setting,
     thumbnailsState,
-    type,
   }) => {
-    const { folderName } = setting ?? {};
-
     const { changeLoadingUploader, isLoadingUploader } =
       useContext(MainContext);
 
     const [files, setFiles] = useState<IFileProps[] | undefined>(undefined);
     const [progress, setProgress] = useState<{ [key: string]: number }>({});
 
-    const finalType: TFileUploaderType = type || "file";
+    const finalType: TFileUploaderType = type || "image";
     const placeholderImage = UploadType[finalType];
 
-    const nameSplitter = stringSepratorToArry(
-      (files || [])?.[0]?.file?.name || "",
-      "."
-    );
+    // const nameSplitter = stringSepratorToArry(
+    //   (files || [])?.[0]?.file?.name || "",
+    //   "."
+    // );
 
     const { getRootProps, getInputProps } = useDropzone({
       accept: checkAcceptDropZoneFormat[finalType],
@@ -143,10 +158,8 @@ export const FileUploader = memo<IFileUploader>(
           if (file) {
             try {
               setProgress({ ...progress, [id as TAny]: 20 });
-              const { path, thumbPath } = await UploadFileNormal(file as File, {
-                folderName,
-              });
-              if (!path) throw "Path is null";
+              const data = await UploadFileNormal(file as File, {});
+              if (!data) throw "Path is null";
               setProgress({ ...progress, [id as TAny]: 100 });
               setFiles((prev) => {
                 const tmp = [...(prev ?? [])];
@@ -154,8 +167,8 @@ export const FileUploader = memo<IFileUploader>(
 
                 tmp[index] = {
                   ...tmp[index],
-                  path,
-                  thumbPath,
+                  path: data,
+                  thumbPath: data,
                   isUploading: false,
                 };
                 return tmp;
@@ -166,7 +179,7 @@ export const FileUploader = memo<IFileUploader>(
           }
         }
       },
-      [files, folderName, progress]
+      [files, progress]
     );
 
     const handlerAbortUploads = useCallback(async () => {
@@ -231,7 +244,10 @@ export const FileUploader = memo<IFileUploader>(
     }, [changeLoadingUploader, files]);
 
     return (
-      <Grid className="Uploader-container">
+      <Grid
+        className="uploader-container"
+        sx={uploaderNewSX(isLoadingUploader)}
+      >
         <Grid className="custom-label-container">
           <CustomLabel
             customLabel={customLabel}
@@ -247,10 +263,21 @@ export const FileUploader = memo<IFileUploader>(
                   <Grid key={key + id}>
                     {finalType == "image" && (
                       <>
-                        <Box>
-                          <Box>
-                            <CustomButton text={"Change Image"} />
+                        <Box
+                          component="img"
+                          alt="uploader"
+                          src={BASE_URL + path}
+                          className="single-image-uploaded"
+                        >
+                          <Box className="image-blank">
+                            <CustomButton
+                              {...getRootProps()}
+                              className="button-change-image"
+                              startIcon={imageICON()}
+                              text={"Change Image"}
+                            />
                             <CustomIconButton
+                              className="button-delete"
                               src={trashICON()}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -271,7 +298,7 @@ export const FileUploader = memo<IFileUploader>(
                         </Box>
                       </>
                     )}
-                    {finalType == "video" && (
+                    {/* {finalType == "video" && (
                       <>
                         <video
                           controls
@@ -294,6 +321,12 @@ export const FileUploader = memo<IFileUploader>(
                     {finalType == "file" && (
                       <>
                         <Box
+                          alt="uploader"
+                          sx={{
+                            width: "150px",
+                            height: "150px",
+                            py: "20px",
+                          }}
                           component="img"
                           src={
                             uploaderIcons[
@@ -304,29 +337,38 @@ export const FileUploader = memo<IFileUploader>(
                           }
                         />
                       </>
-                    )}
+                    )} */}
                   </Grid>
                 ))}
               </Grid>
             ) : (
               <>
-                <Grid>
-                  <Grid container {...getRootProps()}>
+                <Grid className="wrapper-uploader-box">
+                  <Grid container {...getRootProps()} className="uploader-box">
                     <input
                       {...getInputProps()}
                       accept={checkAcceptDropZoneFormat[finalType]}
                     />
-                    {!multiple && type == "image" && isLoadingUploader ? (
+                    {
                       <>
-                        <CustomImageBox src={""} />
-                        <Typography>Loading</Typography>
+                        <Box
+                          component="img"
+                          alt="uploader"
+                          style={{
+                            width: "auto",
+                            height: "120px",
+                          }}
+                          src={placeholderImage}
+                        />
+                        <Typography className="click-here-text">
+                          {"to upload"}
+
+                          {type ?? ""}
+
+                          {"click here"}
+                        </Typography>
                       </>
-                    ) : (
-                      <>
-                        <CustomImageBox src={placeholderImage} />
-                        <Typography>{type || "" + "selected"}</Typography>
-                      </>
-                    )}
+                    }
                   </Grid>
                 </Grid>
                 {errorMessage && (
@@ -521,6 +563,90 @@ export const UploaderFileView = memo<{
 const downloadImage = async (url: string, fileName: string) => {
   window.open(url + "?fName=" + fileName, "_blank");
 };
+
+const uploaderNewSX = (isLoadingUploader?: boolean): SxProps<Theme> => ({
+  p: "20px",
+  background: COLOR_WHITE,
+  borderRadius: "14px",
+  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+  "& .title": {
+    marginBottom: SPACE_MD,
+    color: COLOR_SECONDRY,
+    fontSize: FONT_SMALL_TEXT,
+    fontWeight: "600",
+  },
+  "& .wrapper-uploader-box": {
+    p: SPACE_SM,
+    cursor: isLoadingUploader ? "not-allowed" : "pointer",
+    borderRadius: "14px",
+    background: "#F7F9FA",
+    border: "1px dashed " + "#B2B2B2",
+    height: "220px",
+    display: "flex",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+
+    "& .uploader-box": {
+      my: "20px",
+      gap: "20px",
+      display: "flex",
+      textAlign: "center",
+      alignItems: "center",
+      alignContent: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      "& .click-here-text": {
+        color: "#B2B2B2",
+        lineHeight: SPACE_LG,
+        fontSize: FONT_SMALL_TEXT,
+        fontWeight: "400",
+      },
+      "& .select-file-text": {
+        color: COLOR_PRIMARY,
+        fontSize: "12px",
+        fontWeight: "600",
+      },
+      "& .image-avatar": {
+        "& .file-upload-loading-image": {
+          width: "100px",
+          height: "30px",
+          "& img": {
+            width: "100px",
+            height: "40px",
+          },
+        },
+      },
+      "& .file-upload-label-loading ": {
+        mt: SPACE_XL,
+        color: COLOR_PRIMARY,
+        fontSize: "12px",
+        fontWeight: "600",
+      },
+    },
+  },
+  "& .uploader-box": {
+    // my: "20px",
+    gap: "20px",
+    display: "flex",
+    textAlign: "center",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "column",
+    justifyContent: "center",
+
+    "& .click-here-text": {
+      color: "#B2B2B2",
+      lineHeight: SPACE_LG,
+      fontSize: FONT_SMALL_TEXT,
+      fontWeight: "400",
+    },
+  },
+  "& .custom-label-container": {
+    display: "flex",
+    alignItems: "unset",
+  },
+});
 
 const uploaderFileViewSX = (
   multiple: boolean,

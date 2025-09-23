@@ -19,7 +19,7 @@ export interface UserDataApi {
   role?: TAdminTypes;
   phone_number?: string;
   department_id?: number | null;
-  profile_image?: string;
+  image?: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -48,8 +48,9 @@ export interface PaymentDataApi {
   amount?: number;
   status?: string;
   request_id?: number;
-  payment_Date?: string;
-  transaction_id?: number;
+  payment_date?: string;
+  transaction_id?: string;
+  created_at?: string;
 }
 export interface RequestDataDataApi {
   id?: number;
@@ -60,17 +61,24 @@ export interface RequestDataApi {
   id?: number;
   service_id?: number;
   citizen_id?: string;
-  status?: string;
+  status?: number | null;
   submitted_at?: Date;
-  reviewed_by?: string;
+  reviewed_by?: string | null;
 }
+
+export interface SubmitRequestWithPaymentDataApi {
+  service_id?: number;
+  form_data?: { fields: JSON };
+  amount?: number;
+}
+
 export interface ServiceDataApi {
   id?: number;
   department_id?: number | null;
   name?: string;
   description?: string;
   fee?: number | null;
-  form_schema?: JSON | null;
+  form_schema?: { fields?: object[] } | null;
   created_at?: Date;
 }
 
@@ -160,15 +168,15 @@ export const deleteNotification = (id: string) =>
 export const getPaymentData = async (params: TAny) =>
   await apiClient.get("/payments", { params: params }).then((res) => res.data);
 
-export const getPaymentById = (id: string) => apiClient.get(`payments/${id}`);
+export const getPaymentById = (id: number) => apiClient.get(`payments/${id}`);
 
 export const createPayment = (data: PaymentDataApi) =>
   apiClient.post("/payments", data);
 
-export const updatePayment = (id: string, data: PaymentDataApi) =>
+export const updatePayment = (id: number, data: PaymentDataApi) =>
   apiClient.put(`/payments/${id}`, data);
 
-export const deletePayment = (id: string) =>
+export const deletePayment = (id: number) =>
   apiClient.delete(`/payments/${id}`);
 // Other Crud
 
@@ -177,21 +185,38 @@ export const getRequestDataData = async (params: TAny) =>
     .get("/request-data", { params: params })
     .then((res) => res.data);
 
+export const createRequestData = async (data: RequestDataDataApi) => {
+  const res = await apiClient.post("/request-data", data);
+  return res.data;
+};
+export const updateRequestStatus = async (id: number, status: number) => {
+  await apiClient.patch(`/requests/${id}/status`, { status });
+};
+export const getRequestDateByRequestId = async (id: number) =>
+  await apiClient.get(`request-data/${id}`);
 // Other Crud
 
 export const getRequestData = async (params: TAny) =>
   await apiClient.get("/requests", { params: params }).then((res) => res.data);
 
-export const getRequestById = (id: string) => apiClient.get(`requests/${id}`);
+export const getRequestById = async (id: number) =>
+  await apiClient.get(`requests/${id}`);
 
-export const createRequest = (data: RequestDataApi) =>
-  apiClient.post("/requests", data);
+export const createRequest = async (data: RequestDataApi) =>
+  await apiClient.post("/requests", data);
 
-export const updateRequest = (id: string, data: RequestDataApi) =>
-  apiClient.put(`/requests/${id}`, data);
+export const updateRequest = async (id: number, data: RequestDataApi) =>
+  await apiClient.put(`/requests/${id}`, data);
 
-export const deleteRequest = (id: string) =>
+export const deleteRequest = (id: number) =>
   apiClient.delete(`/requests/${id}`);
+
+export const submitRequestWithPayment = async (
+  data: SubmitRequestWithPaymentDataApi
+) => {
+  const res = await apiClient.post("/requests/submit", data);
+  return res.data;
+};
 // Other Crud
 
 export const getServiceData = async (params: TAny) =>

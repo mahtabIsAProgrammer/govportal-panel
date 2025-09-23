@@ -42,7 +42,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     national_id,
     password,
     phone_number,
-    profile_image,
+    image,
     role,
   } = (userGet as { data: UserDataApi } | undefined)?.data ?? {};
 
@@ -55,7 +55,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     department_id: department_id || null,
     national_id: national_id || "",
     phone_number: phone_number || "",
-    profile_image: profile_image || "",
+    image: image || "",
     role: role || "",
     username: username || "",
   };
@@ -117,8 +117,16 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                   },
                 },
               },
-              { type: "emptyInput", name: "" },
-
+              {
+                type: "input",
+                name: "phone_number",
+                props: {
+                  input: {
+                    placeholder: "phone number",
+                    customLabel: "phone number",
+                  },
+                },
+              },
               {
                 type: "input",
                 name: "email",
@@ -158,34 +166,34 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                     }),
                   },
                 },
-              },
-              {
-                type: "input",
-                name: "phone_number",
-                props: {
-                  input: {
-                    placeholder: "phone number",
-                    customLabel: "phone number",
-                  },
+                InputsChildren: ({ value }) => {
+                  return value == ROLE_TYPES_DATA?.[2]?.name ||
+                    value == ROLE_TYPES_DATA?.[1]?.name
+                    ? [
+                        {
+                          type: "autocomplete",
+                          name: "department_id",
+                          props: {
+                            autocomplete: {
+                              options: optionCreator({
+                                id: "id",
+                                name: "name",
+                                data: departmentSearchData,
+                                hasNotEmpty: true,
+                              }),
+                              customLabel: "department",
+                            },
+                          },
+                        },
+                      ]
+                    : [
+                        {
+                          name: "",
+                          type: "emptyInput",
+                        },
+                      ];
                 },
               },
-
-              {
-                type: "autocomplete",
-                name: "department_id",
-                props: {
-                  autocomplete: {
-                    options: optionCreator({
-                      id: "id",
-                      name: "name",
-                      data: departmentSearchData,
-                      hasNotEmpty: true,
-                    }),
-                    customLabel: "department",
-                  },
-                },
-              },
-              { type: "emptyInput", name: "" },
 
               // {
               //   type: "select",
@@ -225,8 +233,8 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
             columnGridSize: 5.9,
             side: {
               profileUploader: {
-                name: "profile_image",
-                thumbName: "profile-image",
+                name: "image",
+                thumbName: "image",
                 props: { customLabel: "profile" },
               },
             },
@@ -244,7 +252,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
           department_id,
           national_id,
           phone_number,
-          profile_image,
+          image,
           role,
           username,
         }) => {
@@ -259,7 +267,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 department_id: department_id || null,
                 national_id: national_id || "",
                 phone_number: phone_number || "",
-                profile_image: profile_image || "",
+                image: image || "",
                 role: role || "",
                 username: username || "",
               };

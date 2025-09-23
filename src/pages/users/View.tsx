@@ -12,22 +12,45 @@ import { useGetDepartmentById } from "../../services/hooks/departments";
 const View = () => {
   const { id: currentId } = useParams();
   const { data: userData } = useGetUserById(currentId);
-  const userDataSearch = useMemo(
+  const {
+    date_of_birth,
+    department_id,
+    email,
+    first_name,
+    id,
+    image,
+    last_name,
+    national_id,
+    password,
+    phone_number,
+    role,
+    username,
+  } = useMemo(
     () => (userData as { data: UserDataApi })?.data ?? [],
     [userData]
   );
 
-  const { data: departmentById } = useGetDepartmentById(
-    userDataSearch?.department_id || 0
-  );
+  const { data: departmentById } = useGetDepartmentById(department_id || 0);
   const { name } =
     (departmentById as { data: DepartmentDataApi } | undefined)?.data ?? {};
 
   return (
     <ViewUser
-      isMyProfile
-      data={{ ...{ userDataSearch }, ...{ department_id: name as TAny } }}
-      title={"My Profile"}
+      data={{
+        date_of_birth,
+        email,
+        first_name,
+        id,
+        image,
+        last_name,
+        national_id,
+        password,
+        phone_number,
+        role,
+        username,
+        department_id: name as TAny,
+      }}
+      title={"User Profie"}
       breadcrumbData={[
         { name: "dashboard", link: "/", type: "none" },
         { name: "my profile", link: "/dashboard/me", type: "list" },

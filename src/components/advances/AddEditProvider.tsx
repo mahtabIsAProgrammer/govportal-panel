@@ -714,7 +714,7 @@ export const InputBoxItems = memo<{
       case "fileUploader":
         result = (
           <FileUploader
-            defaultFiles={
+            defaultFile={
               formIK && formIK.values[name]
                 ? formIK && commaStringToArray(formIK.values[name])
                 : undefined

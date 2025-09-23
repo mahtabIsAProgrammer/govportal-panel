@@ -19,7 +19,7 @@ export const usePaymentData = (
   );
 
 // Get payment by id
-export const useGetPaymentById = (id?: string) => {
+export const useGetPaymentById = (id?: number) => {
   return useQuery({
     queryKey: ["payment-get", id],
     queryFn: async () => (id ? await getPaymentById(id!) : {}),
@@ -40,7 +40,7 @@ export const useCreatePayment = () => {
 };
 
 // Update a payment
-export const useUpdatePayment = (id: string) => {
+export const useUpdatePayment = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: PaymentDataApi) => updatePayment(id, data),
@@ -63,7 +63,7 @@ export const useUpdatePayment = (id: string) => {
 export const useDeletePayment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deletePayment(id),
+    mutationFn: (id: number) => deletePayment(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments-search"],

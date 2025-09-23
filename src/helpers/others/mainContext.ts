@@ -17,7 +17,7 @@ export const MainContext = createContext<IMainContext>({
   globalProfileInformation: {},
   sidebarSize: DEFAULT_SIDE_BAR_SIZE,
   theme: DEFAULT_THEME,
-  routes: { dashboardRoutes: [] },
+  routes: { dashboardRoutes: [], citizenRoutes: [] },
   isLoadingUploader: false,
   changeLoadingUploader: () => undefined,
   isLoadingProfileInformation: false,

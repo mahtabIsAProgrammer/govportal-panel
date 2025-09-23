@@ -33,7 +33,7 @@ const AddEdit: FC = () => {
     national_id,
     password,
     phone_number,
-    profile_image,
+    image,
     role,
   } = (userGet as { data: UserDataApi } | undefined)?.data ?? {};
 
@@ -46,7 +46,7 @@ const AddEdit: FC = () => {
     department_id: department_id || null,
     national_id: national_id || "",
     phone_number: phone_number || "",
-    profile_image: profile_image || "",
+    image: image || "",
     role: role || "",
     username: username || "",
   };
@@ -216,7 +216,7 @@ const AddEdit: FC = () => {
             columnGridSize: 5.9,
             side: {
               profileUploader: {
-                name: "profile_image",
+                name: "image",
                 thumbName: "profile-image",
                 props: { customLabel: "profile" },
               },
@@ -235,7 +235,7 @@ const AddEdit: FC = () => {
           department_id,
           national_id,
           phone_number,
-          profile_image,
+          image,
           role,
           username,
         }) => {
@@ -250,7 +250,7 @@ const AddEdit: FC = () => {
                 department_id: department_id || null,
                 national_id: national_id || "",
                 phone_number: phone_number || "",
-                profile_image: profile_image || "",
+                image: image || "",
                 role: role || "",
                 username: username || "",
               };

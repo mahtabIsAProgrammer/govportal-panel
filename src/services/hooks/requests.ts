@@ -6,20 +6,33 @@ import {
   updateRequest,
   getRequestById,
   getRequestData,
+  updateRequestStatus,
   type RequestDataApi,
+  submitRequestWithPayment,
+  type SubmitRequestWithPaymentDataApi,
 } from "../configs/apiEndPoint";
 
 export const useRequestData = (
   pageNumber?: number,
   pageSize?: number,
-  keyword?: string
+  keyword?: string,
+  extraFilter?: {
+    status?: boolean;
+  }
 ) =>
-  useQuery(["request-data", pageNumber, pageSize, keyword], () =>
-    getRequestData({ pageNumber, pageSize, keyword })
+  useQuery(
+    ["request-data", pageNumber, pageSize, keyword, extraFilter?.status],
+    () =>
+      getRequestData({
+        pageNumber,
+        pageSize,
+        keyword,
+        status: extraFilter?.status,
+      })
   );
 
 // Get request by id
-export const useGetRequestById = (id?: string) => {
+export const useGetRequestById = (id?: number) => {
   return useQuery({
     queryKey: ["request-get", id],
     queryFn: async () => (id ? await getRequestById(id!) : {}),
@@ -33,20 +46,20 @@ export const useCreateRequest = () => {
     mutationFn: (data: RequestDataApi) => createRequest(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["requests-search"],
+        queryKey: ["request-data"],
       });
     },
   });
 };
 
 // Update a request
-export const useUpdateRequest = (id: string) => {
+export const useUpdateRequest = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: RequestDataApi) => updateRequest(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["requests-search"],
+        queryKey: ["request-data"],
       });
       queryClient.invalidateQueries({
         queryKey: ["request-get"],
@@ -59,19 +72,48 @@ export const useUpdateRequest = (id: string) => {
   });
 };
 
+export const useUpdateRequestStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: TAny) => updateRequestStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["request-data"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["request-get"],
+      });
+    },
+  });
+};
+
 // Delete a request
 export const useDeleteRequest = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteRequest(id),
+    mutationFn: (id: number) => deleteRequest(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["requests-search"],
+        queryKey: ["request-data"],
       });
     },
     onError: (error) => {
       console.error("Mutation failed:", error);
       alert(`Error: ${error || "Something went wrong."}`);
+    },
+  });
+};
+
+export const useSubmitRequestWithPayment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: SubmitRequestWithPaymentDataApi) =>
+      submitRequestWithPayment(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["request-data"],
+      });
     },
   });
 };

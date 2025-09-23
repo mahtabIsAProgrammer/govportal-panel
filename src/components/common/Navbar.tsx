@@ -17,7 +17,6 @@ import { MainContext } from "../../helpers/others/mainContext";
 import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 
-import profileImage from "../../assets/images/profile.png";
 import {
   useNotificationData,
   useUpdateNotificationIsReadData,
@@ -33,6 +32,7 @@ import { DateTimeFormatBasicMOMENT } from "../../helpers/utils/dateTime";
 import { NoOptionComponent } from "./NoOptionComponent";
 import { tryCatchHandler } from "../../helpers/utils/handlers";
 import { checkFalsyValue } from "../../helpers/utils/values";
+import { urlImageHandler } from "../../helpers/utils/images";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
@@ -44,6 +44,7 @@ export const Navbar = () => {
       first_name,
       last_name,
       email,
+      image,
       id: currentUserId,
     },
   } = useContext(MainContext);
@@ -51,6 +52,7 @@ export const Navbar = () => {
   const [openPopper, setOpenPopper] = useState<TPopperTypes | undefined>(
     undefined
   );
+
   const [openNotifyPaper, setOpenNotifyPaper] = useState<boolean>(false);
 
   const { data: notificationsSearch } = useNotificationData(
@@ -209,7 +211,7 @@ export const Navbar = () => {
             "&:hover": { scale: "1.1", transition: "0.3s" },
           }}
           withOutPreview
-          src={profileImage}
+          src={urlImageHandler(image)}
           variant="circular"
           onClick={(e) => handleOpenPopper(e, "userPopper")}
         />

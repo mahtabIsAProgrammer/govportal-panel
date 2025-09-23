@@ -51,7 +51,7 @@ export const CustomDialog = memo<ICustomDialog>(
     isCenter,
     size,
   }) => {
-    const { closeIconHandler, hasCloseIcon, image, subtitle, titleText } =
+    const { closeIconHandler, hasCloseIcon, subtitle, titleText } =
       dialogTitle ?? {};
     const mergeSx = merge({}, dialogSX(isCenter, size), sx);
 

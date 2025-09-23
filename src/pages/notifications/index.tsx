@@ -24,16 +24,6 @@ const List: FC = () => {
     () => (notificationData as { data: NotificationDataApi[] })?.data ?? [],
     [notificationData]
   );
-  const { data: notificationMessagesSearch } = useNotificationData(
-    1,
-    99999,
-    undefined,
-    { is_read: true }
-  );
-  console.log(
-    "🚀 ~ List ~ notificationMessagesSearch:",
-    notificationMessagesSearch
-  );
 
   const headCells = useCallback(
     (): IHeaderCell<NotificationDataApi>[] => [

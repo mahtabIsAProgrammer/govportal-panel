@@ -11,6 +11,7 @@ import { useUserData } from "../../services/hooks/users";
 import { IconsTable } from "../../components/common/IconTable";
 import { MainContext } from "../../helpers/others/mainContext";
 import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import { ProfileCard } from "../../components/common/ProfileCard";
 import { NotificationSetting } from "../_root/NotificationSetting";
 import { PageProvider } from "../../components/advances/PageProvider";
 import type { UserDataApi } from "../../services/configs/apiEndPoint";
@@ -46,10 +47,17 @@ export default List;
 
 const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
   {
-    id: "id",
+    id: "first_name",
     label: "Name",
     isCenter: true,
-    RenderRow: ({ row }) => <>{`${row?.first_name} ${row?.last_name}`}</>,
+    RenderRow: ({ row }) => (
+      <ProfileCard
+        title={{
+          text: `${row?.first_name} ${row?.last_name}`,
+        }}
+        image={{ src: row?.image, variant: "circular" }}
+      />
+    ),
   },
   { id: "username", label: "User Name", isCenter: true },
   { id: "email", label: "Email", isCenter: true },
@@ -87,7 +95,7 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
           </Grid>
 
           <NotificationSetting
-            userId={value}
+            userId={String(value)}
             insertToggleModal={openNotifyUserDialog}
             setInsertToggleModal={setOpenNotifyUserDialog}
           />

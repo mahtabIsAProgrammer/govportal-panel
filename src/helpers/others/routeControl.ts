@@ -18,6 +18,7 @@ export const RequestsList = lazy(() => import("../../pages/requests"));
 export const RequestsAddEdit = lazy(
   () => import("../../pages/requests/AddEdit")
 );
+export const RequestsView = lazy(() => import("../../pages/requests/View"));
 
 export const PaymentsList = lazy(() => import("../../pages/payments"));
 export const PaymentsAddEdit = lazy(

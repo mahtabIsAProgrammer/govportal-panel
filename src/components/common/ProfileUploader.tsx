@@ -67,9 +67,9 @@ export const ProfileUploader = ({
     if (ref.current) (ref.current as { value: string }).value = "";
     if (file) {
       try {
-        const { path, thumbPath } = await UploadFileNormal(file as File, {});
-        if (!path) throw "path is null";
-        setFiles({ path, thumbPath });
+        const data = await UploadFileNormal(file as File, {});
+        if (!data) throw "Path is null";
+        setFiles({ path: data, thumbPath: data });
       } catch (e) {
         console.info(e);
       }
@@ -125,7 +125,7 @@ export const ProfileUploader = ({
       "& .wrapper-file-uploader": {
         border: "1px dashed #00000042",
         borderRadius: variant == "rounded" ? "12px" : "50%",
-        padding: "16px",
+        padding: "10px",
         position: "relative",
       },
       "& .file-upload-input": {
@@ -137,17 +137,17 @@ export const ProfileUploader = ({
         alignItems: "center",
         background: COLOR_RED,
         borderRadius: "50%",
-        width: "30px",
-        height: "30px",
+        width: "36px",
+        height: "36px",
         position: "absolute",
         zIndex: "1000",
-        top: variant == "rounded" ? undefined : "4px",
-        right: variant == "rounded" ? undefined : "4px",
+        top: variant == "rounded" ? undefined : "12px",
+        right: variant == "rounded" ? undefined : "16px",
         border: `3px solid ${COLOR_WHITE}`,
         cursor: "pointer",
         "& svg": {
-          width: "16px",
-          height: "16px",
+          width: "20px",
+          height: "20px",
           filter: "(0)",
         },
       },
@@ -201,7 +201,7 @@ export const ProfileUploader = ({
       "& .image-box-wrapper": {
         position: "absolute",
         backgroundSize: "cover",
-        top: "15px",
+        top: "11px",
         right: "14px",
       },
     }),
@@ -232,7 +232,7 @@ export const ProfileUploader = ({
           {!loading && files && (
             <Box className={"trash-box"}>
               <CustomIcon
-                src={trashICON()}
+                src={trashICON(COLOR_WHITE)}
                 className="trash-icon"
                 onClick={resetValue}
               />

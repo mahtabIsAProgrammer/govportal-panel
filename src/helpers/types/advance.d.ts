@@ -26,7 +26,7 @@ interface IInputProps<TTypes = TInputPropTypes> {
   dateTimePicker?: TTypes["TDateTimePicker"];
   timePicker?: TTypes["TTimePicker"];
   radioGroup?: TTypes["TRadioGroup"];
-  fileUploader?: IUploaderFile;
+  fileUploader?: IFileUploader;
   profileUploader?: IProfileUploader;
   // editorQuill?: IEditorQuill;
   // editorMD?: IEditorMD;
@@ -207,4 +207,30 @@ interface IAddEditProviderContent<T> {
   content: JSX.Element;
   formIK: TAny;
   withoutSideNav?: boolean;
+}
+
+interface IStepperItems {
+  title: string;
+  icon?: string | JSX.Element | ((...orgs) => JSX.Element);
+  link?: string;
+  lock?: boolean;
+  disabled?: boolean;
+  key?: string | undefined;
+  onClick?: (value: Omit<IStepperItems, "onClick">) => void;
+}
+
+interface IStepperFormProviderOrdersView {
+  footerText: IStepperFormProviderOrdersViewFooterText;
+  formIK: TAnyObjects;
+  steps: IStepperOrderOrdersView[];
+  submitForm: { handler: TEmptyVoidFunction; disabled: boolean };
+}
+
+interface IStepperFormProviderOrdersViewFooterText {
+  end?: string;
+  starts: IStepperFormProviderOrdersViewFooterTextStarts[];
+}
+interface IStepperFormProviderOrdersViewFooterTextStarts {
+  name: string;
+  value: string;
 }

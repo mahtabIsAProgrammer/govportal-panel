@@ -19,10 +19,10 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
 
   const initialValues: PaymentDataApi = {
     amount: 0,
-    payment_Date: "",
+    payment_date: "",
     request_id: 0,
     status: "",
-    transaction_id: 0,
+    transaction_id: "",
   };
   return (
     <AddEditProvider
@@ -55,7 +55,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
               },
               {
                 type: "input",
-                name: "payment_Date",
+                name: "payment_date",
                 props: {
                   input: {
                     placeholder: "last Name",
@@ -106,7 +106,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
         initialValues,
         onSubmit: async ({
           amount,
-          payment_Date,
+          payment_date,
           request_id,
           status,
           transaction_id,
@@ -115,7 +115,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
             handler: async () => {
               const finalValues = {
                 amount: amount || "",
-                payment_Date: payment_Date || "",
+                payment_date: payment_date || "",
                 request_id: request_id || "",
                 status: status || "",
                 transaction_id: transaction_id || "",

@@ -14,7 +14,7 @@ interface IFileUploader {
   customLabel?: string;
   defaultFile?: string[];
   downloadable?: boolean;
-  type?: TUploaderFileType;
+  type?: TFileUploaderType;
   errorMessage?: IErrorMessage;
   filesState?: (value: string[]) => void;
   thumbnailsState?: (value: string[]) => void;

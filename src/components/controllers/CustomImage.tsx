@@ -26,6 +26,7 @@ interface ICustomImageBox extends BoxProps {
   width?: string;
   height?: string;
   isAvatar?: boolean;
+  hasBorder?: boolean;
   withOutPreview?: boolean;
   onClick?: (e: TAny) => void;
   variant?: "circular" | "rounded" | undefined;

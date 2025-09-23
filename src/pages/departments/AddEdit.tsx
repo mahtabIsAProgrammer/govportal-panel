@@ -27,10 +27,10 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
   const {
     mutateAsync: departmentUpdate,
     isLoading: isLoadingDepartmentUpdate,
-  } = useUpdateDepartment(id ?? "");
+  } = useUpdateDepartment(id ? +id : 0);
 
   const { data: departmentGet, isLoading: isLoadingPage } =
-    useGetDepartmentById(id ?? "");
+    useGetDepartmentById(id ? +id : 0);
   const { description, name } =
     (departmentGet as { data: DepartmentDataApi } | undefined)?.data ?? {};
 

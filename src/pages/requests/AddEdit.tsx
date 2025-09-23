@@ -19,7 +19,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
 
   const initialValues: RequestDataApi = {
     reviewed_by: "",
-    status: "",
+    status: null,
     citizen_id: "",
     service_id: 0,
   };

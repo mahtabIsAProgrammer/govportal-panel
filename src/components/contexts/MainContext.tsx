@@ -21,6 +21,7 @@ import type { RouteObject } from "react-router-dom";
 import { dashboardRoutes } from "../setting/DashboardRoutes";
 import { MainContext } from "../../helpers/others/mainContext";
 import { useGetProfileInfo } from "../../services/hooks/ProfileInfo";
+import { citizenRoutes } from "../setting/CitizenRoutes";
 
 export const MainContextProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -68,6 +69,7 @@ export const MainContextProvider: FC<{ children: ReactNode }> = ({
   >["value"]["routes"] = useMemo(
     () => ({
       dashboardRoutes: dashboardRoutes,
+      citizenRoutes: citizenRoutes,
     }),
     []
   );

@@ -56,7 +56,8 @@ const routes = [
   { name: "departments", url: "/dashboard/departments", icon: productICON },
   { name: "services", url: "/dashboard/services", icon: commentICON },
   { name: "requests", url: "/dashboard/requests", icon: blogICON },
-  { name: "documents", url: "/dashboard/documents", icon: categoryICON },
+  // { name: "documents", url: "/dashboard/documents", icon: categoryICON },
+  { name: "payments", url: "/dashboard/payments", icon: categoryICON },
   {
     name: "notifications",
     url: "/dashboard/notifications",

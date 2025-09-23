@@ -10,9 +10,9 @@ import {
   SPACE_2XL,
 } from "../constants/spaces";
 import {
+  COLOR_WHITE,
   COLOR_BORDER,
   COLOR_SECONDARY_TEXT,
-  COLOR_WHITE,
 } from "../constants/colors";
 
 export const pageProviderSX: SxProps<Theme> = {
@@ -196,5 +196,26 @@ export const viewUserSX: SxProps<Theme> = {
         textTransform: "capitalize",
       },
     },
+  },
+};
+
+export const navigateListStepsButtonsSX: SxProps<Theme> = {
+  p: SPACE_MD,
+  mt: SPACE_LG,
+  gap: SPACE_SM,
+  zIndex: "1001",
+  bottom: "-40px",
+  display: "flex",
+  position: "sticky",
+  flexDirection: "row",
+  background: COLOR_WHITE,
+  justifyContent: "flex-end",
+  borderRadius: "14px",
+  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+
+  "& .button": {
+    minWidth: "170px",
+    py: SPACE_SM,
+    px: "20px",
   },
 };

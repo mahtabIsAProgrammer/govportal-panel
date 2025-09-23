@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Box } from "@mui/material";
@@ -37,7 +37,8 @@ export const Login: FC = () => {
         localStorage.setItem("user", JSON.stringify(user));
 
         successAlert({ title: "Login was Successful" });
-        navigate("/");
+        if (user?.role === "citizen") navigate("/citizen");
+        else navigate("/");
       } catch (err) {
         errorAlert({ title: "Login failed. Check credentials." });
         console.error("Login error:", err);

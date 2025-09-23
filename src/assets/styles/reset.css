@@ -89,7 +89,7 @@ video {
 
 html,
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
   max-height: 100vh;
 }
 

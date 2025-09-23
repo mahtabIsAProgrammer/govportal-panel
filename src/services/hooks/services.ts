@@ -12,10 +12,20 @@ import {
 export const useServiceData = (
   pageNumber?: number,
   pageSize?: number,
-  keyword?: number
+  keyword?: number,
+  extraFilter?: {
+    department_id?: number;
+  }
 ) =>
-  useQuery(["service-data", pageNumber, pageSize, keyword], () =>
-    getServiceData({ pageNumber, pageSize, keyword })
+  useQuery(
+    ["service-data", pageNumber, pageSize, keyword, extraFilter?.department_id],
+    () =>
+      getServiceData({
+        pageNumber,
+        pageSize,
+        keyword,
+        department_id: extraFilter?.department_id,
+      })
   );
 
 // Get service by id

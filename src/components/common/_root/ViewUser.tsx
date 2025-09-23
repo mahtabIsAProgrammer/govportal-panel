@@ -13,6 +13,7 @@ import {
 import { HeaderPage } from "../Header";
 import { viewUserSX } from "../../../helpers/styles/advances";
 import { emptyValueString } from "../../other/EmptyComponents";
+import { urlImageHandler } from "../../../helpers/utils/images";
 import type { UserDataApi } from "../../../services/configs/apiEndPoint";
 import { COLOR_SECONDARY_TEXT } from "../../../helpers/constants/colors";
 import { CustomImageBox, CustomIcon } from "../../controllers/CustomImage";
@@ -48,7 +49,7 @@ const ViewUser: FC<IViewUser> = ({
         <Grid className="profile-box">
           <Box className="image-wrapper">
             <CustomImageBox
-              src={data?.profile_image ?? ""}
+              src={urlImageHandler(data?.image) ?? ""}
               width="380px"
               height="380px"
             />

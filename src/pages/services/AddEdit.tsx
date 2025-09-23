@@ -30,10 +30,10 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     useCreateService();
 
   const { mutateAsync: serviceUpdate, isLoading: isLoadingServiceUpdate } =
-    useUpdateService(id ?? "");
+    useUpdateService(id ? +id : 0);
 
   const { data: serviceGet, isLoading: isLoadingPage } = useGetServiceById(
-    id ?? ""
+    id ? +id : 0
   );
   const { department_id, description, fee, form_schema, name } =
     (serviceGet as { data: ServiceDataApi } | undefined)?.data ?? {};
@@ -122,9 +122,11 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
               {
                 type: "input",
                 name: "form_schema",
+                isFullWidth: true,
                 props: {
                   input: {
                     required: true,
+                    isTextarea: true,
                     placeholder: "Form",
                     customLabel: "Form",
                   },

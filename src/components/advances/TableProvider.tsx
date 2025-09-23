@@ -82,6 +82,7 @@ export const TableProvider = memo<TTableProvider>(
           : { ...baseData }),
       [baseData]
     );
+
     const filterItems: IFilterItem<TPropsInputTypesObject>[] = useMemo(
       () => [
         ...(extraFilterItemList ?? []),

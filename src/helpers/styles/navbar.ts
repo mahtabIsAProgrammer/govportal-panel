@@ -6,8 +6,10 @@ import {
   COLOR_PRIMARY_TEXT,
   COLOR_SECONDARY_TEXT,
   COLOR_DARK_BACKGROUND,
+  COLOR_PRIMARY,
+  COLOR_SECONDRY,
 } from "../constants/colors";
-import { NAVBAR_HEIGHT_SIZE } from "../constants/statics";
+import { MAX_WIDTH_CITIZEN, NAVBAR_HEIGHT_SIZE } from "../constants/statics";
 import { FONT_CAPTION, FONT_SMALL_TEXT } from "../constants/fonts";
 import { SPACE_MD, SPACE_SM, SPACE_XS } from "../constants/spaces";
 
@@ -114,5 +116,114 @@ export const userInfoSX: SxProps<Theme> = {
     fontWeight: "500",
     marginY: SPACE_XS,
     fontSize: FONT_CAPTION,
+  },
+};
+
+export const navbarCitizenX = (
+  openCategoryPopper?: boolean
+): SxProps<Theme> => ({
+  mx: "auto",
+  px: SPACE_MD,
+  py: "12px",
+  top: "40px",
+  zIndex: 10000,
+  display: "flex",
+  position: "fixed",
+  alignItems: "center",
+  borderRadius: "12px",
+  animation: "fadeIn 1s",
+  width: MAX_WIDTH_CITIZEN,
+  backgroundColor: COLOR_WHITE,
+  justifyContent: "space-between",
+  borderBottomRightRadius: openCategoryPopper ? "0" : undefined,
+  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+  "& .logo-wrapper": {
+    "& .logo": {
+      width: "120px",
+      height: "30px",
+    },
+  },
+  "& .nav-list-wrapper": {
+    gap: "40px",
+    display: { xs: "none", md: "flex" },
+    "& .navbar-value-name": {
+      zIndex: "20",
+      cursor: "pointer",
+      position: "relative",
+      fontSize: FONT_SMALL_TEXT,
+      fontWeight: "600",
+      "&.active": {
+        "&:before": {
+          transform: " scaleX(1)",
+          transformOrigin: "bottom left",
+        },
+      },
+      "&:hover ": {
+        "&:before": {
+          transform: " scaleX(1)",
+          transformOrigin: "bottom left",
+        },
+      },
+      "&:before": {
+        content: "''",
+        width: "100%",
+        height: "2px",
+        display: "block",
+        position: "absolute",
+        right: 0,
+        bottom: "-2px",
+        zIndex: "-1",
+        transform: " scaleX(0)",
+        background: COLOR_SECONDRY,
+        transition: "transform .3s ease",
+        transformOrigin: "bottom right",
+      },
+    },
+  },
+  "& .actions-wrapper": {
+    gap: { xs: "14px", md: SPACE_SM },
+    display: "flex",
+    position: "relative",
+    alignItems: "center",
+    "& .icon-navbar": {
+      zIndex: "33",
+      cursor: "pointer",
+      position: "relative",
+      transition: "transform 0.4s",
+      "&:hover": {
+        transform: "scale(1.2)",
+      },
+      "& span": {
+        top: "-4px",
+        right: "-4px",
+        width: "14px",
+        height: "14px",
+        display: "flex",
+        borderRadius: "50%",
+        position: "absolute",
+        alignItems: "center",
+        color: COLOR_SECONDRY,
+        background: COLOR_WHITE,
+        justifyContent: "center",
+        fontSize: FONT_CAPTION,
+      },
+    },
+  },
+  "& .mobile-menu-icon": {
+    display: { xs: "block", md: "none" }, // 👈 Show only on small screens
+    cursor: "pointer",
+  },
+});
+
+export const drawerSX: SxProps<Theme> = {
+  width: 250,
+  "& .MuiDrawer-paper": {
+    width: 250,
+    backgroundColor: COLOR_PRIMARY,
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    zIndex: 33,
   },
 };

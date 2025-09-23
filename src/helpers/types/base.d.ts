@@ -41,3 +41,4 @@ interface IFileProps {
 interface IMutateAsyncResponseGuid {
   data: { data: string };
 }
+type TStateActionFunction<T> = (value: T | ((prev: T) => T)) => void;

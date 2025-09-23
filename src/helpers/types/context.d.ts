@@ -8,7 +8,7 @@ interface IMainContext<T = unknowm, TRouteObject = TAnyObjects> {
   changeLanguage: TChangeLanguage;
   changeTheme: (theme: TTheme) => void;
   changeSidebarSize: (sidebarSize: TSidebarSize) => void;
-  routes: { dashboardRoutes: TRouteObject[] };
+  routes: { dashboardRoutes: TRouteObject[]; citizenRoutes: TRouteObject[] };
   isLoadingUploader: boolean;
   changeLoadingUploader: (value: boolean) => void;
   isLoadingProfileInformation: boolean;

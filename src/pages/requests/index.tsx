@@ -1,17 +1,97 @@
+import { find, map } from "lodash";
 import { Grid } from "@mui/material";
-import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCallback, useMemo, type FC } from "react";
 
+import {
+  COLOR_RED,
+  COLOR_GREEN,
+  COLOR_WARNING,
+  COLOR_MUTED_TEXT,
+} from "../../helpers/constants/colors";
+import type {
+  UserDataApi,
+  RequestDataApi,
+  ServiceDataApi,
+} from "../../services/configs/apiEndPoint";
+import { useGetUserById } from "../../services/hooks/users";
+import { StatusBox } from "../../components/common/StatusBox";
 import { IconsTable } from "../../components/common/IconTable";
+import { eyeIcon } from "../../components/other/FunctionalSVG";
 import { useRequestData } from "../../services/hooks/requests";
-import { tryCatchHandler } from "../../helpers/utils/handlers";
+import { useGetServiceById } from "../../services/hooks/services";
 import { PageProvider } from "../../components/advances/PageProvider";
-import type { RequestDataApi } from "../../services/configs/apiEndPoint";
-import { editICON, trashICON } from "../../components/other/FunctionalSVG";
+import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
-import { CustomDialogMessage } from "../../components/common/CustomDialogMessages";
 
 const List: FC = () => {
+  const { data: requestData } = useRequestData();
+  const requestSearchData = useMemo(
+    () => (requestData as { data: RequestDataApi[] })?.data ?? [],
+    [requestData]
+  );
+
+  const headerCells = useCallback(
+    (): IHeaderCell<RequestDataApi>[] => [
+      {
+        id: "citizen_id",
+        label: "Citizen",
+        isCenter: true,
+        RenderRow: ({ value }) => {
+          const { data: departmentById } = useGetUserById(String(value));
+          const { first_name, last_name } =
+            (departmentById as { data: UserDataApi } | undefined)?.data ?? {};
+          return <>{`${first_name} ${last_name}`}</>;
+        },
+      },
+      {
+        id: "service_id",
+        label: "Service",
+        isCenter: true,
+        RenderRow: ({ value }) => {
+          const { data: departmentById } = useGetServiceById(+value);
+          const { name } =
+            (departmentById as { data: ServiceDataApi } | undefined)?.data ??
+            {};
+          return <>{name}</>;
+        },
+      },
+      {
+        id: "status",
+        label: "Status",
+        isCenter: true,
+        RenderRow: ({ value }) => {
+          const status = find(
+            REQUEST_STATUS_TYPES_DATA,
+            ({ id }) => id == +value
+          )?.name;
+          return (
+            <StatusBox color={color[+value + 1]} text={status} size="large" />
+          );
+        },
+      },
+      { id: "reviewed_by", label: "Reviewed By", isCenter: true },
+      {
+        id: "id",
+        label: "actions",
+        RenderRow: ({ value }) => {
+          const navigate = useNavigate();
+          return (
+            <Grid sx={{ display: "flex" }}>
+              <IconsTable
+                title="view details"
+                icon={eyeIcon()}
+                onClick={() => navigate(`view/${value}`)}
+              />
+            </Grid>
+          );
+        },
+        isCenter: true,
+      },
+    ],
+    []
+  );
+
   return (
     <PageProvider
       breadcrumbs={[
@@ -22,74 +102,42 @@ const List: FC = () => {
         title: "Requests",
         buttonInsert: "Add Request",
       }}
-      buttonLink="add"
-      tableData={{
-        useListRows: useRequestData,
-        tableOptions: {
-          hasIndex: true,
-          headerCells: userHeadCells,
+      withoutInsert
+      tabData={[
+        {
+          color: COLOR_MUTED_TEXT,
+          label: "all",
+          tabNumber: requestSearchData?.length ?? 0,
+          component: {
+            tableOptions: {
+              hasIndex: true,
+              headerCells: headerCells(),
+              defaultExtraFilter: { status: undefined },
+            },
+            useListRows: useRequestData,
+          },
         },
-      }}
+        ...map(REQUEST_STATUS_TYPES_DATA, ({ id, name }) => ({
+          color: color[id + 1],
+          label: name,
+          tabNumber: requestSearchData
+            ? requestSearchData?.filter(({ status }) => status == id)?.length ||
+              0
+            : 0,
+          component: {
+            tableOptions: {
+              headerCells: headerCells(),
+              defaultExtraFilter: { status: id },
+              hasIndex: true,
+            },
+            useListRows: useRequestData,
+          },
+        })),
+      ]}
     />
   );
 };
 
 export default List;
 
-const userHeadCells: IHeaderCell<RequestDataApi>[] = [
-  {
-    id: "citizen_id",
-    label: "Citizen",
-    isCenter: true,
-  },
-  { id: "reviewed_by", label: "Reviewed By", isCenter: true },
-  { id: "service_id", label: "Service", isCenter: true },
-  {
-    id: "id",
-    label: "actions",
-    RenderRow: ({ value }) => {
-      const [open, setOpen] = useState(false);
-      // const { mutateAsync: companyDelete, isLoading } = useCompanyDelete();
-      const navigate = useNavigate();
-      return (
-        <>
-          <>
-            <Grid sx={{ display: "flex" }}>
-              <IconsTable
-                title="edit"
-                icon={editICON()}
-                onClick={() => navigate(`edit/${value}`)}
-              />
-              <IconsTable
-                title="delete"
-                icon={trashICON()}
-                onClick={() => setOpen(true)}
-              />
-            </Grid>
-          </>
-          {
-            <CustomDialogMessage
-              type="delete"
-              open={open}
-              onClose={() => setOpen(false)}
-              loading={false}
-              onSubmit={async () =>
-                tryCatchHandler({
-                  handler: async () => {
-                    // const data = await companyDelete(+value);
-
-                    return setOpen(false);
-                    // return data;
-                  },
-
-                  successMessage: "successfully_deleted",
-                })
-              }
-            />
-          }
-        </>
-      );
-    },
-    isCenter: true,
-  },
-];
+const color = [COLOR_MUTED_TEXT, COLOR_WARNING, COLOR_GREEN, COLOR_RED];

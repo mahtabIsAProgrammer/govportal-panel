@@ -130,8 +130,8 @@ export const UploadFileNormal = async (
     );
 
     if (res.status !== 200) throw `Status : ${res.status}`;
-
-    url = res.data.data;
+    const fileData = res.data.data[0]; // take first object
+    url = fileData?.url?.replace(/\\/g, "/") ?? null;
     if (showSuccessMessege) successAlert({ title: "Uploaded" });
   } catch (error) {
     console.info("Catch Error", error);

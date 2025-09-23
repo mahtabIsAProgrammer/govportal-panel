@@ -43,7 +43,7 @@ export const CustomPopper: FC<ICustomPopper> = ({
 };
 
 const popperSX: SxProps<Theme> = {
-  zIndex: "400",
+  zIndex: 40000,
   borderRadius: "12px",
   alignItems: "center",
   flexDirection: "column",
