@@ -233,3 +233,64 @@ export const updateService = (id: number, data: ServiceDataApi) =>
 export const deleteService = (id: number) =>
   apiClient.delete(`/services/${id}`);
 // Other Crud
+
+// charts:
+export const getRequestsByStatusChart = async () => {
+  const res = await apiClient.get("/charts/requests/status");
+  return res.data;
+};
+
+export const getRequestsByServiceChart = async () => {
+  const res = await apiClient.get("/charts/requests/service");
+  return res.data;
+};
+
+export const getRequestsByMonthChart = async () => {
+  const res = await apiClient.get("/charts/requests/month");
+  return res.data;
+};
+
+export const getRequestsByOfficerChart = async () => {
+  const res = await apiClient.get("/charts/requests/officer");
+  return res.data;
+};
+
+export const getApprovalRejectionRatesChart = async () => {
+  const res = await apiClient.get("/charts/requests/approval-rejection");
+  return res.data;
+};
+
+export const getPaymentsByMonthChart = async () => {
+  const res = await apiClient.get("/charts/payments/month");
+  return res.data;
+};
+
+export const getPaymentsByServiceChart = async () => {
+  const res = await apiClient.get("/charts/payments/service");
+  return res.data;
+};
+
+export const getTotalCitizensChart = async () => {
+  const res = await apiClient.get("/charts/citizens/total");
+  return res.data;
+};
+
+export const getTotalOfficersChart = async () => {
+  const res = await apiClient.get("/charts/officers/total");
+  return res.data;
+};
+
+export const getTotalDepartmentHeadChart = async () => {
+  const res = await apiClient.get("/charts/dept-head/total");
+  return res.data;
+};
+
+export const getTotalUsersChart = async () => {
+  const res = await apiClient.get("/charts/all/total");
+  return res.data;
+};
+
+export const getTotalAdminsChart = async () => {
+  const res = await apiClient.get("/charts/admin/total");
+  return res.data;
+};
