@@ -21,6 +21,7 @@ import {
 } from "../../helpers/others/routeControl";
 import { NotFound } from "../../pages/_root/NotFound";
 import { Dashboard } from "../../pages/_root/Dashboard";
+import { ChangePassword } from "../../pages/_root/ChangePassword";
 
 export const dashboardRoutes: RouteObject[] = [
   {
@@ -92,6 +93,7 @@ export const dashboardRoutes: RouteObject[] = [
         children: [
           { index: true, element: <MyProfileList /> },
           { path: "edit/:id", element: <MyProfileAddEdit /> },
+          { path: "change-password", element: <ChangePassword /> },
         ],
       },
     ],

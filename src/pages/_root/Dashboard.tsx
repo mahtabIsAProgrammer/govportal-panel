@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { Grid } from "@mui/material";
 import { map, shuffle } from "lodash";
 
@@ -19,11 +19,16 @@ import {
   useGetRequestsByServiceChart,
   useGetTotalDepartmentHeadChart,
 } from "../../services/hooks/charts";
-import { COLOR_WHITE } from "../../helpers/constants/colors";
-import { SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
 import { HeaderPage } from "../../components/common/Header";
+import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { MainContext } from "../../helpers/others/mainContext";
+import { SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
 
 export const Dashboard = () => {
+  const {
+    globalProfileInformation: { role },
+  } = useContext(MainContext);
+
   const { data: totalUsers } = useGetTotalUsersChart();
   const { data: totalAdmins } = useGetTotalAdminsChart();
   const { data: totalCitizen } = useGetTotalCitizensChart();
@@ -52,27 +57,39 @@ export const Dashboard = () => {
     <>
       <HeaderPage title={"Dashboard"} breadcrumbData={[]} />
       <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
-          <UserBoxChart
-            colors={["#4e9af3 ", "#8a6df7"]}
-            title="total users"
-            value={totalUsers?.total_users}
-          />
-        </Grid>
-        <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
-          <UserBoxChart
-            colors={["#3b82f6 ", "#22c55e"]}
-            title="total Admins"
-            value={totalAdmins?.total_admins}
-          />
-        </Grid>
-        <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
-          <UserBoxChart
-            colors={["#f59e0b", "#f472b6"]}
-            title="total citizens"
-            value={totalCitizen?.total_citizens}
-          />
-        </Grid>
+        {role == "admin" ? (
+          <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
+            <UserBoxChart
+              colors={["#4e9af3 ", "#8a6df7"]}
+              title="total users"
+              value={totalUsers?.total_users}
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
+        {role == "admin" ? (
+          <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
+            <UserBoxChart
+              colors={["#3b82f6 ", "#22c55e"]}
+              title="total Admins"
+              value={totalAdmins?.total_admins}
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
+        {role == "officer" ? (
+          <></>
+        ) : (
+          <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
+            <UserBoxChart
+              colors={["#8b5cf6", "#06b6d4"]}
+              title="total department Head"
+              value={totalDeptHead?.total_dept_head}
+            />
+          </Grid>
+        )}
         <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
           <UserBoxChart
             colors={["#16a34a", "#1e3a8a"]}
@@ -82,9 +99,9 @@ export const Dashboard = () => {
         </Grid>
         <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
           <UserBoxChart
-            colors={["#8b5cf6", "#06b6d4"]}
-            title="total department Head"
-            value={totalDeptHead?.total_dept_head}
+            colors={["#f59e0b", "#f472b6"]}
+            title="total citizens"
+            value={totalCitizen?.total_citizens}
           />
         </Grid>
       </Grid>

@@ -104,6 +104,8 @@ export const updateUser = (id: string, data: UserDataApi) =>
 export const getProfileInfo = async () =>
   await apiClient.get("/profile-info").then((res) => res.data);
 
+export const changePassword = async ({ oldPassword, newPassword }: TAny) =>
+  await apiClient.put("/profile-info/password", { oldPassword, newPassword });
 // Other Crud
 
 export const getDepartmentData = async (params: TAny) =>

@@ -16,10 +16,7 @@ import { memo, type FC } from "react";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
-import {
-  FONT_SMALL_TEXT,
-  FONT_HEADING_SMALL,
-} from "../../helpers/constants/fonts";
+import { FONT_SMALL_TEXT } from "../../helpers/constants/fonts";
 import {
   COLOR_WHITE,
   COLOR_PRIMARY_TEXT,
@@ -167,7 +164,7 @@ const userBoxChartSX = (colors?: string[]): SxProps<Theme> => ({
     display: "flex",
     justifyContent: "end",
     "& p": {
-      fontSize: FONT_HEADING_SMALL,
+      fontSize: "36px",
       fontWeight: "900",
       color: COLOR_WHITE,
       WebkitTextStroke: `1px ${COLOR_PRIMARY_TEXT}`,

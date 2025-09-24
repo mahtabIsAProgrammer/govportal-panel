@@ -136,7 +136,7 @@ export const TableProvider = memo<TTableProvider>(
               totalPageCount={data?.totalPages}
               setting={{
                 hasIndex,
-                totalCount: data?.count,
+                totalCount: data?.totalCount,
                 RenderRowIndex,
               }}
             />

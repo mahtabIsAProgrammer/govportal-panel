@@ -27,3 +27,16 @@ export const UserValidation = (isEdit: boolean | undefined) => {
       : {}),
   });
 };
+
+export const ChangePasswordValidation = () => {
+  return object().shape({
+    oldPassword: string()
+      .trim()
+      .min(6, "Input value is short")
+      .required("The input is required"),
+    newPassword: string()
+      .trim()
+      .min(6, "Input value is short")
+      .required("The input is required"),
+  });
+};

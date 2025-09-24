@@ -271,7 +271,10 @@ export const Navbar = () => {
               <Typography>Profile</Typography>
             </Box>
 
-            <Box className="item">
+            <Box
+              className="item"
+              onClick={() => navigate("/dashboard/me/change-password")}
+            >
               <CustomIcon src={changePasswordICON()} />
               <Typography>Change Password</Typography>
             </Box>

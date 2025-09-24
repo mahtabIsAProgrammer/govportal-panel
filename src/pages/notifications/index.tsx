@@ -108,7 +108,7 @@ const List: FC = () => {
           {
             color: COLOR_MUTED_TEXT,
             label: "all",
-            tabNumber: notificationSearchData?.length ?? 0,
+            tabNumber: notificationData?.totalCount ?? 0,
             component: {
               tableOptions: {
                 hasIndex: true,

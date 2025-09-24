@@ -1,6 +1,14 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
-import { getProfileInfo } from "../configs/apiEndPoint";
+import { changePassword, getProfileInfo } from "../configs/apiEndPoint";
 
 export const useGetProfileInfo = () =>
   useQuery(["profile-info"], () => getProfileInfo());
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => undefined,
+    onError: (err) => console.log("Changong password failed" + err),
+  });
+};
