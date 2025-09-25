@@ -1,9 +1,12 @@
-import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
-import type { ServiceDataApi } from "../../../services/configs/apiEndPoint";
 import type { FC } from "react";
-import { SPACE_MD, SPACE_SM } from "../../../helpers/constants/spaces";
+import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
+
+import { arrowRightICON } from "../../other/FunctionalSVG";
+import { SPACE_SM } from "../../../helpers/constants/spaces";
+import { CustomButton } from "../../controllers/CustomButton";
+import { FONT_HEADING_SMALL } from "../../../helpers/constants/fonts";
+import type { ServiceDataApi } from "../../../services/configs/apiEndPoint";
 import { COLOR_PRIMARY, COLOR_WHITE } from "../../../helpers/constants/colors";
-import { FONT_BODY } from "../../../helpers/constants/fonts";
 
 interface IServiceCard {
   data: ServiceDataApi;
@@ -20,13 +23,18 @@ export const ServiceCard: FC<IServiceCard> = ({
       sx={serviceCardSX}
       className="service-card"
     >
+      <Typography className="fee">{fee} $</Typography>
       <Box className="title-wrapper">
         <Typography className="name">{name}</Typography>
         <Typography className="description">{description}</Typography>
       </Box>
-      <Typography className="fee">
-        <Box component="span">fee:</Box> {fee}
-      </Typography>
+      <Grid className="button-wrapper">
+        <CustomButton
+          variant="text"
+          text={"Read More"}
+          endIcon={arrowRightICON(COLOR_PRIMARY)}
+        />
+      </Grid>
     </Grid>
   );
 };
@@ -37,46 +45,45 @@ const serviceCardSX: SxProps<Theme> = {
     p: "12px",
     borderRadius: "12px",
     minHeight: "200px",
-    height: "100%",
+    // height: "100%",
     minWidth: "200px",
-    backgroundColor: COLOR_PRIMARY,
-    color: COLOR_WHITE,
-
+    backgroundColor: COLOR_WHITE,
     display: "flex",
+
     flexDirection: "column",
     justifyContent: "space-between",
     boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
-    border: `1px solid ${COLOR_PRIMARY}`,
+    border: `1px solid ${COLOR_WHITE}`,
     cursor: "pointer",
     "&:hover": {
       transition: "0.3s",
-      backgroundColor: COLOR_WHITE,
-      color: COLOR_PRIMARY,
-      "& .title-wrapper .description": {
-        color: COLOR_PRIMARY,
-      },
+      border: `1px solid ${COLOR_PRIMARY}`,
     },
 
     "& .title-wrapper": {
       display: "flex",
-      gap: SPACE_MD,
+      gap: SPACE_SM,
       flexDirection: "column",
       "& .name": {
-        fontSize: FONT_BODY,
         fontWeight: "700",
+        fontSize: FONT_HEADING_SMALL,
+        color: "#4A4A4A",
       },
       "& .description": {
-        fontSize: "16px",
+        fontSize: "14px",
         fontWeight: "500",
-        color: "#f8f8f8a7",
+        color: "#737373",
       },
     },
     "& .fee": {
+      color: COLOR_PRIMARY,
       fontWeight: "700",
-      "& span": {
-        fontWeight: "500",
-        mr: SPACE_SM,
-      },
+    },
+    "& .button-wrapper": {
+      color: "#4A4A4A",
+      fontWeight: "700",
+      display: "flex",
+      justifyContent: "end",
     },
   },
 };
