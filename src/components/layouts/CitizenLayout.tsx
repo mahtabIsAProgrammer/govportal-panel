@@ -2,9 +2,9 @@ import { Grid } from "@mui/material";
 import { useRoutes } from "react-router-dom";
 import { Suspense, useContext } from "react";
 
-import { Loading } from "../common/Loading";
-import { MainContext } from "../../helpers/others/mainContext";
+import { CitizenLoading } from "../common/Loading";
 import { citizenLayoutSX } from "../../helpers/styles/layout";
+import { MainContext } from "../../helpers/others/mainContext";
 import { CitizenNavbar } from "../common/citizen/CitizenNavbar";
 
 export const CitizenLayout = () => {
@@ -19,7 +19,7 @@ export const CitizenLayout = () => {
       <Grid className="content">
         <CitizenNavbar />
         <Grid className="container">
-          <Suspense fallback={<Loading />}>{content}</Suspense>
+          <Suspense fallback={<CitizenLoading />}>{content}</Suspense>
         </Grid>
       </Grid>
     </Grid>

@@ -13,6 +13,32 @@ import {
   SPACE_XL,
   SPACE_XS,
 } from "../constants/spaces";
+import { FONT_TITLE, FONT_WEIGHT_REGULAR } from "../constants/fonts";
+
+export const headerPageSX: SxProps<Theme> = {
+  p: SPACE_MD,
+  display: "flex",
+  alignItems: "center",
+  marginBottom: "20px",
+  borderRadius: "12px",
+  backgroundColor: COLOR_WHITE,
+  justifyContent: "space-between",
+  "& .title-wrapper": {
+    display: "flex",
+    flexDirection: "column",
+    "& .title": {
+      fontSize: FONT_TITLE,
+      fontWeight: FONT_WEIGHT_REGULAR,
+    },
+  },
+  "& .breadcrumb": {
+    marginBottom: "50px !important",
+  },
+  "& .feature-box": {
+    display: "flex",
+    gap: SPACE_SM,
+  },
+};
 
 export const seeAllNotifyButton = (scrollTop: boolean): SxProps<Theme> => ({
   pt: "20px",

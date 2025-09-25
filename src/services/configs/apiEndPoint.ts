@@ -19,6 +19,7 @@ export interface UserDataApi {
   role?: TAdminTypes;
   phone_number?: string;
   department_id?: number | null;
+  gender?: number | null;
   image?: string;
   created_at?: string;
   updated_at?: string;
@@ -84,6 +85,9 @@ export interface ServiceDataApi {
 
 export const getToken = async ({ identifier, password }: TAny) =>
   await apiClient.post("/auth/login", { identifier, password });
+
+export const registerCitizen = async (data: TAny) =>
+  await apiClient.post("/auth/register", data);
 
 export const identityVerify = async () =>
   await apiClient.get("/auth/verify").then((res) => res.data);
@@ -194,6 +198,7 @@ export const createRequestData = async (data: RequestDataDataApi) => {
 export const updateRequestStatus = async (id: number, status: number) => {
   await apiClient.patch(`/requests/${id}/status`, { status });
 };
+
 export const getRequestDateByRequestId = async (id: number) =>
   await apiClient.get(`request-data/${id}`);
 // Other Crud

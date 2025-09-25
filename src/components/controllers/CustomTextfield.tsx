@@ -20,9 +20,9 @@ import {
   eyeSlashIcon,
 } from "../other/FunctionalSVG";
 import {
-  COLOR_PRIMARY_TEXT,
   COLOR_BORDER,
   COLOR_PRIMARY,
+  COLOR_PRIMARY_TEXT,
 } from "../../helpers/constants/colors";
 import {
   FONT_SMALL_TEXT,
@@ -43,6 +43,10 @@ export type TCustomTextfield =
       isTextarea?: boolean;
       isPrice?: boolean;
       isAutocomplete?: boolean;
+      tooltip?: {
+        text: string;
+        placement?: "bottom" | "top" | "right" | "left";
+      };
     } & Omit<TextFieldProps, "variant"> & {};
 
 export const CustomTextfield = memo<TCustomTextfield>(
@@ -57,6 +61,7 @@ export const CustomTextfield = memo<TCustomTextfield>(
     icon,
     isTextarea,
     isAutocomplete,
+    tooltip,
     ...props
   }) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -69,7 +74,11 @@ export const CustomTextfield = memo<TCustomTextfield>(
       <Grid container className="textfield-wrapper" sx={textfieldSX(disabled)}>
         <Grid className="label-box" sx={{ display: "flex", gap: SPACE_SM }}>
           {customLabel ? (
-            <CustomLabel customLabel={customLabel} required={required} />
+            <CustomLabel
+              tooltip={tooltip}
+              customLabel={customLabel}
+              required={required}
+            />
           ) : undefined}
         </Grid>
         <TextField

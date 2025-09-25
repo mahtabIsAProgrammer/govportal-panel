@@ -6,13 +6,15 @@ import { Grid, Typography, Box } from "@mui/material";
 import { useGetToken } from "../../services/hooks/auth";
 import { loginSX } from "../../helpers/styles/pages/login";
 import { TOKEN_NAME } from "../../helpers/constants/statics";
+import { tryCatchHandler } from "../../helpers/utils/handlers";
 import { LoginValidation } from "../../helpers/validations/login";
-import { errorAlert, successAlert } from "../../helpers/utils/messages";
-import { CustomButton } from "../../components/controllers/CustomButton";
 import { CustomTextfield } from "../../components/controllers/CustomTextfield";
+import { CustomLoadingButton } from "../../components/controllers/CustomButton";
 
 export const Login: FC = () => {
   const navigate = useNavigate();
+
+  // SuperAdmin = 12345678
 
   const { mutateAsync: getToken, isLoading } = useGetToken();
 
@@ -22,32 +24,31 @@ export const Login: FC = () => {
     validateOnChange: false,
     validateOnBlur: false,
     validationSchema: LoginValidation(),
-    onSubmit: async (values) => {
-      try {
-        const res = await getToken(values);
+    onSubmit: (values) => {
+      tryCatchHandler({
+        handler: async () => {
+          const res = await getToken(values);
 
-        const token = res?.data?.token ?? "";
-        const user = res?.data?.user;
+          const token = res?.data?.token ?? "";
+          const user = res?.data?.user;
 
-        if (!token || !user) {
-          throw new Error("Invalid login response");
-        }
+          if (!token || !user) {
+            throw new Error("Invalid login response");
+          }
 
-        localStorage.setItem(TOKEN_NAME, token);
-        localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem(TOKEN_NAME, token);
+          localStorage.setItem("user", JSON.stringify(user));
 
-        successAlert({ title: "Login was Successful" });
-        if (user?.role === "citizen") navigate("/citizen");
-        else navigate("/");
-      } catch (err) {
-        errorAlert({ title: "Login failed. Check credentials." });
-        console.error("Login error:", err);
-      }
+          if (user?.role === "citizen") navigate("/citizen");
+          else navigate("/");
+        },
+        successMessage: "login succeed",
+      });
     },
   });
 
   return (
-    <Grid container sx={loginSX}>
+    <Grid container sx={loginSX(false)}>
       <Grid container size={{ xs: 12, md: 5.5 }} className="container">
         <Grid className="inputs-wrapper">
           <Grid className="title-wrapper">
@@ -92,8 +93,8 @@ export const Login: FC = () => {
               />
             </Grid>
             <Grid className="buttons-wrapper">
-              <CustomButton
-                disabled={isLoading}
+              <CustomLoadingButton
+                loading={isLoading}
                 type="submit"
                 className="button"
                 variant="contained"
@@ -102,6 +103,15 @@ export const Login: FC = () => {
               />
             </Grid>
           </Box>
+          <Grid className="no-acount-wrapper">
+            <Typography>No Acoount?</Typography>
+            <Typography
+              className="sign-up-btn"
+              onClick={() => navigate(`/register`)}
+            >
+              Sign up
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

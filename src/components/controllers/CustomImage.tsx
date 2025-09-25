@@ -1,4 +1,4 @@
-import { assign } from "lodash";
+import { assign, isString } from "lodash";
 import {
   memo,
   useRef,
@@ -15,7 +15,7 @@ import {
   type SxProps,
   type BoxProps,
 } from "@mui/material";
-import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { COLOR_PRIMARY, COLOR_WHITE } from "../../helpers/constants/colors";
 
 import emptyImage from "../../assets/images/empty-image.webp";
 import emptyImageUser from "../../assets/images/empty-image-user.webp";
@@ -45,7 +45,17 @@ interface ICustomIcon extends BoxProps {
 }
 
 export const CustomImageBox = memo<ICustomImageBox>(
-  ({ sx, src, variant, height, width, onClick, withOutPreview, isAvatar }) => {
+  ({
+    sx,
+    src,
+    variant,
+    height,
+    width,
+    onClick,
+    hasBorder,
+    withOutPreview,
+    isAvatar,
+  }) => {
     const ref = useRef(null);
 
     const handleImageLoad = useCallback(() => {
@@ -76,7 +86,7 @@ export const CustomImageBox = memo<ICustomImageBox>(
             if (!srcImage.includes("assets") && !withOutPreview)
               window.open(srcImage, "__blank");
           }}
-          sx={assign(customImageBoxSX(variant), sx || {})}
+          sx={assign(customImageBoxSX(variant, hasBorder), sx || {})}
         />
         <Box
           component="div"
@@ -139,7 +149,7 @@ export const CustomIcon = ({
           {badge?.count && badge?.count >= 10 ? +9 : badge?.count}
         </Box>
       ) : null}
-      {src}
+      {isString(src) ? <CustomImageBox src={src} /> : src}
     </Box>
   );
 };
@@ -149,9 +159,11 @@ export const CustomIconButton = ({
   width,
   height,
   className,
+  onClick,
 }: ICustomIcon) => {
   return (
     <IconButton
+      onClick={onClick as TAny}
       sx={{
         p: 0,
         display: "flex",
@@ -168,14 +180,16 @@ export const CustomIconButton = ({
 };
 
 const customImageBoxSX = (
-  variant: ICustomImageBox["variant"]
+  variant: ICustomImageBox["variant"],
+  hasBorder?: boolean
 ): SxProps<Theme> => ({
   borderRadius: "8px",
   "& .image-box,": {
     opacity: 1,
+    transition: "0.2s all ",
     width: "100% !important",
     height: "100% !important",
-    transition: "0.2s all ",
+    border: hasBorder ? `4px solid ${COLOR_PRIMARY}30` : "",
     borderRadius:
       variant == "circular" ? "50%" : variant == "rounded" ? "8px" : undefined,
   },

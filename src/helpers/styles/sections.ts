@@ -1,6 +1,7 @@
 import type { SxProps, Theme } from "@mui/material";
-import { MAX_WIDTH_CITIZEN } from "../constants/statics";
+
 import { SPACE_LG } from "../constants/spaces";
+import { MAX_WIDTH_CITIZEN } from "../constants/statics";
 
 export const homeSectionSX: SxProps<Theme> = {
   width: "100%",

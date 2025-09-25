@@ -2,15 +2,13 @@ import { memo } from "react";
 import { isEmpty } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 import type { JSX } from "@emotion/react/jsx-runtime";
-import { Box, Typography, type SxProps, type Theme } from "@mui/material";
 
 import { BreadCrumbs } from "./Breadcrumbs";
-import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { headerPageSX } from "../../helpers/styles/common";
 import { localNavigateHandler } from "../../helpers/utils/handlers";
-import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
 import { CustomButton, type TCustomButton } from "../controllers/CustomButton";
-import { FONT_TITLE, FONT_WEIGHT_REGULAR } from "../../helpers/constants/fonts";
 
 interface IHeaderPage {
   title: string;
@@ -83,28 +81,3 @@ export const HeaderPage = memo<IHeaderPage>(
     );
   }
 );
-
-const headerPageSX: SxProps<Theme> = {
-  p: SPACE_MD,
-  display: "flex",
-  alignItems: "center",
-  marginBottom: "20px",
-  borderRadius: "12px",
-  backgroundColor: COLOR_WHITE,
-  justifyContent: "space-between",
-  "& .title-wrapper": {
-    display: "flex",
-    flexDirection: "column",
-    "& .title": {
-      fontSize: FONT_TITLE,
-      fontWeight: FONT_WEIGHT_REGULAR,
-    },
-  },
-  "& .breadcrumb": {
-    marginBottom: "50px !important",
-  },
-  "& .feature-box": {
-    display: "flex",
-    gap: SPACE_SM,
-  },
-};

@@ -1,7 +1,7 @@
 import { entries } from "lodash";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
-import { useMemo, useState, type FC } from "react";
+import { useContext, useMemo, useState, type FC } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
 import {
@@ -35,11 +35,16 @@ import { InputsBox } from "../../components/advances/AddEditProvider";
 import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
 import { emptyValueString } from "../../components/other/EmptyComponents";
 import { useGetRequestDataByRequestId } from "../../services/hooks/requestData";
+import { MainContext } from "../../helpers/others/mainContext";
 
 const View = () => {
   const { id: currentRequestId } = useParams();
+  const {
+    globalProfileInformation: { id: currentUserId },
+  } = useContext(MainContext);
   const [insertToggleModal, setInsertToggleModal] = useState<boolean>(false);
 
+  console.log("🚀 ~ View ~ currentUserId:", currentUserId);
   const { data: requestData } = useGetRequestById(
     currentRequestId ? +currentRequestId : 0
   );

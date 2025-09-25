@@ -104,7 +104,7 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
       size == "small"
         ? { xs: "100%", md: "300px" }
         : size == "medium"
-        ? { xs: "100%", md: "500px" }
+        ? { xs: "100%", md: "400px" }
         : size == "large"
         ? { xs: "100%", md: "1200px" }
         : size == "fullScreen"
@@ -152,6 +152,8 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
     "& .MuiDialogActions-root": {
       justifyContent: "center",
       width: "100%",
+      p: 0,
+      mt: SPACE_LG,
       "& .dialog-action-container": {
         width: "100%",
       },
@@ -173,5 +175,6 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
   "& .icon-close-btn": {
     position: "absolute",
     top: 20,
+    left: 12,
   },
 });

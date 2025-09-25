@@ -1,38 +1,37 @@
-import { filter, isUndefined, map } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { filter, isUndefined, map } from "lodash";
 import { Box, Grid, Typography } from "@mui/material";
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 
+import {
+  NotificationPaper,
+  type ICommentsBox,
+  CommentBoxContainers,
+} from "./NotificationPopper";
 import {
   homeICON,
   notificationICON,
   profileUpdateICON,
   changePasswordICON,
 } from "../other/FunctionalSVG";
-import { CustomPopper } from "../controllers/CustomPopper";
-import { CustomButton } from "../controllers/CustomButton";
-import { emptyValueString } from "../other/EmptyComponents";
-import { COLOR_PRIMARY, COLOR_WARNING } from "../../helpers/constants/colors";
-import { MainContext } from "../../helpers/others/mainContext";
-import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
-import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
-
 import {
   useNotificationData,
   useUpdateNotificationIsReadData,
 } from "../../services/hooks/notifications";
-import { PAGE_SIZE } from "../../helpers/constants/statics";
-import type { NotificationDataApi } from "../../services/configs/apiEndPoint";
-import {
-  CommentBoxContainers,
-  NotificationPaper,
-  type ICommentsBox,
-} from "./NotificationPopper";
-import { DateTimeFormatBasicMOMENT } from "../../helpers/utils/dateTime";
 import { NoOptionComponent } from "./NoOptionComponent";
-import { tryCatchHandler } from "../../helpers/utils/handlers";
+import { CustomPopper } from "../controllers/CustomPopper";
+import { CustomButton } from "../controllers/CustomButton";
+import { emptyValueString } from "../other/EmptyComponents";
+import { PAGE_SIZE } from "../../helpers/constants/statics";
 import { checkFalsyValue } from "../../helpers/utils/values";
 import { urlImageHandler } from "../../helpers/utils/images";
+import { tryCatchHandler } from "../../helpers/utils/handlers";
+import { MainContext } from "../../helpers/others/mainContext";
+import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
+import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
+import { DateTimeFormatBasicMOMENT } from "../../helpers/utils/dateTime";
+import type { NotificationDataApi } from "../../services/configs/apiEndPoint";
+import { COLOR_PRIMARY, COLOR_WARNING } from "../../helpers/constants/colors";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
@@ -169,8 +168,8 @@ export const Navbar = () => {
         <CustomIcon
           className="notif-icon"
           src={notificationICON(COLOR_PRIMARY)}
-          width={35}
-          height={35}
+          width={32}
+          height={32}
           onClick={openNotifyPopperHandler}
           badge={{
             isExist: filteredNotificationData(true)?.length > 0 ? true : false,
@@ -203,9 +202,10 @@ export const Navbar = () => {
       />
       <Box ref={userRef}>
         <CustomImageBox
+          hasBorder
           isAvatar
-          width="45px"
-          height="45px"
+          width="42px"
+          height="42px"
           sx={{
             cursor: "pointer",
             "&:hover": { scale: "1.1", transition: "0.3s" },

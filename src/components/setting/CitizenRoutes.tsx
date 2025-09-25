@@ -5,6 +5,11 @@ import { NotFound } from "../../pages/_root/NotFound";
 import { DepartmentCitizenPage } from "../../pages/CitizenPages/DepartmentCitizenPage";
 import { RequestCitizenPage } from "../../pages/CitizenPages/RequestCitizenPage";
 import { CitizenPayment } from "../../pages/CitizenPages/PaymentResultPage";
+import { ChangePassword } from "../../pages/_root/ChangePassword";
+import {
+  MyProfileAddEdit,
+  MyProfileList,
+} from "../../helpers/others/routeControl";
 
 export const citizenRoutes: RouteObject[] = [
   {
@@ -28,6 +33,14 @@ export const citizenRoutes: RouteObject[] = [
       {
         path: "/payment/:id",
         element: <CitizenPayment />,
+      },
+      {
+        path: "/me",
+        children: [
+          { index: true, element: <MyProfileList isCitizen /> },
+          { path: "edit/:id", element: <MyProfileAddEdit isCitizen /> },
+          { path: "change-password", element: <ChangePassword isCitizen /> },
+        ],
       },
     ],
   },

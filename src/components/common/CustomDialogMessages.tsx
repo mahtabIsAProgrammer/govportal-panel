@@ -4,6 +4,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import { SPACE_MD } from "../../helpers/constants/spaces";
 import { FONT_BODY } from "../../helpers/constants/fonts";
 import { CustomDialog } from "../controllers/CustomDialog";
+import { COLOR_RED } from "../../helpers/constants/colors";
 import { CustomImageBox } from "../controllers/CustomImage";
 import { CustomButton, CustomLoadingButton } from "../controllers/CustomButton";
 
@@ -52,7 +53,6 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
     <CustomDialog
       size={size ?? "small"}
       open={open}
-      onClose={onClose}
       dialogTitle={{
         hasCloseIcon: true,
         closeIconHandler: onClose,
@@ -127,8 +127,9 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
             fullWidth
             text={cancelButton ? cancelButton : "cancel"}
             size="large"
-            variant="contained"
+            variant="outlined"
             onClick={onCancel ?? onClose}
+            customColor={COLOR_RED}
           />
           <CustomLoadingButton
             fullWidth
@@ -139,7 +140,7 @@ export const CustomDialogMessage: FC<ICustomDialogMessage> = ({
             color={type == "delete" ? "error" : "primary"}
             onClick={onSubmit}
             loading={loading}
-            variant="outlined"
+            variant="contained"
           />
         </Grid>
       }

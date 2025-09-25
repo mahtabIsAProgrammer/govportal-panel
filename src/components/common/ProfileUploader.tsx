@@ -357,6 +357,7 @@ export const ProfileUploader = ({
                 onClick={showCroppedImage}
                 text={"save"}
                 variant="contained"
+                customWidth="100%"
               />
             </>
           }

@@ -73,3 +73,17 @@ export const DateTimeFormatBasicMOMENT = (
   });
   return valueReturn;
 };
+
+export const calculateAgeAtDeath = (birthDate: string, deathDate?: string) => {
+  let deathAge = 0;
+  tryCatchHandler({
+    notShowMessage: { isErrorMessage: true, isSuccessMessage: true },
+    handler: () => {
+      deathAge = moment(deathDate ? deathDate : new Date()).diff(
+        moment(birthDate),
+        "years"
+      );
+    },
+  });
+  return deathAge;
+};

@@ -21,7 +21,7 @@ import {
   type ReactNode,
   type ChangeEvent,
 } from "react";
-import { map } from "lodash";
+import { filter, map } from "lodash";
 
 import {
   COLOR_WHITE,
@@ -56,6 +56,7 @@ export interface IHeaderCell<T = TAny> {
   price?: boolean;
   numeric?: boolean;
   isCenter?: boolean;
+  hidden?: boolean;
   renderHeader?: ReactNode;
   RenderRow?: FC<{
     value: string | number;
@@ -128,6 +129,7 @@ export const CustomTableContent = memo(() => {
     perPage,
     setPage,
     valueRows,
+    headerCells,
     setPerPage,
     totalPageCount,
     setting: { totalCount, hasIndex },
@@ -140,7 +142,11 @@ export const CustomTableContent = memo(() => {
     [setPage]
   );
 
-  const headCellsLength = useMemo(() => (hasIndex ? 1 : 0), [hasIndex]);
+  const headCellsLength = useMemo(
+    () =>
+      headerCells.filter(({ hidden }) => !hidden).length + (hasIndex ? 1 : 0),
+    [hasIndex, headerCells]
+  );
 
   return (
     <Box sx={customTableSX} className="custom-table">
@@ -261,15 +267,18 @@ const CustomTableHead: FC = () => {
               <Box className="header-box">row</Box>
             </TableCell>
           )}
-          {map(headerCells, ({ isCenter, width, label, renderHeader }, key) => (
-            <TableCell
-              className="table-head-cells"
-              key={key}
-              sx={tableHeadCellsSX(width, isCenter)}
-            >
-              <Box className="header-box">{renderHeader ?? label}</Box>
-            </TableCell>
-          ))}
+          {map(
+            filter(headerCells, ({ hidden }) => !hidden),
+            ({ isCenter, width, label, renderHeader }, key) => (
+              <TableCell
+                className="table-head-cells"
+                key={key}
+                sx={tableHeadCellsSX(width, isCenter)}
+              >
+                <Box className="header-box">{renderHeader ?? label}</Box>
+              </TableCell>
+            )
+          )}
         </>
       </TableRow>
     </TableHead>
@@ -313,9 +322,9 @@ const CustomTableBodyRow: FC<ICustomTableBodyRow> = ({ index, row }) => {
                     width: ROW_WIDTH,
                   },
                 ],
-                ...headerCells,
+                ...filter(headerCells, ({ hidden }) => !hidden),
               ]
-            : headerCells,
+            : filter(headerCells, ({ hidden }) => !hidden),
           (
             { id, numeric, price, abs, isCenter, RenderRow, width },
             colIndex

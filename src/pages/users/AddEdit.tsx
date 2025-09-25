@@ -1,4 +1,4 @@
-import { useMemo, type FC } from "react";
+import { useContext, useMemo, type FC } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -15,10 +15,12 @@ import type {
   DepartmentDataApi,
 } from "../../services/configs/apiEndPoint";
 import { optionCreator } from "../../helpers/utils/others";
-import { ROLE_TYPES_DATA } from "../../helpers/utils/types";
+import { checkFalsyValue } from "../../helpers/utils/values";
+import { MainContext } from "../../helpers/others/mainContext";
 import { UserValidation } from "../../helpers/validations/users";
 import { useDepartmentData } from "../../services/hooks/departments";
 import { AddEditProvider } from "../../components/advances/AddEditProvider";
+import { GENDER_TYPES_DATA, ROLE_TYPES_DATA } from "../../helpers/utils/types";
 
 interface IAddEdit {
   isEdit?: boolean;
@@ -26,6 +28,10 @@ interface IAddEdit {
 
 const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
   const { id } = useParams();
+
+  const {
+    globalProfileInformation: { role: currentRole },
+  } = useContext(MainContext);
   const { mutateAsync: createUser, isLoading: loadingCreate } = useCreateUser();
 
   const { mutateAsync: userUpdate, isLoading: isLoadingUserUpdate } =
@@ -43,6 +49,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     password,
     phone_number,
     image,
+    gender,
     role,
   } = (userGet as { data: UserDataApi } | undefined)?.data ?? {};
 
@@ -56,9 +63,17 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     national_id: national_id || "",
     phone_number: phone_number || "",
     image: image || "",
+    gender: gender || null,
     role: role || "",
     username: username || "",
   };
+
+  const filterRoleByRole =
+    currentRole === "department_head"
+      ? [ROLE_TYPES_DATA[1]]
+      : currentRole === "officer"
+      ? [ROLE_TYPES_DATA[3]]
+      : ROLE_TYPES_DATA;
 
   const { data: departmentData } = useDepartmentData();
   const departmentSearchData = useMemo(
@@ -161,14 +176,13 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                     items: optionCreator({
                       id: "name",
                       name: "name",
-                      data: ROLE_TYPES_DATA,
+                      data: filterRoleByRole,
                       hasNotEmpty: false,
                     }),
                   },
                 },
                 InputsChildren: ({ value }) => {
-                  return value == ROLE_TYPES_DATA?.[2]?.name ||
-                    value == ROLE_TYPES_DATA?.[1]?.name
+                  return value == ROLE_TYPES_DATA?.[1]?.name
                     ? [
                         {
                           type: "autocomplete",
@@ -195,21 +209,21 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 },
               },
 
-              // {
-              //   type: "select",
-              //   name: "gender",
-              //   props: {
-              //     select: {
-              //       items: optionCreator({
-              //         id: "id",
-              //         name: "name",
-              //         data: GENDER_TYPES_DATA,
-              //         hasNotEmpty: false,
-              //       }),
-              //       customLabel: "Gender",
-              //     },
-              //   },
-              // },
+              {
+                type: "select",
+                name: "gender",
+                props: {
+                  select: {
+                    items: optionCreator({
+                      id: "id",
+                      name: "name",
+                      data: GENDER_TYPES_DATA,
+                      hasNotEmpty: true,
+                    }),
+                    customLabel: "Gender",
+                  },
+                },
+              },
               {
                 type: "input",
                 name: "national_id",
@@ -255,6 +269,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
           image,
           role,
           username,
+          gender,
         }) => {
           tryCatchHandler({
             handler: async () => {
@@ -269,6 +284,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 phone_number: phone_number || "",
                 image: image || "",
                 role: role || "",
+                gender: checkFalsyValue(gender) ? +gender : null,
                 username: username || "",
               };
 

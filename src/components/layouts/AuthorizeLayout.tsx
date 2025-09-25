@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useCallback, useEffect, type FC, type JSX } from "react";
+import { useCallback, useEffect, useMemo, type FC, type JSX } from "react";
 
-import { TOKEN_VALUE } from "../../helpers/constants/statics";
+import { TOKEN_NAME } from "../../helpers/constants/statics";
 import { useIdentityVerify } from "../../services/hooks/auth";
 import { errorHookHandler } from "../../helpers/utils/handlers";
 
@@ -15,22 +15,25 @@ const AuthorizeLayout: FC<TAuthorizeLayout> = ({ children }) => {
 
   const { mutateAsync: identityVerify } = useIdentityVerify();
 
+  const publicPaths = useMemo(() => ["/login", "/logout", "/register"], []);
+
   const checkVerify = useCallback(async () => {
-    if (pathname !== "/login") {
-      if (!TOKEN_VALUE) navigate("/login", { replace: true });
+    const token = localStorage.getItem(TOKEN_NAME);
+
+    if (!publicPaths.includes(pathname)) {
+      if (!token) navigate("/login", { replace: true });
       try {
-        if (!["/login", "/logout"].includes(pathname))
-          await identityVerify(undefined);
+        if (!publicPaths.includes(pathname)) await identityVerify(undefined);
       } catch (error) {
         errorHookHandler({ error });
         if (
           [401, 403].includes(+((error as TAny)?.response?.status || 0)) &&
-          !["/login", "/logout"].includes(pathname)
+          !publicPaths.includes(pathname)
         )
           navigate("/logout", { replace: true });
       }
     }
-  }, [identityVerify, navigate, pathname]);
+  }, [identityVerify, navigate, pathname, publicPaths]);
 
   useEffect(() => {
     checkVerify();

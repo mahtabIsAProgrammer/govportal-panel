@@ -1,6 +1,8 @@
 import { memo } from "react";
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
+import { CustomTooltip } from "./CustomTooltip";
+import { hintICON } from "../other/FunctionalSVG";
 import { FONT_BUTTON } from "../../helpers/constants/fonts";
 import { COLOR_PRIMARY_TEXT } from "../../helpers/constants/colors";
 import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
@@ -9,6 +11,7 @@ export const CustomLabel = memo<ICustomLabel>(
   ({
     //   subTitleLabel,
     customLabel,
+    tooltip,
     ...props
   }) => {
     const { required, gap, disabled } = props;
@@ -23,6 +26,13 @@ export const CustomLabel = memo<ICustomLabel>(
               sx={STYLE_LABEL(disabled)}
             >
               {customLabel}
+              {tooltip && (
+                <CustomTooltip
+                  title={tooltip?.text ?? ""}
+                  placement={tooltip?.placement}
+                  icon={hintICON()}
+                />
+              )}
               {required && (
                 <Box
                   component="span"

@@ -73,14 +73,14 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
       return (
         <>
           <Grid sx={{ display: "flex" }}>
-            {role === "admin" ? (
+            {role === "officer" ? (
+              ""
+            ) : (
               <IconsTable
                 title="edit"
                 icon={editICON(COLOR_PRIMARY)}
                 onClick={() => navigate(`edit/${value}`)}
               />
-            ) : (
-              ""
             )}
             <IconsTable
               title="view"

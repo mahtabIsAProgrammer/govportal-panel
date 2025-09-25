@@ -29,7 +29,7 @@ export const CustomPagination: FC<ICustomPagination> = ({
   const IconPrevious = memo(() => {
     return (
       <Grid sx={iconPrevNextSX}>
-        <Typography>{"next"}</Typography>
+        <Typography>{"previous"}</Typography>
         {arrowLeftICON()}
       </Grid>
     );
@@ -38,7 +38,7 @@ export const CustomPagination: FC<ICustomPagination> = ({
     return (
       <Grid sx={iconPrevNextSX}>
         {arrowRightICON()}
-        <Typography>{"previous"}</Typography>
+        <Typography>{"next"}</Typography>
       </Grid>
     );
   });

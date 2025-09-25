@@ -6,21 +6,30 @@ import {
 } from "../../helpers/utils/handlers";
 import { ChangePasswordValidation } from "../../helpers/validations/users";
 import { useChangePassword } from "../../services/hooks/ProfileInfo";
-import { useContext } from "react";
+import { useContext, type FC } from "react";
 import { MainContext } from "../../helpers/others/mainContext";
 
-export const ChangePassword = () => {
+export const ChangePassword: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
   const { globalProfileInformation: id } = useContext(MainContext);
   const { mutateAsync: changePassword, isLoading } = useChangePassword();
   return (
     <Grid
-      sx={{
-        "& .content-page .inputs-box": {
-          minHeight: "250px",
-          display: "flex",
-          alignItems: "center",
-        },
-      }}
+      sx={
+        isCitizen
+          ? {
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }
+          : {
+              "& .content-page .inputs-box": {
+                minHeight: "250px",
+                display: "flex",
+                alignItems: "center",
+              },
+            }
+      }
     >
       <AddEditProvider
         breadcrumbs={[

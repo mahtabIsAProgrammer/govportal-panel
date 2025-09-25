@@ -60,6 +60,7 @@ import {
   addEditProviderSX,
   formButtonsSX,
 } from "../../helpers/styles/advances";
+import { COLOR_RED } from "../../helpers/constants/colors";
 
 export type TPropsInputTypesObject = {
   TSelect: ICustomSelect;
@@ -166,8 +167,10 @@ export const AddEditProvider = memo<
           <Grid size={{ md: 12 }} sx={formButtonsSX}>
             {onCancel && (
               <CustomButton
+                customColor={COLOR_RED}
                 text={cancelText || "cancel"}
                 variant="outlined"
+                customWidth="120px"
                 onClick={() => setOpenDeleteDialog(true)}
                 disabled={isLoadingUploader || loading}
               />
@@ -180,10 +183,9 @@ export const AddEditProvider = memo<
               loading={isLoading}
               texts={{
                 title: "cancel",
-                subtitle:
-                  "Are you sure to cancel, the entered information will be lost ?",
                 content:
                   "Are you sure to cancel, the entered information will be lost ?",
+                cancelButton: "No",
               }}
               onSubmit={async () => (
                 setOpenDeleteDialog(false), onCancel && onCancel(formIK)
@@ -193,6 +195,7 @@ export const AddEditProvider = memo<
             <CustomLoadingButton
               type="submit"
               text={submitText || "save"}
+              customWidth="120px"
               variant="contained"
               disabled={isLoadingUploader}
               loading={loading}
@@ -212,7 +215,7 @@ export const AddEditProvider = memo<
     );
 
     return (
-      <Grid container sx={addEditProviderSX}>
+      <Grid className="add-edit-wrapper" container sx={addEditProviderSX}>
         {isLoading && <LoadingAddEdit />}
         {title && breadcrumbs && (
           <HeaderPage title={title} breadcrumbData={breadcrumbs} />

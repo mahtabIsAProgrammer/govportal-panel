@@ -48,9 +48,10 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     name: name || "",
     fee: fee || null,
     description: description || "",
-    form_schema: form_schema || null,
+    form_schema: (JSON.stringify(form_schema) as TAny) || null,
     department_id: department_id || null,
   };
+
   return (
     <AddEditProvider
       breadcrumbs={[
@@ -89,6 +90,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                     type: "number",
                     placeholder: "Fee",
                     customLabel: "Fee",
+                    required: true,
                   },
                 },
               },
@@ -103,6 +105,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                       name: "name",
                       data: departmentSearchData,
                     }),
+                    required: true,
                   },
                 },
               },
@@ -129,6 +132,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                     isTextarea: true,
                     placeholder: "Form",
                     customLabel: "Form",
+                    tooltip: { text: "Json with a field array object" },
                   },
                 },
               },
@@ -152,7 +156,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 fee: fee || null,
                 name: name || "",
                 description: description || "",
-                form_schema: form_schema || "{}",
+                form_schema: form_schema || "",
                 department_id: department_id || null,
               };
 

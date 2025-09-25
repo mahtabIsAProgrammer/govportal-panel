@@ -1,59 +1,60 @@
 import {
   Grid,
   Box,
-  Typography,
-  Drawer,
   List,
+  Drawer,
   ListItem,
+  Typography,
   ListItemText,
 } from "@mui/material";
-import { filter, isUndefined, map } from "lodash";
 import {
   memo,
-  useCallback,
-  useContext,
-  useMemo,
   useRef,
+  useMemo,
   useState,
+  useContext,
+  useCallback,
 } from "react";
+import { filter, isUndefined, map } from "lodash";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import {
-  drawerSX,
-  navbarCitizenX,
-  userInfoSX,
-} from "../../../helpers/styles/navbar";
+  NotificationPaper,
+  type ICommentsBox,
+  CommentBoxContainers,
+} from "../NotificationPopper";
 import {
-  changePasswordICON,
   homeICON,
   menuIcon,
   notificationICON,
   profileUpdateICON,
+  changePasswordICON,
 } from "../../other/FunctionalSVG";
-import { CustomButton } from "../../controllers/CustomButton";
-import { CustomIcon, CustomImageBox } from "../../controllers/CustomImage";
-import { CustomPopper } from "../../controllers/CustomPopper";
-import { emptyValueString } from "../../other/EmptyComponents";
-import { urlImageHandler } from "../../../helpers/utils/images";
-import { MainContext } from "../../../helpers/others/mainContext";
 import {
-  useNotificationData,
-  useUpdateNotificationIsReadData,
-} from "../../../services/hooks/notifications";
-import { PAGE_SIZE } from "../../../helpers/constants/statics";
-import type { NotificationDataApi } from "../../../services/configs/apiEndPoint";
-import { tryCatchHandler } from "../../../helpers/utils/handlers";
-import { checkFalsyValue } from "../../../helpers/utils/values";
+  drawerSX,
+  userInfoSX,
+  navbarCitizenX,
+} from "../../../helpers/styles/navbar";
 import {
   COLOR_PRIMARY,
   COLOR_WARNING,
 } from "../../../helpers/constants/colors";
-import { NoOptionComponent } from "../NoOptionComponent";
 import {
-  NotificationPaper,
-  CommentBoxContainers,
-  type ICommentsBox,
-} from "../NotificationPopper";
+  useNotificationData,
+  useUpdateNotificationIsReadData,
+} from "../../../services/hooks/notifications";
+import { NoOptionComponent } from "../NoOptionComponent";
+import { CustomButton } from "../../controllers/CustomButton";
+import { CustomPopper } from "../../controllers/CustomPopper";
+import { PAGE_SIZE } from "../../../helpers/constants/statics";
+import { emptyValueString } from "../../other/EmptyComponents";
+import { checkFalsyValue } from "../../../helpers/utils/values";
+import { urlImageHandler } from "../../../helpers/utils/images";
+import { tryCatchHandler } from "../../../helpers/utils/handlers";
+import { MainContext } from "../../../helpers/others/mainContext";
+import { CustomIcon, CustomImageBox } from "../../controllers/CustomImage";
 import { DateTimeFormatBasicMOMENT } from "../../../helpers/utils/dateTime";
+import type { NotificationDataApi } from "../../../services/configs/apiEndPoint";
 
 export const CitizenNavbar = memo(() => {
   const [openCategoryPopper, setOpenCategoryPopper] = useState(false);
@@ -165,7 +166,7 @@ export const CitizenNavbar = memo(() => {
           sx={navbarCitizenX(openCategoryPopper)}
         >
           <Grid className="logo-wrapper">
-            <Box className="logo" component="img" src={"./logo.png"} />
+            <Box className="logo" component="img" src={"/logo.png"} />
           </Grid>
 
           <Grid className="nav-list-wrapper">
@@ -198,8 +199,8 @@ export const CitizenNavbar = memo(() => {
               <CustomIcon
                 className="notif-icon"
                 src={notificationICON(COLOR_PRIMARY)}
-                width={35}
-                height={35}
+                width={32}
+                height={32}
                 onClick={openNotifyPopperHandler}
                 badge={{
                   isExist:
@@ -211,9 +212,10 @@ export const CitizenNavbar = memo(() => {
             </Box>
             <Box ref={userRef}>
               <CustomImageBox
+                hasBorder
                 isAvatar
-                width="45px"
-                height="45px"
+                width="42px"
+                height="42px"
                 sx={{
                   cursor: "pointer",
                   "&:hover": { scale: "1.1", transition: "0.3s" },
@@ -251,18 +253,21 @@ export const CitizenNavbar = memo(() => {
                 </Typography>
               </Grid>
               <Grid className="action-items">
-                <Box className="item" onClick={() => navigate("/")}>
-                  <CustomIcon src={homeICON()} />
-                  <Typography>Home</Typography>
-                </Box>
-                <Box onClick={() => navigate("/dashboard/me")} className="item">
+                <Box onClick={() => navigate("/citizen/me")} className="item">
                   <CustomIcon src={profileUpdateICON()} />
                   <Typography>Profile</Typography>
                 </Box>
 
-                <Box className="item">
+                <Box
+                  className="item"
+                  onClick={() => navigate("/citizen/me/change-password")}
+                >
                   <CustomIcon src={changePasswordICON()} />
                   <Typography>Change Password</Typography>
+                </Box>
+                <Box className="item" onClick={() => navigate("/citizen")}>
+                  <CustomIcon src={homeICON()} />
+                  <Typography>My Request</Typography>
                 </Box>
               </Grid>
               <Grid className="log-out">

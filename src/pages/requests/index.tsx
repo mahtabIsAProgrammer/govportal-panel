@@ -23,6 +23,7 @@ import { useGetServiceById } from "../../services/hooks/services";
 import { PageProvider } from "../../components/advances/PageProvider";
 import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
+import { emptyValueString } from "../../components/other/EmptyComponents";
 
 const List: FC = () => {
   const { data: requestData } = useRequestData();
@@ -70,7 +71,19 @@ const List: FC = () => {
           );
         },
       },
-      { id: "reviewed_by", label: "Reviewed By", isCenter: true },
+      {
+        id: "reviewed_by",
+        label: "Reviewed By",
+        isCenter: true,
+        RenderRow: ({ value }) => {
+          const { data: departmentById } = useGetUserById(String(value));
+          const { first_name, last_name } =
+            (departmentById as { data: UserDataApi } | undefined)?.data ?? {};
+          return (
+            <>{first_name ? `${first_name} ${last_name}` : emptyValueString}</>
+          );
+        },
+      },
       {
         id: "id",
         label: "actions",

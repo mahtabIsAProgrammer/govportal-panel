@@ -25,7 +25,7 @@ const List: FC = () => {
         title: "Payments",
         buttonInsert: "Add Payments",
       }}
-      buttonLink="add"
+      withoutInsert
       tableData={{
         useListRows: usePaymentData,
         tableOptions: {

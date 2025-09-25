@@ -2466,6 +2466,11 @@ react-router@7.8.2:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
 
+react-top-loading-bar@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-top-loading-bar/-/react-top-loading-bar-3.0.2.tgz#49d6a6d68a6eac2a41b3a59725976051a5036c05"
+  integrity sha512-hW0CHrHqKdBOBsVhms73ka0rgb9/aoiRfqo7jiS1vwIYDK7VkyMj52ypo5ewhshTQGHKE6mRvR99GZBZ+FuM/Q==
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"

@@ -1,3 +1,4 @@
+import { find } from "lodash";
 import type { FC } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
@@ -11,9 +12,12 @@ import {
   identityCardICON,
 } from "../../other/FunctionalSVG";
 import { HeaderPage } from "../Header";
+import { ViewUserLoading } from "../Loading";
 import { viewUserSX } from "../../../helpers/styles/advances";
 import { emptyValueString } from "../../other/EmptyComponents";
 import { urlImageHandler } from "../../../helpers/utils/images";
+import { GENDER_TYPES_DATA } from "../../../helpers/utils/types";
+import { calculateAgeAtDeath } from "../../../helpers/utils/dateTime";
 import type { UserDataApi } from "../../../services/configs/apiEndPoint";
 import { COLOR_SECONDARY_TEXT } from "../../../helpers/constants/colors";
 import { CustomImageBox, CustomIcon } from "../../controllers/CustomImage";
@@ -22,6 +26,8 @@ interface IViewUser {
   data: UserDataApi;
   title: string;
   isMyProfile?: boolean;
+  isLoaiding: boolean;
+  link?: string;
   breadcrumbData: IBreadcrumbsItems[];
 }
 
@@ -30,9 +36,13 @@ const ViewUser: FC<IViewUser> = ({
   title,
   isMyProfile,
   breadcrumbData,
+  isLoaiding,
+  link,
 }) => {
-  return (
-    <Grid sx={viewUserSX}>
+  return isLoaiding ? (
+    <ViewUserLoading />
+  ) : (
+    <Grid className="view-user" sx={viewUserSX}>
       <HeaderPage
         title={title}
         breadcrumbData={breadcrumbData}
@@ -40,7 +50,7 @@ const ViewUser: FC<IViewUser> = ({
           isMyProfile
             ? {
                 props: { text: "edit" },
-                link: `/dashboard/me/edit/${data?.id}`,
+                link: link ?? `/dashboard/me/edit/${data?.id}`,
               }
             : undefined
         }
@@ -49,7 +59,7 @@ const ViewUser: FC<IViewUser> = ({
         <Grid className="profile-box">
           <Box className="image-wrapper">
             <CustomImageBox
-              src={urlImageHandler(data?.image) ?? ""}
+              src={urlImageHandler(data?.image, true) ?? ""}
               width="380px"
               height="380px"
             />
@@ -84,10 +94,12 @@ const ViewUser: FC<IViewUser> = ({
             <Box className="item">
               <Box className="item-title">
                 <CustomIcon src={calenderICON(COLOR_SECONDARY_TEXT)} />
-                <Typography className="title">Birthday: </Typography>
+                <Typography className="title">Age: </Typography>
               </Box>
               <Typography className="item-text">
-                {data?.date_of_birth || emptyValueString}
+                {calculateAgeAtDeath(data?.date_of_birth || "") ||
+                  emptyValueString}{" "}
+                years old
               </Typography>
             </Box>
             <Box className="item">
@@ -95,7 +107,9 @@ const ViewUser: FC<IViewUser> = ({
                 <CustomIcon src={genderICON(COLOR_SECONDARY_TEXT)} />
                 <Typography className="title">Gender: </Typography>
               </Box>
-              <Typography className="item-text">{"female"} </Typography>
+              <Typography className="item-text">
+                {find(GENDER_TYPES_DATA, ({ id }) => data?.gender === id)?.name}{" "}
+              </Typography>
             </Box>
           </Box>
         </Grid>
@@ -109,15 +123,17 @@ const ViewUser: FC<IViewUser> = ({
               {data?.role || emptyValueString}
             </Typography>
           </Box>
-          <Box className="item">
-            <Box className="item-title">
-              <CustomIcon src={departmentICON(COLOR_SECONDARY_TEXT)} />
-              <Typography className="title">Department: </Typography>
+          {data?.department_id && (
+            <Box className="item">
+              <Box className="item-title">
+                <CustomIcon src={departmentICON(COLOR_SECONDARY_TEXT)} />
+                <Typography className="title">Department: </Typography>
+              </Box>
+              <Typography className="item-text">
+                {data.department_id || emptyValueString}
+              </Typography>
             </Box>
-            <Typography className="item-text">
-              {data?.department_id || emptyValueString}
-            </Typography>
-          </Box>
+          )}
           <Box className="item">
             <Box className="item-title">
               <CustomIcon src={departmentICON(COLOR_SECONDARY_TEXT)} />

@@ -11,7 +11,7 @@ import { useGetDepartmentById } from "../../services/hooks/departments";
 
 const View = () => {
   const { id: currentId } = useParams();
-  const { data: userData } = useGetUserById(currentId);
+  const { data: userData, isLoading } = useGetUserById(currentId);
   const {
     date_of_birth,
     department_id,
@@ -25,17 +25,20 @@ const View = () => {
     phone_number,
     role,
     username,
+    gender,
   } = useMemo(
     () => (userData as { data: UserDataApi })?.data ?? [],
     [userData]
   );
 
-  const { data: departmentById } = useGetDepartmentById(department_id || 0);
+  const { data: departmentById, isLoading: isLoadingDepartment } =
+    useGetDepartmentById(department_id || 0);
   const { name } =
     (departmentById as { data: DepartmentDataApi } | undefined)?.data ?? {};
 
   return (
     <ViewUser
+      isLoaiding={isLoading || isLoadingDepartment}
       data={{
         date_of_birth,
         email,
@@ -48,6 +51,7 @@ const View = () => {
         phone_number,
         role,
         username,
+        gender,
         department_id: name as TAny,
       }}
       title={"User Profie"}

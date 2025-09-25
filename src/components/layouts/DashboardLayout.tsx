@@ -1,23 +1,29 @@
-import { Suspense, useContext, type FC } from "react";
-import { useRoutes } from "react-router-dom";
-import { MainContext } from "../../helpers/others/mainContext";
 import { Grid } from "@mui/material";
-import { Loading } from "../common/Loading";
-import { Sidebar } from "../common/Sidebar";
+import { useRoutes } from "react-router-dom";
+import { Suspense, useContext, type FC } from "react";
+
 import { Navbar } from "../common/Navbar";
+import { Sidebar } from "../common/Sidebar";
+import { AccessDenied } from "../common/AccessDenied";
+import { Loading, LoadingSideBar } from "../common/Loading";
+import { MainContext } from "../../helpers/others/mainContext";
 import { DashboardLayoutSX } from "../../helpers/styles/layout";
 
 export const DashboardLayout: FC = () => {
   const {
     theme,
     sidebarSize,
+    isLoadingProfileInformation,
+    globalProfileInformation: { role },
     routes: { dashboardRoutes },
   } = useContext(MainContext);
 
   const content = useRoutes(dashboardRoutes);
-  return (
+  return role == "citizen" ? (
+    <AccessDenied />
+  ) : (
     <Grid container sx={DashboardLayoutSX(theme, sidebarSize)}>
-      <Sidebar />
+      {isLoadingProfileInformation ? <LoadingSideBar /> : <Sidebar />}
       <Grid className="content">
         <Navbar />
         <Grid className="pages">

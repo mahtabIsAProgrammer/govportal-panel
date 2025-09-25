@@ -56,7 +56,16 @@ export const Dashboard = () => {
   return (
     <>
       <HeaderPage title={"Dashboard"} breadcrumbData={[]} />
-      <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent:
+            role == "officer" || role == "department_head"
+              ? "space-evenly"
+              : "space-between",
+        }}
+      >
         {role == "admin" ? (
           <Grid size={{ md: 2.3 }} sx={{ height: "110px" }}>
             <UserBoxChart

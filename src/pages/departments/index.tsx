@@ -42,10 +42,10 @@ export default List;
 const userHeadCells: IHeaderCell<DepartmentDataApi>[] = [
   {
     id: "name",
-    label: "Name",
+    label: "name",
     isCenter: true,
   },
-  { id: "description", label: "Email", isCenter: true },
+  { id: "description", label: "description", isCenter: true },
   {
     id: "id",
     label: "actions",
