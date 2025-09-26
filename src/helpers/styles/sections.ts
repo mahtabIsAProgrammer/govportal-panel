@@ -65,7 +65,7 @@ export const serviceSectionSX: SxProps<Theme> = {
       display: "flex",
       flexWrap: "wrap",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "space-between",
     },
   },
 };
@@ -76,7 +76,7 @@ export const departmentSectionSX: SxProps<Theme> = {
   height: "100vh",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-around",
+  justifyContent: "space-evenly",
   "& .department-wrapper": {
     width: "100%",
     gap: SPACE_LG,

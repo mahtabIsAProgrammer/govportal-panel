@@ -19,3 +19,10 @@ export const REQUEST_STATUS_TYPES_DATA = [
   { id: 1, name: REQUEST_STATUS_TYPES[1] },
   { id: 2, name: REQUEST_STATUS_TYPES[2] },
 ];
+
+export const PAYMENT_STATUS_TYPES = ["pending", "paid", "failed"];
+export const PAYMENT_STATUS_TYPES_DATA = [
+  { id: 0, name: PAYMENT_STATUS_TYPES[0] },
+  { id: 1, name: PAYMENT_STATUS_TYPES[1] },
+  { id: 2, name: PAYMENT_STATUS_TYPES[2] },
+];

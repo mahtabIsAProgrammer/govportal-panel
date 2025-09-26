@@ -1,30 +1,44 @@
 import { memo } from "react";
+import { Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
-import { Typography, type SxProps, type Theme } from "@mui/material";
-import { arrowCrookedIcon } from "../../other/FunctionalSVG";
 import {
-  COLOR_PRIMARY_TEXT,
   COLOR_SECONDRY,
+  COLOR_PRIMARY_TEXT,
 } from "../../../helpers/constants/colors";
+import { arrowCrookedIcon } from "../../other/FunctionalSVG";
+import { SPACE_MD } from "../../../helpers/constants/spaces";
+import { FONT_SMALL_TEXT } from "../../../helpers/constants/fonts";
 
 interface ICustomTitle {
   title?: string;
+  description?: string;
   setting?: {
     color?: string;
     iconColor?: string;
   };
 }
 
-export const CustomTitle = memo<ICustomTitle>(({ title, setting }) => {
-  const { color, iconColor } = setting ?? {};
-  return (
-    <Typography sx={customTitle(iconColor, color)}>
-      {title}
-      {arrowCrookedIcon(iconColor)}
-      {/* <Box component="img" className="vector-image" src={backImage} /> */}
-    </Typography>
-  );
-});
+export const CustomTitle = memo<ICustomTitle>(
+  ({ title, description, setting }) => {
+    const { color, iconColor } = setting ?? {};
+    return (
+      <Grid sx={{ display: "flex", flexDirection: "column", gap: SPACE_MD }}>
+        <Typography sx={customTitle(iconColor, color)}>
+          {title}
+          {arrowCrookedIcon(iconColor)}
+          {/* <Box component="img" className="vector-image" src={backImage} /> */}
+        </Typography>
+        {description && (
+          <Typography
+            sx={{ color: "#747474", fontSize: FONT_SMALL_TEXT, width: "52%" }}
+          >
+            {description}
+          </Typography>
+        )}
+      </Grid>
+    );
+  }
+);
 
 const customTitle = (iconColor?: string, color?: string): SxProps<Theme> => ({
   gap: "30px",

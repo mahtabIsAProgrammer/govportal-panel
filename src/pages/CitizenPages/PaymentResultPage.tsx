@@ -12,7 +12,7 @@ import { tryCatchHandler } from "../../helpers/utils/handlers";
 import { CustomButton } from "../../components/controllers/CustomButton";
 import type { PaymentDataApi } from "../../services/configs/apiEndPoint";
 
-export const CitizenPayment = () => {
+const CitizenPayment = () => {
   const { id: currentPaymentId } = useParams();
   const navigate = useNavigate();
   const { data: paymentData } = useGetPaymentById(
@@ -52,7 +52,7 @@ export const CitizenPayment = () => {
                 status: "paid",
                 transaction_id: `FAKE-ID${guidGenerator()}`,
               });
-              navigate("/citizen");
+              navigate("/citizen/my-request");
               return res;
             },
             successMessage: "Operation Succeed",
@@ -62,3 +62,5 @@ export const CitizenPayment = () => {
     </Box>
   );
 };
+
+export default CitizenPayment;

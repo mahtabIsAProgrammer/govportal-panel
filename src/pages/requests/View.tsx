@@ -1,4 +1,4 @@
-import { entries } from "lodash";
+import { entries, find } from "lodash";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { useContext, useMemo, useState, type FC } from "react";
@@ -13,6 +13,7 @@ import type {
   ServiceDataApi,
   RequestDataApi,
   RequestDataDataApi,
+  PaymentDataApi,
 } from "../../services/configs/apiEndPoint";
 import {
   CustomIcon,
@@ -32,19 +33,28 @@ import { useGetServiceById } from "../../services/hooks/services";
 import { NotificationSetting } from "../_root/NotificationSetting";
 import { DateFormatIsoMOMENT } from "../../helpers/utils/dateTime";
 import { InputsBox } from "../../components/advances/AddEditProvider";
-import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
+import {
+  PAYMENT_STATUS_TYPES_DATA,
+  REQUEST_STATUS_TYPES_DATA,
+} from "../../helpers/utils/types";
 import { emptyValueString } from "../../components/other/EmptyComponents";
 import { useGetRequestDataByRequestId } from "../../services/hooks/requestData";
 import { MainContext } from "../../helpers/others/mainContext";
+import { StatusBox } from "../../components/common/StatusBox";
+import {
+  COLOR_WARNING,
+  COLOR_GREEN,
+  COLOR_RED,
+} from "../../helpers/constants/colors";
+import { useGetPaymentByRequestId } from "../../services/hooks/payments";
 
 const View = () => {
   const { id: currentRequestId } = useParams();
   const {
-    globalProfileInformation: { id: currentUserId },
+    globalProfileInformation: { role: CurrentRole },
   } = useContext(MainContext);
   const [insertToggleModal, setInsertToggleModal] = useState<boolean>(false);
 
-  console.log("🚀 ~ View ~ currentUserId:", currentUserId);
   const { data: requestData } = useGetRequestById(
     currentRequestId ? +currentRequestId : 0
   );
@@ -53,6 +63,17 @@ const View = () => {
     () => (requestData as { data: RequestDataApi })?.data ?? [],
     [requestData]
   );
+
+  const { data: paymentData } = useGetPaymentByRequestId(
+    currentRequestId ? +currentRequestId : 0
+  );
+  console.log("🚀 ~ View ~ paymentData:", paymentData);
+
+  const { status: paymentStatus, amount } = useMemo(
+    () => (paymentData as { data: PaymentDataApi })?.data ?? [],
+    [paymentData]
+  );
+  console.log("🚀 ~ View ~ paymentStatus:", paymentStatus);
   const { data: userData } = useGetUserById(citizen_id);
 
   const { first_name, last_name } = useMemo(
@@ -102,61 +123,74 @@ const View = () => {
       <HeaderPage
         title={"View Request"}
         breadcrumbData={[
-          { name: "dashboard", link: "/", type: "none" },
-          { name: "requests", link: "/dashboard/requests", type: "list" },
+          {
+            name: CurrentRole == "citizen" ? "citizen" : "dashboard",
+            link: CurrentRole == "citizen" ? "/citizen" : "/",
+            type: "none",
+          },
+          {
+            name: CurrentRole == "citizen" ? "my requests" : "requests",
+            link:
+              CurrentRole == "citizen"
+                ? "/citizen/my-requests"
+                : "/dashboard/requests",
+            type: "list",
+          },
           { name: `view request`, link: "", type: "view" },
         ]}
       />
       <Grid className="container">
-        <Grid className="comment-wrapper">
-          <Grid container className="input-status-wrapper">
-            <InputsBox
-              inputs={[
-                {
-                  name: "status",
-                  type: "select",
-                  props: {
-                    select: {
-                      required: true,
-                      customLabel: "Update Status",
-                      items: optionCreator({
-                        id: "id",
-                        name: "name",
-                        data: REQUEST_STATUS_TYPES_DATA,
-                        hasNotEmpty: true,
-                      }),
+        {CurrentRole == "officer" && (
+          <Grid className="comment-wrapper">
+            <Grid container className="input-status-wrapper">
+              <InputsBox
+                inputs={[
+                  {
+                    name: "status",
+                    type: "select",
+                    props: {
+                      select: {
+                        required: true,
+                        customLabel: "Update Status",
+                        items: optionCreator({
+                          id: "id",
+                          name: "name",
+                          data: REQUEST_STATUS_TYPES_DATA,
+                          hasNotEmpty: true,
+                        }),
+                      },
                     },
                   },
-                },
-              ]}
-              columnGridSize={5.9}
-              formIK={formIK}
-            />
+                ]}
+                columnGridSize={5.9}
+                formIK={formIK}
+              />
+              <Grid>
+                <CustomLoadingButton
+                  sx={{
+                    height: "54px",
+                    mt: "14px",
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                    borderTopRightRadius: "12px",
+                    borderBottomRightRadius: "12px",
+                  }}
+                  text={"Submit"}
+                  variant="contained"
+                  loading={isLoadingUpdateRequestStatus}
+                  // disabled={isLoadingUploader}
+                  onClick={() => formIK.handleSubmit()}
+                />
+              </Grid>
+            </Grid>
             <Grid>
-              <CustomLoadingButton
-                sx={{
-                  height: "54px",
-                  mt: "14px",
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                  borderTopRightRadius: "12px",
-                  borderBottomRightRadius: "12px",
-                }}
-                text={"Submit"}
-                variant="contained"
-                loading={isLoadingUpdateRequestStatus}
-                // disabled={isLoadingUploader}
-                onClick={() => formIK.handleSubmit()}
+              <CustomButton
+                text={`Send Comment To ${first_name} ${last_name}`}
+                onClick={() => setInsertToggleModal(!insertToggleModal)}
               />
             </Grid>
           </Grid>
-          <Grid>
-            <CustomButton
-              text={`Send Comment To ${first_name} ${last_name}`}
-              onClick={() => setInsertToggleModal(!insertToggleModal)}
-            />
-          </Grid>
-        </Grid>
+        )}
         <Grid className="detail-wrapper">
           <Grid className="requests">
             <ItemBox
@@ -168,6 +202,48 @@ const View = () => {
               title={"Submit Date "}
               value={`${DateFormatIsoMOMENT(submitted_at)}`}
             />
+            {CurrentRole == "citizen" && (
+              <ItemBox
+                title={"Request Status"}
+                value={
+                  <StatusBox
+                    size="large"
+                    color={color[status ?? 0]}
+                    text={
+                      find(REQUEST_STATUS_TYPES_DATA, ({ id }) => id === status)
+                        ?.name
+                    }
+                  />
+                }
+              />
+            )}
+
+            {paymentData && (
+              <>
+                <ItemBox title={"Payment Amount"} value={amount} />
+                <ItemBox
+                  title={"Payment Status"}
+                  value={
+                    <StatusBox
+                      size="large"
+                      color={
+                        paymentStatus == "paid"
+                          ? color[1]
+                          : paymentStatus == "faild"
+                          ? color[2]
+                          : color[0]
+                      }
+                      text={
+                        find(
+                          PAYMENT_STATUS_TYPES_DATA,
+                          ({ name }) => name === paymentStatus
+                        )?.name
+                      }
+                    />
+                  }
+                />
+              </>
+            )}
           </Grid>
           <Grid className="form-data">
             {entries(form_data).map(([key, value]) => {
@@ -216,3 +292,4 @@ const ItemBox: FC<{ title: string; value: TAny; icon?: TAny }> = ({
     </Box>
   );
 };
+const color = [COLOR_WARNING, COLOR_GREEN, COLOR_RED];

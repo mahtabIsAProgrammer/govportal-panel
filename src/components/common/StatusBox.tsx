@@ -8,6 +8,7 @@ export const StatusBox: FC<IStatusBox> = ({ color, size, text }) => {
   return (
     <Box
       component="p"
+      className="status-box"
       sx={{
         width: STATUS_BOX_SIZE[size || "medium"],
         fontSize: "12px",

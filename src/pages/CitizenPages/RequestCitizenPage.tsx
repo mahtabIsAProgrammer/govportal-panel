@@ -1,30 +1,31 @@
-import { Grid, Typography } from "@mui/material";
-import { requestCitizenPageSX } from "../../helpers/styles/pages/citizenPages";
-import { useGetServiceById } from "../../services/hooks/services";
-import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useMemo } from "react";
-import { type ServiceDataApi } from "../../services/configs/apiEndPoint";
-import { InputsBox } from "../../components/advances/AddEditProvider";
-import { forEach, map } from "lodash";
-import {
-  CustomButton,
-  CustomLoadingButton,
-} from "../../components/controllers/CustomButton";
-import { MainContext } from "../../helpers/others/mainContext";
 import { useFormik } from "formik";
-import { useCreateRequestData } from "../../services/hooks/requestData";
+import { forEach, map } from "lodash";
+import { useContext, useMemo } from "react";
+import { Grid, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateRequest,
   useSubmitRequestWithPayment,
 } from "../../services/hooks/requests";
-import { RequestDataValidation } from "../../helpers/validations/requests";
 import {
-  localNavigateHandler,
   tryCatchHandler,
+  localNavigateHandler,
 } from "../../helpers/utils/handlers";
+import {
+  CustomButton,
+  CustomLoadingButton,
+} from "../../components/controllers/CustomButton";
 import { checkSubmitValue } from "../../helpers/utils/values";
+import { MainContext } from "../../helpers/others/mainContext";
+import { useGetServiceById } from "../../services/hooks/services";
+import { InputsBox } from "../../components/advances/AddEditProvider";
+import { useCreateRequestData } from "../../services/hooks/requestData";
+import { type ServiceDataApi } from "../../services/configs/apiEndPoint";
+import { RequestDataValidation } from "../../helpers/validations/requests";
+import { requestCitizenPageSX } from "../../helpers/styles/pages/citizenPages";
 
-export const RequestCitizenPage = () => {
+const RequestCitizenPage = () => {
   const navigate = useNavigate();
   const { id: currentServiceId } = useParams();
   const { isLoadingUploader } = useContext(MainContext);
@@ -52,7 +53,7 @@ export const RequestCitizenPage = () => {
     useCreateRequest();
   const {
     mutateAsync: submitRequestWithPayment,
-    // isLoading: isLoadingSubmitRequestWithPayment,
+    isLoading: isLoadingSubmitRequestWithPayment,
   } = useSubmitRequestWithPayment();
 
   const { fields } = form_schema ?? {};
@@ -83,7 +84,7 @@ export const RequestCitizenPage = () => {
             form_data: finalValues,
           });
 
-          navigate("/citizen");
+          navigate("/citizen/my-request");
         } else {
           const { data } = await submitRequestWithPayment({
             service_id: serviceId,
@@ -93,7 +94,7 @@ export const RequestCitizenPage = () => {
           navigate(`/citizen/payment/${data?.payment?.id}`);
         }
       },
-      notShowMessage: { isSuccessMessage: true },
+      notShowMessage: { isSuccessMessage: isFree ? false : true },
     });
   };
 
@@ -147,9 +148,10 @@ export const RequestCitizenPage = () => {
                     ? {
                         type: "input",
                         name,
+                        isFullWidth: true,
                         props: {
                           input: {
-                            isTextArea: true,
+                            isTextarea: true,
                             placeholder: label,
                             customLabel: label,
                             required: required,
@@ -173,7 +175,7 @@ export const RequestCitizenPage = () => {
                     : ""
                 ) as TAny
               }
-              columnGridSize={5.9}
+              columnGridSize={fields && fields?.length <= 3 ? 12 : 5.9}
               formIK={formIK}
             />
             <Grid
@@ -192,10 +194,13 @@ export const RequestCitizenPage = () => {
                 onClick={() => localNavigateHandler("/citizen")}
               />
               <CustomLoadingButton
-                // type="submit"
                 text={"confirm"}
                 variant="contained"
-                loading={loadingCreate || isLoaindCreateRequest}
+                loading={
+                  loadingCreate ||
+                  isLoaindCreateRequest ||
+                  isLoadingSubmitRequestWithPayment
+                }
                 onClick={() => formIK.handleSubmit()}
                 disabled={isLoadingUploader}
                 sx={{ width: "100%" }}
@@ -207,3 +212,5 @@ export const RequestCitizenPage = () => {
     </Grid>
   );
 };
+
+export default RequestCitizenPage;

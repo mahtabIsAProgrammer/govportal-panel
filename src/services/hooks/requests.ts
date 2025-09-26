@@ -10,6 +10,7 @@ import {
   type RequestDataApi,
   submitRequestWithPayment,
   type SubmitRequestWithPaymentDataApi,
+  getMyRequestData,
 } from "../configs/apiEndPoint";
 
 export const useRequestData = (
@@ -24,6 +25,25 @@ export const useRequestData = (
     ["request-data", pageNumber, pageSize, keyword, extraFilter?.status],
     () =>
       getRequestData({
+        pageNumber,
+        pageSize,
+        keyword,
+        status: extraFilter?.status,
+      })
+  );
+
+export const useGetMyRequestData = (
+  pageNumber?: number,
+  pageSize?: number,
+  keyword?: string,
+  extraFilter?: {
+    status?: boolean;
+  }
+) =>
+  useQuery(
+    ["my-request-data", pageNumber, pageSize, keyword, extraFilter?.status],
+    () =>
+      getMyRequestData({
         pageNumber,
         pageSize,
         keyword,

@@ -1,18 +1,24 @@
-import { Grid } from "@mui/material";
-import { serviceSectionSX } from "../../helpers/styles/sections";
-import { ServiceCard } from "../common/citizen/ServiceCard";
 import type { FC } from "react";
-import type { ServiceDataApi } from "../../services/configs/apiEndPoint";
 import { map, slice } from "lodash";
-import { CustomTitle } from "../common/citizen/CustomTitle";
+import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
+import { CustomTitle } from "../common/citizen/CustomTitle";
+import { ServiceCard } from "../common/citizen/ServiceCard";
+import { serviceSectionSX } from "../../helpers/styles/sections";
+import type { ServiceDataApi } from "../../services/configs/apiEndPoint";
 
 export const ServiceSection: FC<{ data: ServiceDataApi[] }> = ({ data }) => {
   const navigate = useNavigate();
   return (
     <Grid sx={serviceSectionSX}>
+      <div id={"services"}></div>
       <Grid className="service-container">
-        <CustomTitle title="Services" />
+        <CustomTitle
+          title="Our Services"
+          description="
+We provide a comprehensive suite of    services designed      to empower citizens and enhance community engagement. From essential administrative functions to informative resources, our services aim to facilitate seamless interactions with government processes. "
+        />
         <Grid className="serivces-wrapper">
           {data &&
             map(slice(data, 0, 8), (item) => (

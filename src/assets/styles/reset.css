@@ -91,6 +91,7 @@ html,
 body {
   /* overflow: hidden; */
   max-height: 100vh;
+  scroll-behavior: smooth;
 }
 
 /* HTML5 display-role reset for older browsers */

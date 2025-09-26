@@ -126,7 +126,7 @@ export const navbarCitizenX = (
   px: SPACE_MD,
   py: "12px",
   top: "40px",
-  zIndex: 10000,
+  zIndex: 1200,
   display: "flex",
   position: "fixed",
   alignItems: "center",
@@ -185,6 +185,13 @@ export const navbarCitizenX = (
     display: "flex",
     position: "relative",
     alignItems: "center",
+    "& .notif-icon": {
+      cursor: "pointer",
+      "&:hover": {
+        scale: "1.2",
+        transition: "0.4s",
+      },
+    },
     "& .icon-navbar": {
       zIndex: "33",
       cursor: "pointer",

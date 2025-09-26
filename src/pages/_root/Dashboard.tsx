@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react";
 import { Grid } from "@mui/material";
-import { map, shuffle } from "lodash";
+import { map } from "lodash";
 
 import {
   BarChart,
@@ -189,47 +189,58 @@ export const Dashboard = () => {
                 {
                   label: "Total Amount",
                   data: map(getPaymentsByServiceChart, (d) => +d.total_amount),
-                  backgroundColor: map(
-                    getPaymentsByServiceChart,
-                    (_, i) => shuffled[i % shuffled.length]
-                  ),
+                  backgroundColor: colors,
                 },
               ],
             }}
           />
         </Grid>
-        <Grid
-          size={{ md: 5.9 }}
-          sx={{
-            p: SPACE_LG,
-            borderRadius: "12px",
-            backgroundColor: COLOR_WHITE,
-            boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
-          }}
-        >
-          <BarChart
-            data={{
-              labels: map(getRequestsByOfficerChart, (d) => d.officer),
-              datasets: [
-                {
-                  label: "Request By Officer",
-                  data: map(
-                    getRequestsByOfficerChart,
-                    (d) => d.requests_handled
-                  ),
-                  backgroundColor: map(
-                    getRequestsByOfficerChart,
-                    (_, i) => shuffled[i % shuffled.length]
-                  ),
-                },
-              ],
+        {role == "admin" || role == "department_head" ? (
+          <Grid
+            size={{ md: 5.9 }}
+            sx={{
+              p: SPACE_LG,
+              borderRadius: "12px",
+              backgroundColor: COLOR_WHITE,
+              boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
             }}
-          />
-        </Grid>
+          >
+            <BarChart
+              data={{
+                labels: map(getRequestsByOfficerChart, (d) => d.officer),
+                datasets: [
+                  {
+                    label: "Request By Officer",
+                    data: map(
+                      getRequestsByOfficerChart,
+                      (d) => d.requests_handled
+                    ),
+                    backgroundColor: colors,
+                  },
+                ],
+              }}
+            />
+          </Grid>
+        ) : (
+          ""
+        )}
       </Grid>
     </>
   );
 };
 
-const colors = ["#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d"];
-const shuffled = shuffle(colors);
+const colors = [
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#8884d8",
+  "#82ca9d",
+  "#00FF7F",
+  "#00FFFF",
+  "#800080",
+  "#FF00FF",
+  "#FFA07A",
+  "#FF00FF",
+  "#FFA500",
+  "#FF0000",
+];

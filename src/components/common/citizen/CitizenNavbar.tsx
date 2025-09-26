@@ -6,6 +6,7 @@ import {
   ListItem,
   Typography,
   ListItemText,
+  Link,
 } from "@mui/material";
 import {
   memo,
@@ -16,7 +17,7 @@ import {
   useCallback,
 } from "react";
 import { filter, isUndefined, map } from "lodash";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   NotificationPaper,
@@ -57,36 +58,24 @@ import { DateTimeFormatBasicMOMENT } from "../../../helpers/utils/dateTime";
 import type { NotificationDataApi } from "../../../services/configs/apiEndPoint";
 
 export const CitizenNavbar = memo(() => {
-  const [openCategoryPopper, setOpenCategoryPopper] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const ref = useRef<HTMLDivElement | null>(null);
-  const userRef = useRef(null);
-
+  const [openPopper, setOpenPopper] = useState<boolean>(false);
   const [openNotifyPaper, setOpenNotifyPaper] = useState<boolean>(false);
+
+  const userRef = useRef(null);
+  const navigate = useNavigate();
+  const notifyIconRef = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const {
     globalProfileInformation: {
-      first_name,
-      last_name,
-      email,
       image,
+      email,
+      last_name,
+      first_name,
       id: currentUserId,
     },
   } = useContext(MainContext);
-  // const [checked, setChecked] = useState<boolean>(false);
-  const [openPopper, setOpenPopper] = useState<boolean>(false);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const notifyIconRef = useRef(null);
-
-  const handleOpenPopper = useCallback((e: TAny) => {
-    e.stopPropagation();
-    setOpenPopper(true);
-  }, []);
-
-  const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
 
   const { mutateAsync: notificationUpdateIsRead } =
     useUpdateNotificationIsReadData();
@@ -146,6 +135,7 @@ export const CitizenNavbar = memo(() => {
         handler: async () => {
           e.stopPropagation();
           setOpenNotifyPaper(!openNotifyPaper);
+          setOpenPopper(false);
           if (checkFalsyValue(unReadNotify)) {
             const data = notificationUpdateIsRead(unReadNotify);
             return data;
@@ -158,39 +148,39 @@ export const CitizenNavbar = memo(() => {
     [notificationUpdateIsRead, openNotifyPaper, unReadNotify]
   );
 
+  const handleOpenPopper = useCallback(
+    (e: TAny) => {
+      e.stopPropagation();
+      setOpenPopper(!openPopper);
+      setOpenNotifyPaper(false);
+    },
+    [openPopper]
+  );
+
+  const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
+
   return (
     <>
       <Grid className="navbar-wrapper">
-        <Grid
-          className="navbar-container"
-          sx={navbarCitizenX(openCategoryPopper)}
-        >
+        <Grid className="navbar-container" sx={navbarCitizenX()}>
           <Grid className="logo-wrapper">
             <Box className="logo" component="img" src={"/logo.png"} />
           </Grid>
 
           <Grid className="nav-list-wrapper">
             {map(navbarValues, ({ name, url }, index) => (
-              <Typography
+              <Link
+                sx={{ textDecoration: "none" }}
                 key={index}
-                ref={name == "Category" ? ref : null}
-                onClick={() => {
-                  if (name == "Category") {
-                    setOpenCategoryPopper(!openCategoryPopper);
-                  } else {
-                    navigate(url);
-                    setOpenCategoryPopper(false);
-                  }
-                }}
                 className={
-                  location.pathname == url ||
-                  (name == "Category" && openCategoryPopper)
+                  url == "/citizen"
                     ? "navbar-value-name active"
                     : "navbar-value-name"
                 }
+                href={url}
               >
                 {name}
-              </Typography>
+              </Link>
             ))}
           </Grid>
 
@@ -260,14 +250,17 @@ export const CitizenNavbar = memo(() => {
 
                 <Box
                   className="item"
+                  onClick={() => navigate("/citizen/my-request")}
+                >
+                  <CustomIcon src={homeICON()} />
+                  <Typography>My Request</Typography>
+                </Box>
+                <Box
+                  className="item"
                   onClick={() => navigate("/citizen/me/change-password")}
                 >
                   <CustomIcon src={changePasswordICON()} />
                   <Typography>Change Password</Typography>
-                </Box>
-                <Box className="item" onClick={() => navigate("/citizen")}>
-                  <CustomIcon src={homeICON()} />
-                  <Typography>My Request</Typography>
                 </Box>
               </Grid>
               <Grid className="log-out">
@@ -277,32 +270,32 @@ export const CitizenNavbar = memo(() => {
                   text={"Logout"}
                   onClick={() => navigate("/logout")}
                 />
-                <NotificationPaper
-                  notificationCount={notificationData?.length}
-                  open={openNotifyPaper}
-                  anchorEl={notifyIconRef.current}
-                  onClickAway={() => setOpenNotifyPaper(false)}
-                  dataComponent={
-                    notificationData?.length > 0 ? (
-                      <Grid className="wrapper-boxes" ref={ref}>
-                        <CommentBoxContainers
-                          label={"new messages"}
-                          data={notificationDataArray(true)}
-                        />
-                        <CommentBoxContainers
-                          label={"pervious messages"}
-                          data={notificationDataArray(false)}
-                        />
-                      </Grid>
-                    ) : (
-                      <NoOptionComponent label="No Notification" />
-                    )
-                  }
-                />
               </Grid>
             </Grid>
           </CustomPopper>
         </Grid>
+        <NotificationPaper
+          notificationCount={notificationData?.length}
+          open={openNotifyPaper}
+          anchorEl={notifyIconRef.current}
+          onClickAway={() => setOpenNotifyPaper(false)}
+          dataComponent={
+            notificationData?.length > 0 ? (
+              <Grid className="wrapper-boxes" ref={ref}>
+                <CommentBoxContainers
+                  label={"new messages"}
+                  data={notificationDataArray(true)}
+                />
+                <CommentBoxContainers
+                  label={"pervious messages"}
+                  data={notificationDataArray(false)}
+                />
+              </Grid>
+            ) : (
+              <NoOptionComponent label="No Notification" />
+            )
+          }
+        />
       </Grid>
 
       {/* Mobile Drawer */}
@@ -332,5 +325,5 @@ export const CitizenNavbar = memo(() => {
 const navbarValues = [
   { name: "Home", url: "/citizen" },
   { name: "Services", url: "#services" },
-  { name: "Departments", url: "#department" },
+  { name: "Departments", url: "#departments" },
 ];

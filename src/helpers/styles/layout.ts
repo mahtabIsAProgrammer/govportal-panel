@@ -1,11 +1,7 @@
 import type { SxProps, Theme } from "@mui/material";
 
 import { NAVBAR_HEIGHT_SIZE, SIDE_BAR_SIZE } from "../constants/statics";
-import {
-  COLOR_BACKGROUND,
-  COLOR_DARK_BACKGROUND,
-  COLOR_WHITE,
-} from "../constants/colors";
+import { COLOR_BACKGROUND, COLOR_DARK_BACKGROUND } from "../constants/colors";
 
 export const DashboardLayoutSX = (
   theme: string,
@@ -39,7 +35,8 @@ export const citizenLayoutSX = (theme: string): SxProps<Theme> => ({
   display: "flex",
   // minHeight: "100vh",
   "& .content": {
-    backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_DARK_BACKGROUND,
+    backgroundColor:
+      theme === "light" ? COLOR_BACKGROUND : COLOR_DARK_BACKGROUND,
     width: "100%",
     overflow: "auto",
     transition: ".2s all",

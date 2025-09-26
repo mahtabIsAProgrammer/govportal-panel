@@ -7,6 +7,7 @@ import {
   getPaymentById,
   getPaymentData,
   type PaymentDataApi,
+  getPaymentByRequestId,
 } from "../configs/apiEndPoint";
 
 export const usePaymentData = (
@@ -23,6 +24,13 @@ export const useGetPaymentById = (id?: number) => {
   return useQuery({
     queryKey: ["payment-get", id],
     queryFn: async () => (id ? await getPaymentById(id!) : {}),
+  });
+};
+// Get payment by id
+export const useGetPaymentByRequestId = (id?: number) => {
+  return useQuery({
+    queryKey: ["payment-get-request", id],
+    queryFn: async () => (id ? await getPaymentByRequestId(id!) : {}),
   });
 };
 

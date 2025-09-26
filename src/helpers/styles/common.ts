@@ -127,6 +127,9 @@ export const ViewRequestSX: SxProps<Theme> = {
         fontWeight: "600",
         fontSize: "16px",
         textTransform: "capitalize",
+        "& .status-box": {
+          fontSize: "11px",
+        },
       },
     },
   },

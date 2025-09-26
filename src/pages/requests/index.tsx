@@ -24,9 +24,10 @@ import { PageProvider } from "../../components/advances/PageProvider";
 import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
 import { emptyValueString } from "../../components/other/EmptyComponents";
+import { PAGE_SIZE } from "../../helpers/constants/statics";
 
 const List: FC = () => {
-  const { data: requestData } = useRequestData();
+  const { data: requestData } = useRequestData(1, PAGE_SIZE);
   const requestSearchData = useMemo(
     () => (requestData as { data: RequestDataApi[] })?.data ?? [],
     [requestData]
@@ -125,6 +126,7 @@ const List: FC = () => {
             tableOptions: {
               hasIndex: true,
               headerCells: headerCells(),
+              withOutSearch: true,
               defaultExtraFilter: { status: undefined },
             },
             useListRows: useRequestData,
@@ -134,8 +136,7 @@ const List: FC = () => {
           color: color[id + 1],
           label: name,
           tabNumber: requestSearchData
-            ? requestSearchData?.filter(({ status }) => status == id)?.length ||
-              0
+            ? requestSearchData?.filter(({ status }) => status == id)?.length
             : 0,
           component: {
             tableOptions: {

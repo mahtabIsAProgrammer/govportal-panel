@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { homeSectionSX } from "../../helpers/styles/sections";
+
 import { CustomImageBox } from "../controllers/CustomImage";
+import { homeSectionSX } from "../../helpers/styles/sections";
 
 import vector from "../../assets/images/Vector.png";
 import homePicture from "../../assets/images/government-pic.webp";

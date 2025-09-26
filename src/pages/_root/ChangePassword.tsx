@@ -1,16 +1,19 @@
 import { Grid } from "@mui/material";
-import { AddEditProvider } from "../../components/advances/AddEditProvider";
-import {
-  localNavigateHandler,
-  tryCatchHandler,
-} from "../../helpers/utils/handlers";
-import { ChangePasswordValidation } from "../../helpers/validations/users";
-import { useChangePassword } from "../../services/hooks/ProfileInfo";
 import { useContext, type FC } from "react";
-import { MainContext } from "../../helpers/others/mainContext";
+import { useNavigate } from "react-router-dom";
 
-export const ChangePassword: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
+import {
+  tryCatchHandler,
+  localNavigateHandler,
+} from "../../helpers/utils/handlers";
+import { MainContext } from "../../helpers/others/mainContext";
+import { useChangePassword } from "../../services/hooks/ProfileInfo";
+import { ChangePasswordValidation } from "../../helpers/validations/users";
+import { AddEditProvider } from "../../components/advances/AddEditProvider";
+
+const ChangePassword: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
   const { globalProfileInformation: id } = useContext(MainContext);
+  const navigate = useNavigate();
   const { mutateAsync: changePassword, isLoading } = useChangePassword();
   return (
     <Grid
@@ -50,14 +53,19 @@ export const ChangePassword: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
               handler: async () => {
                 const finalValues = values;
                 const data = await changePassword(finalValues);
-
-                localNavigateHandler("/dashboard");
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                isCitizen
+                  ? navigate("/citizen/me")
+                  : localNavigateHandler("/dashboard/me");
                 return data;
               },
             });
           },
           loading: isLoading,
-          onCancel: () => localNavigateHandler(`/dashboard/me/${id}`),
+          onCancel: () =>
+            isCitizen
+              ? navigate("/citizen/me")
+              : localNavigateHandler(`/dashboard/me/${id}`),
           validationFunctions: () => ChangePasswordValidation,
         }}
         options={{
@@ -97,3 +105,5 @@ export const ChangePassword: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
     </Grid>
   );
 };
+
+export default ChangePassword;

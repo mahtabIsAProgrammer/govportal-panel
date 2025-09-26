@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { useContext, type FC } from "react";
 
-import { SPACE_2XL } from "../../helpers/constants/spaces";
+import { SPACE_2XL, SPACE_MD } from "../../helpers/constants/spaces";
 import ViewUser from "../../components/common/_root/ViewUser";
 import { MainContext } from "../../helpers/others/mainContext";
 import { useGetDepartmentById } from "../../services/hooks/departments";
@@ -42,6 +42,7 @@ const MyProfile: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
               "& .view-user": {
                 "& .container": {
                   flexDirection: "row",
+                  gap: SPACE_MD,
                   justifyContent: "space-between",
                 },
               },

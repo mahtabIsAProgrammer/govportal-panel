@@ -114,10 +114,10 @@ const notificationPaperSX: SxProps<Theme> = {
   height: "auto",
   width: "350px",
   maxWidth: "350px",
-  zIndex: "3000",
+  zIndex: "300000",
   "& .container-notification-popper": {
     maxHeight: "610px",
-    overflowY: "scroll",
+    overflowY: "auto",
     "& .header-notification-popper": {
       gap: SPACE_SM,
       display: "flex",

@@ -38,3 +38,27 @@ export const MyProfileAddEdit = lazy(
 export const NotificationsList = lazy(
   () => import("../../pages/notifications")
 );
+
+export const DepartmentCitizenPagePage = lazy(
+  () => import("../../pages/CitizenPages/DepartmentCitizenPage")
+);
+
+export const RequestCitizenPagePage = lazy(
+  () => import("../../pages/CitizenPages/RequestCitizenPage")
+);
+
+export const MyRequestsPage = lazy(
+  () => import("../../pages/CitizenPages/MyRequests")
+);
+
+export const MyRequestViewPage = lazy(
+  () => import("../../pages/CitizenPages/MyRequestView")
+);
+
+export const CitizenPaymentPage = lazy(
+  () => import("../../pages/CitizenPages/PaymentResultPage")
+);
+
+export const ChangePasswordPage = lazy(
+  () => import("../../pages/_root/ChangePassword")
+);

@@ -1,8 +1,10 @@
-import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 import type { FC } from "react";
-import { SPACE_MD, SPACE_SM } from "../../../helpers/constants/spaces";
+import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
+
+import { CustomIcon } from "../../controllers/CustomImage";
+import { arrowCrookedIcon } from "../../other/FunctionalSVG";
+import { SPACE_LG } from "../../../helpers/constants/spaces";
 import { COLOR_PRIMARY, COLOR_WHITE } from "../../../helpers/constants/colors";
-import { FONT_BODY } from "../../../helpers/constants/fonts";
 import type { DepartmentDataApi } from "../../../services/configs/apiEndPoint";
 
 interface IDepartmentCard {
@@ -25,56 +27,75 @@ export const DepartmentCard: FC<IDepartmentCard> = ({
         <Typography className="name">{name}</Typography>
         <Typography className="description">{description}</Typography>
       </Box>
+      <Box className="icon-wrapper">
+        <CustomIcon
+          width={44}
+          height={44}
+          src={arrowCrookedIcon(COLOR_WHITE)}
+        />
+      </Box>
     </Grid>
   );
 };
 
 const departmentCardSX: SxProps<Theme> = {
   "&.department-card": {
-    width: "300px",
-    p: "12px",
+    width: "350px",
+    p: "18px",
     borderRadius: "12px",
     height: "100%",
     minHeight: "200px",
+    backgroundColor: COLOR_WHITE,
     minWidth: "200px",
-    backgroundColor: COLOR_PRIMARY,
-    color: COLOR_WHITE,
-
+    borderTop: `10px solid ${COLOR_PRIMARY}`,
+    borderTopRightRadius: "0",
+    borderTopLeftRadius: "0",
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
-    border: `1px solid ${COLOR_PRIMARY}`,
+    boxShadow: `0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814`,
     cursor: "pointer",
     "&:hover": {
       transition: "0.3s",
-      backgroundColor: COLOR_WHITE,
-      color: COLOR_PRIMARY,
-      "& .title-wrapper .description": {
-        color: COLOR_PRIMARY,
+      backgroundColor: "#3D3F3C",
+      "& .title-wrapper ": {
+        ".name": {
+          color: COLOR_WHITE,
+        },
+        ".description": {
+          color: "#C4C4C4",
+        },
+      },
+      "& .icon-wrapper": {
+        visibility: "visible",
       },
     },
 
     "& .title-wrapper": {
       display: "flex",
-      gap: SPACE_MD,
+      gap: SPACE_LG,
       flexDirection: "column",
       "& .name": {
-        fontSize: FONT_BODY,
+        fontSize: "24px",
         fontWeight: "700",
+        color: "#3D3F3C",
+        width: "60%",
       },
       "& .description": {
         fontSize: "16px",
         fontWeight: "500",
-        color: "#f8f8f8a7",
+        color: "#747474",
       },
     },
-    "& .fee": {
-      fontWeight: "700",
-      "& span": {
-        fontWeight: "500",
-        mr: SPACE_SM,
-      },
+    "& .icon-wrapper": {
+      position: "absolute",
+      top: "33px",
+      right: "15px",
+      backgroundColor: "#5C5D5B",
+      borderRadius: "50%",
+      rotate: "-75deg",
+      visibility: "hidden",
     },
   },
 };

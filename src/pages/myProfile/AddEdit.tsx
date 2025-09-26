@@ -13,7 +13,6 @@ import type {
 import { optionCreator } from "../../helpers/utils/others";
 import { checkFalsyValue } from "../../helpers/utils/values";
 import { UserValidation } from "../../helpers/validations/users";
-import { MAX_WIDTH_CITIZEN } from "../../helpers/constants/statics";
 import { useDepartmentData } from "../../services/hooks/departments";
 import { useUpdateUser, useGetUserById } from "../../services/hooks/users";
 import { AddEditProvider } from "../../components/advances/AddEditProvider";
@@ -74,7 +73,7 @@ const AddEdit: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
               pt: "120px",
               "& .add-edit-wrapper": {
                 width: "100%",
-                maxWidth: MAX_WIDTH_CITIZEN,
+                maxWidth: "1236px",
               },
             }
           : {}

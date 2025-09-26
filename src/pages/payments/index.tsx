@@ -13,6 +13,15 @@ import { useGetRequestById } from "../../services/hooks/requests";
 import { useGetServiceById } from "../../services/hooks/services";
 import { useGetUserById } from "../../services/hooks/users";
 import { DateFormatIsoMOMENT } from "../../helpers/utils/dateTime";
+import { find } from "lodash";
+import { PAYMENT_STATUS_TYPES_DATA } from "../../helpers/utils/types";
+import { StatusBox } from "../../components/common/StatusBox";
+import {
+  COLOR_GREEN,
+  COLOR_MUTED_TEXT,
+  COLOR_RED,
+  COLOR_WARNING,
+} from "../../helpers/constants/colors";
 
 const List: FC = () => {
   return (
@@ -29,6 +38,7 @@ const List: FC = () => {
       tableData={{
         useListRows: usePaymentData,
         tableOptions: {
+          withOutSearch: true,
           hasIndex: true,
           headerCells: userHeadCells,
         },
@@ -90,6 +100,24 @@ const userHeadCells: IHeaderCell<PaymentDataApi>[] = [
     },
   },
   {
+    id: "status",
+    label: "Status",
+    isCenter: true,
+    RenderRow: ({ value }) => {
+      const status = find(
+        PAYMENT_STATUS_TYPES_DATA,
+        ({ name }) => name == value
+      );
+      return (
+        <StatusBox
+          color={color[((status && status?.id) ?? 0) + 1]}
+          text={status?.name}
+          size="large"
+        />
+      );
+    },
+  },
+  {
     id: "payment_date",
     label: "Date",
     isCenter: true,
@@ -145,3 +173,5 @@ const userHeadCells: IHeaderCell<PaymentDataApi>[] = [
   //   isCenter: true,
   // },
 ];
+
+const color = [COLOR_MUTED_TEXT, COLOR_WARNING, COLOR_GREEN, COLOR_RED];

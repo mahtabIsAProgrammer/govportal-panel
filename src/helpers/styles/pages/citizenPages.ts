@@ -22,7 +22,7 @@ export const departmentCitizenPageSX: SxProps<Theme> = {
       maxWidth: MAX_WIDTH_CITIZEN,
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-around",
+      justifyContent: "space-evenly",
       "& .service-wrapper": {
         width: "100%",
         gap: SPACE_LG,
@@ -41,7 +41,7 @@ export const requestCitizenPageSX: SxProps<Theme> = {
     alignItems: "center",
     backgroundColor: COLOR_WHITE,
     flexDirection: "column",
-    mt: SPACE_2XL,
+    // mt: SPACE_2XL,
     "& .container": {
       my: SPACE_2XL,
       width: "100%",
@@ -68,9 +68,16 @@ export const requestCitizenPageSX: SxProps<Theme> = {
       "& .inputs-container-wrapper": {
         p: SPACE_LG,
         borderRadius: "12px",
+        display: "flex",
+        alignItems: "center",
+        minHeight: "400px",
         boxShadow: "1px -1px 25px -2px rgba(211,193,193,1)",
         "& .inputs-wrapper": {
-          columnGap: "20px",
+          columnGap: "18px",
+          // justifyContent: "center",
+          "& .MuiButton-root": {
+            mt: SPACE_LG,
+          },
         },
       },
     },

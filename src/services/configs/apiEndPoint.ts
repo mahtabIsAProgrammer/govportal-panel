@@ -176,6 +176,9 @@ export const getPaymentData = async (params: TAny) =>
 
 export const getPaymentById = (id: number) => apiClient.get(`payments/${id}`);
 
+export const getPaymentByRequestId = (id: number) =>
+  apiClient.get(`payments/requests/${id}`);
+
 export const createPayment = (data: PaymentDataApi) =>
   apiClient.post("/payments", data);
 
@@ -205,6 +208,11 @@ export const getRequestDateByRequestId = async (id: number) =>
 
 export const getRequestData = async (params: TAny) =>
   await apiClient.get("/requests", { params: params }).then((res) => res.data);
+
+export const getMyRequestData = async (params: TAny) =>
+  await apiClient
+    .get("/requests/my-requests", { params: params })
+    .then((res) => res.data);
 
 export const getRequestById = async (id: number) =>
   await apiClient.get(`requests/${id}`);

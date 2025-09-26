@@ -1,15 +1,17 @@
 import { Outlet, type RouteObject } from "react-router-dom";
 
+import {
+  MyProfileList,
+  MyRequestsPage,
+  MyProfileAddEdit,
+  MyRequestViewPage,
+  ChangePasswordPage,
+  CitizenPaymentPage,
+  RequestCitizenPagePage,
+  DepartmentCitizenPagePage,
+} from "../../helpers/others/routeControl";
 import { Landing } from "../../pages/_root/Landing";
 import { NotFound } from "../../pages/_root/NotFound";
-import { DepartmentCitizenPage } from "../../pages/CitizenPages/DepartmentCitizenPage";
-import { RequestCitizenPage } from "../../pages/CitizenPages/RequestCitizenPage";
-import { CitizenPayment } from "../../pages/CitizenPages/PaymentResultPage";
-import { ChangePassword } from "../../pages/_root/ChangePassword";
-import {
-  MyProfileAddEdit,
-  MyProfileList,
-} from "../../helpers/others/routeControl";
 
 export const citizenRoutes: RouteObject[] = [
   {
@@ -24,22 +26,32 @@ export const citizenRoutes: RouteObject[] = [
       { index: true, element: <Landing /> },
       {
         path: "/departments/:id",
-        element: <DepartmentCitizenPage />,
+        element: <DepartmentCitizenPagePage />,
       },
       {
         path: "/services/:id",
-        element: <RequestCitizenPage />,
+        element: <RequestCitizenPagePage />,
+      },
+      {
+        path: "/my-request",
+        children: [
+          { index: true, element: <MyRequestsPage /> },
+          { path: "view/:id", element: <MyRequestViewPage /> },
+        ],
       },
       {
         path: "/payment/:id",
-        element: <CitizenPayment />,
+        element: <CitizenPaymentPage />,
       },
       {
         path: "/me",
         children: [
           { index: true, element: <MyProfileList isCitizen /> },
           { path: "edit/:id", element: <MyProfileAddEdit isCitizen /> },
-          { path: "change-password", element: <ChangePassword isCitizen /> },
+          {
+            path: "change-password",
+            element: <ChangePasswordPage isCitizen />,
+          },
         ],
       },
     ],
