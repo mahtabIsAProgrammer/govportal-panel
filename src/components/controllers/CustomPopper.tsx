@@ -8,7 +8,10 @@ import {
 } from "@mui/material";
 import type { FC, ReactNode } from "react";
 
-import { COLOR_WHITE } from "../../helpers/constants/colors";
+import {
+  COLOR_BORDER,
+  COLOR_DARK_BACKGROUND,
+} from "../../helpers/constants/colors";
 
 export interface ICustomPopper {
   open: boolean;
@@ -44,12 +47,13 @@ export const CustomPopper: FC<ICustomPopper> = ({
 
 const popperSX: SxProps<Theme> = {
   zIndex: 40000,
-  borderRadius: "12px",
+  borderRadius: "0",
   alignItems: "center",
   flexDirection: "column",
   justifyContent: "center",
-  backgroundColor: COLOR_WHITE,
-  boxShadow:
-    "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
+  backgroundColor: COLOR_DARK_BACKGROUND,
+  border: `1px solid ${COLOR_BORDER}`,
+  // boxShadow:
+  //   "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
   position: "absolute !important",
 };

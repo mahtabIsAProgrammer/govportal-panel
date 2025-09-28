@@ -19,9 +19,12 @@ import {
 } from "../../helpers/constants/spaces";
 import {
   COLOR_WHITE,
-  COLOR_WARNING,
+  COLOR_YELLOW,
   COLOR_MUTED_TEXT,
   COLOR_PRIMARY_TEXT,
+  COLOR_SURFACE,
+  COLOR_DARK_BACKGROUND,
+  COLOR_DARK_BACKGROUND_SURFACE,
 } from "../../helpers/constants/colors";
 import { clockICON } from "../other/FunctionalSVG";
 import { CustomIcon } from "../controllers/CustomImage";
@@ -123,12 +126,12 @@ const notificationPaperSX: SxProps<Theme> = {
       display: "flex",
       px: SPACE_LG,
       py: "12px",
-      backgroundColor: "#F7F7F7",
-      borderTopRightRadius: "12px",
+      backgroundColor: COLOR_DARK_BACKGROUND_SURFACE,
       alignItems: "center",
       "& .title-notification-popper": {
         fontSize: "16px",
         fontWeight: "600",
+        color: COLOR_PRIMARY_TEXT,
       },
       "& .badge-notification-popper": {
         width: "20px",
@@ -137,10 +140,9 @@ const notificationPaperSX: SxProps<Theme> = {
         color: COLOR_WHITE,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: "50%",
         fontSize: "10px",
         fontWeight: "500",
-        backgroundColor: COLOR_WARNING,
+        backgroundColor: COLOR_YELLOW,
       },
     },
     "& .tab-wrapper-popper": {
@@ -192,9 +194,10 @@ const notificationBoxSX = (isNewMessage: boolean): SxProps<Theme> => ({
   width: "100%",
   height: "auto",
   display: "flex",
-  backgroundColor: isNewMessage ? "#F7F7F7" : COLOR_WHITE,
-  borderRadius: "12px",
-  border: `1px solid ${"#F7F7F7"}`,
+  backgroundColor: isNewMessage
+    ? COLOR_DARK_BACKGROUND_SURFACE
+    : COLOR_DARK_BACKGROUND,
+  border: `1px solid ${COLOR_SURFACE}`,
   "& .content": {
     display: "flex",
     rowGap: SPACE_XS,

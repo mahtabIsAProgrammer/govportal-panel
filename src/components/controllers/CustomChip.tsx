@@ -39,7 +39,6 @@ const customShipSX: SxProps<Theme> = {
     fontStyle: "normal",
     alignItems: "center",
     lineHeight: "normal",
-    borderRadius: "50px",
     fontSize: FONT_SMALL_TEXT,
     justifyContent: "center",
   },

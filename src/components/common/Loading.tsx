@@ -126,7 +126,7 @@ export const CitizenLoading = () => {
         sx={{
           height: "100vh",
           width: "100%",
-          backgroundColor: COLOR_BACKGROUND,
+          // backgroundColor: COLOR_BACKGROUND,
           zIndex: "9999999",
           display: "flex",
           justifyContent: "center",

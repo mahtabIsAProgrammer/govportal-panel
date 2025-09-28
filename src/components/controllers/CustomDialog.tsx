@@ -113,7 +113,6 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
     overflow: "visible",
     minHeight: "300px",
     maxHeight: size == "fullScreen" ? "700px" : "650px",
-    borderRadius: "16px",
   },
   "& .MuiDialogContent-root": {
     pb: SPACE_XL,
@@ -129,7 +128,6 @@ const dialogSX = (isCenter?: boolean, size?: TDialogSize): SxProps<Theme> => ({
     px: { xs: SPACE_MD, md: SPACE_LG },
     minWidth: { xs: "360px" },
     minHeight: "220px",
-    borderRadius: "14px",
     backgroundColor: COLOR_BACKGROUND,
     "& .MuiDialogContent-root": {
       p: 0,

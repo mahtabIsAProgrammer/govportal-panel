@@ -7,7 +7,9 @@ import {
   COLOR_SECONDARY_TEXT,
   COLOR_DARK_BACKGROUND,
   COLOR_PRIMARY,
-  COLOR_SECONDRY,
+  COLOR_SECONDARY,
+  COLOR_GRAY_LIGHT,
+  COLOR_DARK_BACKGROUND_SURFACE,
 } from "../constants/colors";
 import { MAX_WIDTH_CITIZEN, NAVBAR_HEIGHT_SIZE } from "../constants/statics";
 import { FONT_CAPTION, FONT_SMALL_TEXT } from "../constants/fonts";
@@ -24,6 +26,7 @@ export const navbarSX = (theme: TTheme): SxProps<Theme> => ({
   backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_DARK_BACKGROUND,
   "& .notif-icon": {
     cursor: "pointer",
+    mt: "6px",
     "&:hover": {
       scale: "1.2",
       transition: "0.4s",
@@ -35,19 +38,19 @@ export const languageitemsSX: SxProps<Theme> = {
   width: "180px",
   padding: SPACE_SM,
   backgroundColor: COLOR_WHITE,
-  borderRadius: "12px",
+  borderRadius: "0",
   boxShadow:
     "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
 
   "& .select-item": {
     display: "flex",
     gap: SPACE_SM,
-    borderRadius: "8px",
+    borderRadius: "0",
     "& .flag-img": {
       width: "28px",
       height: "20px",
       "& svg": {
-        borderRadius: "4px",
+        borderRadius: "0",
       },
     },
   },
@@ -60,10 +63,10 @@ export const languageitemsSX: SxProps<Theme> = {
 
 export const userInfoSX: SxProps<Theme> = {
   width: "200px",
-  backgroundColor: COLOR_WHITE,
-  borderRadius: "8px",
-  boxShadow:
-    "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
+  // backgroundColor: COLOR_WHITE,
+  borderRadius: "0",
+  // boxShadow:
+  //   "-20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
   display: "flex",
   flexDirection: "column",
   "& .info": {
@@ -97,14 +100,15 @@ export const userInfoSX: SxProps<Theme> = {
       alignItems: "center",
       display: "flex",
       gap: SPACE_SM,
-      borderRadius: "4px",
+      borderRadius: "0",
       wordBreak: "break-word",
       minHeight: "fit-content",
       "& p": {
         fontSize: FONT_SMALL_TEXT,
+        color: COLOR_PRIMARY_TEXT,
       },
       "&:hover": {
-        backgroundColor: "#A3A3A3" + "10",
+        backgroundColor: COLOR_GRAY_LIGHT + "10",
       },
     },
   },
@@ -129,14 +133,14 @@ export const navbarCitizenX = (
   zIndex: 1200,
   display: "flex",
   position: "fixed",
+  borderRadius: "0",
   alignItems: "center",
-  borderRadius: "12px",
   animation: "fadeIn 1s",
   width: MAX_WIDTH_CITIZEN,
-  backgroundColor: COLOR_WHITE,
   justifyContent: "space-between",
+  backgroundColor: COLOR_DARK_BACKGROUND_SURFACE,
   borderBottomRightRadius: openCategoryPopper ? "0" : undefined,
-  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+  // boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}30`,
   "& .logo-wrapper": {
     "& .logo": {
       width: "120px",
@@ -171,10 +175,10 @@ export const navbarCitizenX = (
         display: "block",
         position: "absolute",
         right: 0,
-        bottom: "-2px",
+        bottom: "-4px",
         zIndex: "-1",
         transform: " scaleX(0)",
-        background: COLOR_SECONDRY,
+        background: COLOR_PRIMARY,
         transition: "transform .3s ease",
         transformOrigin: "bottom right",
       },
@@ -186,6 +190,7 @@ export const navbarCitizenX = (
     position: "relative",
     alignItems: "center",
     "& .notif-icon": {
+      mt: "6px",
       cursor: "pointer",
       "&:hover": {
         scale: "1.2",
@@ -206,10 +211,9 @@ export const navbarCitizenX = (
         width: "14px",
         height: "14px",
         display: "flex",
-        borderRadius: "50%",
         position: "absolute",
         alignItems: "center",
-        color: COLOR_SECONDRY,
+        color: COLOR_SECONDARY,
         background: COLOR_WHITE,
         justifyContent: "center",
         fontSize: FONT_CAPTION,

@@ -62,7 +62,7 @@ const localTooltipSX = (
   alignItems: "center",
   justifyContent: "center",
   textAlign: textAlign ?? "start",
-  borderRadius: "8px",
+  borderRadius: "0",
   background: background ?? COLOR_PLACEHOLDER,
   "& span": {
     color: COLOR_PLACEHOLDER,

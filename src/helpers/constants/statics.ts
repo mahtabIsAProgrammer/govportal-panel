@@ -8,7 +8,7 @@ export const LOCALE_BY_DIR: { [key in TDirection]: TLanguages[] } = {
 
 export const PAGE_SIZE = 9999;
 
-export const DEFAULT_THEME: TTheme = "light";
+export const DEFAULT_THEME: TTheme = "dark";
 export const TOKEN_NAME = "token";
 
 export const MAX_WIDTH_CITIZEN = {
@@ -37,8 +37,8 @@ export const SIDE_BAR_SIZE = {
 };
 export const NAVBAR_HEIGHT_SIZE = "70px";
 
-export const API_URL = "http://localhost:3000/api";
-export const BASE_URL = "http://localhost:3000";
+export const API_URL = "https://govportal-backend-2.onrender.com/api";
+export const BASE_URL = "https://govportal-backend-2.onrender.com";
 export const TOKEN_VALUE = localStorage.getItem("token") || null;
 
 export const ROWS_PER_PAGES = [

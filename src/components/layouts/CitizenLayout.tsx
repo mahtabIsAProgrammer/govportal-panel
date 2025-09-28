@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { useRoutes } from "react-router-dom";
-import { Suspense, useContext } from "react";
+import { useContext } from "react";
 
 import { CitizenLoading } from "../common/Loading";
 import { citizenLayoutSX } from "../../helpers/styles/layout";
@@ -10,6 +10,7 @@ import { CitizenNavbar } from "../common/citizen/CitizenNavbar";
 export const CitizenLayout = () => {
   const {
     theme,
+    isLoadingProfileInformation,
     routes: { citizenRoutes },
   } = useContext(MainContext);
 
@@ -19,7 +20,7 @@ export const CitizenLayout = () => {
       <Grid className="content">
         <CitizenNavbar />
         <Grid className="container">
-          <Suspense fallback={<CitizenLoading />}>{content}</Suspense>
+          {isLoadingProfileInformation ? <CitizenLoading /> : content}
         </Grid>
       </Grid>
     </Grid>

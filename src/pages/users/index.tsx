@@ -10,7 +10,7 @@ import {
 import { useUserData } from "../../services/hooks/users";
 import { IconsTable } from "../../components/common/IconTable";
 import { MainContext } from "../../helpers/others/mainContext";
-import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import { COLOR_BLUE, COLOR_PRIMARY } from "../../helpers/constants/colors";
 import { ProfileCard } from "../../components/common/ProfileCard";
 import { NotificationSetting } from "../_root/NotificationSetting";
 import { PageProvider } from "../../components/advances/PageProvider";
@@ -78,7 +78,7 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
             ) : (
               <IconsTable
                 title="edit"
-                icon={editICON(COLOR_PRIMARY)}
+                icon={editICON()}
                 onClick={() => navigate(`edit/${value}`)}
               />
             )}
@@ -89,7 +89,7 @@ const userHeadCells = (role: string): IHeaderCell<UserDataApi>[] => [
             />
             <IconsTable
               title="Send Notification"
-              icon={notificationICON(COLOR_PRIMARY)}
+              icon={notificationICON(COLOR_BLUE)}
               onClick={() => setOpenNotifyUserDialog(true)}
             />
           </Grid>

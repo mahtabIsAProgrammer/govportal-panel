@@ -24,11 +24,12 @@ import {
 import { filter, map } from "lodash";
 
 import {
-  COLOR_WHITE,
   COLOR_BORDER,
   COLOR_PRIMARY,
+  COLOR_GRAY_LIGHT,
   COLOR_MUTED_TEXT,
   COLOR_PRIMARY_TEXT,
+  COLOR_DARK_BACKGROUND,
 } from "../../helpers/constants/colors";
 import {
   ROWS_PER_PAGES,
@@ -430,7 +431,8 @@ const CustomTableBodyRowCell: FC<ICustomTableBodyRowCell> = ({
 
 const tableBodyContainerSX: SxProps<Theme> = {
   "&.table-body-row": {
-    backgroundColor: "white",
+    // backgroundColor: "white",
+
     "& .MuiTableCell-root": {
       py: "12px",
       px: "12px",
@@ -445,6 +447,7 @@ const tableHeadContainerSX: SxProps<Theme> = {
       width: ROW_WIDTH + "px",
       minWidth: ROW_WIDTH + "px",
       maxWidth: ROW_WIDTH + "px",
+      backgroundColor: COLOR_DARK_BACKGROUND,
       "& .header-box": {
         width: ROW_WIDTH + "px",
         minWidth: ROW_WIDTH + "px",
@@ -459,17 +462,11 @@ const tableHeadContainerSX: SxProps<Theme> = {
         textAlign: "center",
       },
     },
-    background: COLOR_WHITE,
+    // background: COLOR_WHITE,
     "& .MuiTableCell-root": {
       borderBottom: `1px solid ${COLOR_BORDER}`,
-      background: "#F7F7F7",
+      // background: COLOR_SURFACE,
       py: "12px",
-      "&:first-of-type": {
-        borderTopLeftRadius: "12px",
-      },
-      "&:last-child": {
-        borderTopRightRadius: "12px",
-      },
     },
   },
 };
@@ -477,7 +474,7 @@ const tableHeadContainerSX: SxProps<Theme> = {
 const footerTablePagerMenuPaperSX: SxProps = {
   "& .MuiMenu-paper": {
     my: "0px !important",
-    borderRadius: "8px",
+    borderRadius: "0",
     padding: "6px",
   },
   "& .MuiList-root": {
@@ -492,9 +489,9 @@ const footerTablePagerMenuPaperSX: SxProps = {
 const footerTablePagerMenuItemSX: SxProps = {
   width: "100%",
 
-  borderRadius: "4px",
+  borderRadius: "0",
   "& .MuiMenu-list": {
-    backgroundColor: "red",
+    // backgroundColor: "red",
   },
   "& .select-item": {
     height: "fit-content",
@@ -529,8 +526,6 @@ const customTableSX: SxProps<Theme> = {
         },
         "& .table": {
           borderSpacing: "0px",
-          borderTopRightRadius: "12px",
-          borderTopLeftRadius: "12px",
           borderLeft: `1px solid ${COLOR_BORDER}`,
           borderTop: `1px solid ${COLOR_BORDER}`,
           borderRight: `1px solid ${COLOR_BORDER}`,
@@ -547,15 +542,13 @@ const customTableSX: SxProps<Theme> = {
       display: "flex",
       alignItems: "center",
       borderSpacing: "0px",
-      backgroundColor: "#F7F7F7",
+      backgroundColor: COLOR_DARK_BACKGROUND,
       borderTop: `1px solid transparent`,
-      borderBottomLeftRadius: "12px",
-      borderBottomRightRadius: "12px",
       borderLeft: `1px solid ${COLOR_BORDER}`,
       borderRight: `1px solid ${COLOR_BORDER}`,
       borderBottom: `1px solid ${COLOR_BORDER}`,
       justifyContent: "space-between",
-      color: "#A3A3A3",
+      color: COLOR_GRAY_LIGHT,
       fontSize: FONT_CAPTION,
       fontWeight: "600",
 
@@ -581,7 +574,7 @@ const customTableSX: SxProps<Theme> = {
           },
           "& *": {
             border: "none",
-            borderRadius: "6px",
+            borderRadius: "0",
           },
         },
       },
@@ -603,11 +596,11 @@ const customTableSX: SxProps<Theme> = {
         p: "0px",
         "& .custom-select": {
           minHeight: "40px",
-          background: COLOR_WHITE,
+          background: COLOR_DARK_BACKGROUND,
         },
         "& *": {
           FontSize: FONT_CAPTION,
-          borderRadius: "4px",
+          borderRadius: "0",
         },
       },
       "& .count, .text": {
@@ -631,6 +624,7 @@ const tableHeadCellsSX = (
     width: width ? width + "px" : "unset",
     minWidth: width ? width + "px" : "unset",
     maxWidth: width ? width + "px" : "unset",
+    backgroundColor: COLOR_DARK_BACKGROUND,
     "& .header-box": {
       width: width ? width + "px" : "unset",
       minWidth: width ? width + "px" : "unset",

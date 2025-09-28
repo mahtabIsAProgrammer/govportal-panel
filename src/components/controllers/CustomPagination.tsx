@@ -76,7 +76,7 @@ const customPaginationSX: SxProps<Theme> = {
       alignItems: "center",
       background: COLOR_WHITE,
       fontSize: FONT_SMALL_TEXT,
-      borderRadius: "4px",
+      borderRadius: "0",
       fontWeight: "500",
       "&.Mui-selected ": {
         color: COLOR_PRIMARY,

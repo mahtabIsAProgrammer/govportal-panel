@@ -5,7 +5,7 @@ import { SPACE_MD } from "../../helpers/constants/spaces";
 import { CustomImageBox } from "../controllers/CustomImage";
 import { FONT_SMALL_TEXT } from "../../helpers/constants/fonts";
 
-import noOptionImage from "../../assets/images/no-options.webp";
+import noOptionImage from "../../assets/images/no-options.png";
 
 type TImageSize = "small" | "medium" | "large";
 interface INoOptionComponent {

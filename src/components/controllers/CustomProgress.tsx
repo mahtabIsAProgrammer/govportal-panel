@@ -46,7 +46,7 @@ const customProgressSX = (
   "& .local-progress": {
     width: "100%",
     height: "8px",
-    borderRadius: "8px",
+    borderRadius: "0",
   },
   "& .MuiLinearProgress-dashed": {
     animation: "none",

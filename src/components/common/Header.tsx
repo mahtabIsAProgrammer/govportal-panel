@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { isEmpty } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { BreadCrumbs } from "./Breadcrumbs";
 import { headerPageSX } from "../../helpers/styles/common";
 import { localNavigateHandler } from "../../helpers/utils/handlers";
 import { CustomButton, type TCustomButton } from "../controllers/CustomButton";
+import { MainContext } from "../../helpers/others/mainContext";
 
 interface IHeaderPage {
   title: string;
@@ -29,6 +30,7 @@ export const HeaderPage = memo<IHeaderPage>(
     otherComponent,
   }) => {
     const navigate = useNavigate();
+    const { theme } = useContext(MainContext);
     return (
       <>
         <Helmet
@@ -49,7 +51,7 @@ export const HeaderPage = memo<IHeaderPage>(
           ]}
         />
         {justHelmet ? null : (
-          <Box className="header-page-content" sx={headerPageSX}>
+          <Box className="header-page-content" sx={headerPageSX(theme)}>
             <Box className="title-wrapper" component="div">
               <Typography className="title">{title}</Typography>
               {!isEmpty(breadcrumbData) && (

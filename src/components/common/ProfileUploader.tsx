@@ -20,6 +20,7 @@ import {
   COLOR_RED,
   COLOR_WHITE,
   COLOR_BORDER,
+  COLOR_BLACK,
 } from "../../helpers/constants/colors";
 import { CustomLabel } from "../controllers/CustomLabel";
 import { CustomDialog } from "../controllers/CustomDialog";
@@ -33,8 +34,8 @@ import { checkImage, UploadFileNormal } from "../../helpers/utils/files";
 import { getCroppedImg, urlImageHandler } from "../../helpers/utils/images";
 
 import rollingIcon from "../../assets/images/Rolling.gif";
-import emptyImage from "../../assets/images/emptyImage.webp";
-import emptyUserImage from "../../assets/images/emptyUserImage.webp";
+import emptyImage from "../../assets/images/empty-image.webp";
+import emptyUserImage from "../../assets/images/empty-image-user.png";
 
 export const ProfileUploader = ({
   tooltip,
@@ -116,15 +117,12 @@ export const ProfileUploader = ({
       p: SPACE_XL,
       gap: SPACE_MD,
       display: "flex",
-      borderRadius: "14px",
       flexDirection: "column",
-      background: COLOR_WHITE,
+      // background: COLOR_WHITE,
       border: "1px solid" + COLOR_BORDER,
-      boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+      // boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}30`,
 
       "& .wrapper-file-uploader": {
-        border: "1px dashed #00000042",
-        borderRadius: variant == "rounded" ? "12px" : "50%",
         padding: "10px",
         position: "relative",
       },
@@ -136,7 +134,6 @@ export const ProfileUploader = ({
         justifyContent: "center",
         alignItems: "center",
         background: COLOR_RED,
-        borderRadius: "50%",
         width: "36px",
         height: "36px",
         position: "absolute",
@@ -156,7 +153,6 @@ export const ProfileUploader = ({
           cursor: loading ? "" : "pointer",
           width: "180px",
           height: "180px",
-          borderRadius: variant == "rounded" ? "12px" : "50%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -175,15 +171,15 @@ export const ProfileUploader = ({
             minHeight: "35px !important",
             maxHeight: "35px !important",
             zIndex: "20",
-            borderRadius: "0px !important",
+            borderRadius: "0 !important",
           },
           "& .file-upload-label": {
-            color: "#fff !important",
+            color: `${COLOR_WHITE} !important`,
             fontSize: "14px !important",
             zIndex: "20",
           },
           "& .file-upload-label-loading": {
-            color: "#000 !important",
+            color: `${COLOR_BLACK} !important`,
             fontSize: "14px !important",
             zIndex: "20",
           },
@@ -191,8 +187,7 @@ export const ProfileUploader = ({
             zIndex: "10",
             opacity: "0.5",
             position: "absolute",
-            backgroundColor: "#000",
-            borderRadius: variant == "rounded" ? "12px" : "50%",
+            backgroundColor: COLOR_BLACK,
             width: "180px",
             height: "180px",
           },

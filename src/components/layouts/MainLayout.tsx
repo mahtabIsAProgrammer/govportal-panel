@@ -38,7 +38,7 @@ export const MainLayout = () => {
                     fontStyle: "normal",
                     fontWeight: "700",
                     lineHeight: "normal",
-                    borderRadius: "12px",
+                    borderRadius: "0",
                     boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
                   }}
                 >

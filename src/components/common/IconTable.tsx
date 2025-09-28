@@ -27,7 +27,6 @@ export const IconsTable: FC<IIconTable> = ({
             padding: SPACE_SM,
             mx: SPACE_SM,
             cursor: "pointer",
-            borderRadius: "12px",
             minWidth: "100px",
             "&:hover": { backgroundColor: `${"#B2B2B2"}50` },
           }}

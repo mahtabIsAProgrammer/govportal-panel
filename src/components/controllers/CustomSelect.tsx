@@ -21,6 +21,7 @@ import {
   COLOR_BORDER,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
+  COLOR_GRAY_LIGHT,
 } from "../../helpers/constants/colors";
 import { CustomLabel } from "./CustomLabel";
 import { ErrorMessage } from "./CustomTextfield";
@@ -123,7 +124,7 @@ const localSelectItemsSX: SxProps<Theme> = {
   fontSize: FONT_CAPTION,
   justifyContent: "flex-start",
   fontWeight: "700",
-  borderRadius: "4px",
+  borderRadius: "0",
   "&.MuiMenuItem-root": {
     overflowX: "clip",
     whiteSpace: "normal",
@@ -132,7 +133,7 @@ const localSelectItemsSX: SxProps<Theme> = {
     wordBreak: "break-word",
     minHeight: "fit-content",
     "&:hover": {
-      backgroundColor: "#A3A3A3" + "10",
+      backgroundColor: COLOR_GRAY_LIGHT + "10",
     },
   },
   "& .sub-label": {
@@ -152,7 +153,7 @@ const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
   pb: SPACE_MD,
   "& .local-select": {
     width: "100%",
-    borderRadius: "12px",
+    borderRadius: "0",
     color: COLOR_PRIMARY_TEXT,
     padding: "0px !important",
     opacity: disabled ? 0.4 : 1,
@@ -164,7 +165,8 @@ const localSelectSX = (disabled: boolean | undefined): SxProps<Theme> => ({
     outline: "none",
     color: COLOR_PRIMARY_TEXT,
     fontSize: FONT_SMALL_TEXT,
-    borderRadius: "12px",
+    borderRadius: "0",
+    borderColor: COLOR_BORDER,
     fontWeight: FONT_WEIGHT_MEDUIM,
     "& fieldset": {
       borderColor: COLOR_BORDER,

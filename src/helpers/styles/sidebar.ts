@@ -2,10 +2,10 @@ import type { SxProps, Theme } from "@mui/material";
 
 import {
   COLOR_WHITE,
+  COLOR_BORDER,
   COLOR_PRIMARY,
-  COLOR_MUTED_TEXT,
+  COLOR_PRIMARY_TEXT,
   COLOR_SIDEBAR_HOVER,
-  COLOR_SECONDARY_TEXT,
   COLOR_DARK_BACKGROUND,
 } from "../constants/colors";
 import { FONT_BODY } from "../constants/fonts";
@@ -23,7 +23,7 @@ export const sidebarSX = (
   transition: ".2s all",
   flexDirection: "column",
   width: SIDE_BAR_SIZE[sidebarSize],
-  borderRight: `1px solid ${COLOR_MUTED_TEXT}30`,
+  borderRight: `1px solid ${COLOR_BORDER}`,
   backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_DARK_BACKGROUND,
 
   "& .logo": {
@@ -39,8 +39,8 @@ export const sidebarSX = (
       p: SPACE_SM,
       gap: SPACE_MD,
       display: "flex",
-      borderRadius: "8px",
-      color: COLOR_SECONDARY_TEXT,
+      borderRadius: "0",
+      color: COLOR_PRIMARY_TEXT,
       "& .text": {
         fontWeight: "500",
         fontSize: FONT_BODY,

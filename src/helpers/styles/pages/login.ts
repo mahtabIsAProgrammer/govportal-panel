@@ -9,10 +9,10 @@ import {
 } from "../../constants/fonts";
 import {
   COLOR_WHITE,
-  COLOR_SECONDRY,
-  COLOR_MUTED_TEXT,
-  COLOR_INFO,
+  COLOR_SECONDARY,
+  COLOR_BLUE,
   COLOR_PRIMARY,
+  COLOR_DESCRIPTION_DARK,
 } from "../../constants/colors";
 import { SPACE_MD, SPACE_SM, SPACE_XL } from "../../constants/spaces";
 
@@ -39,12 +39,12 @@ export const loginSX = (isRegister?: boolean): SxProps<Theme> => ({
           fontWeight: FONT_WEIGHT_BLOD,
         },
         "& .subtitle": {
-          color: COLOR_MUTED_TEXT,
+          color: COLOR_DESCRIPTION_DARK,
           fontSize: FONT_SMALL_TEXT,
           fontWeight: FONT_WEIGHT_BLOD,
           "& span": {
             cursor: "pointer",
-            color: COLOR_SECONDRY,
+            color: COLOR_SECONDARY,
             textDecoration: "underline",
           },
         },
@@ -61,7 +61,7 @@ export const loginSX = (isRegister?: boolean): SxProps<Theme> => ({
         "& .input": {
           "& .MuiInputBase-root": {
             height: "45px",
-            borderRadius: "8px",
+            borderRadius: "0",
           },
         },
       },
@@ -93,7 +93,7 @@ export const loginSX = (isRegister?: boolean): SxProps<Theme> => ({
           fontWeight: "400",
         },
         "& .sign-up-btn": {
-          color: COLOR_INFO,
+          color: COLOR_BLUE,
           cursor: "pointer",
           fontSize: FONT_SMALL_TEXT,
           textDecorationLine: "underline",

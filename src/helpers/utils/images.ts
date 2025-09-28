@@ -2,8 +2,8 @@ import type { JSX } from "react";
 import { isString } from "lodash";
 
 import { BASE_URL } from "./../constants/statics";
-import emptyImage from "../../assets/images/emptyImage.webp";
-import emptyUserImage from "../../assets/images/emptyUserImage.webp";
+import emptyImage from "../../assets/images/empty-image.webp";
+import emptyUserImage from "../../assets/images/empty-image-user.png";
 
 export const urlImageHandler = (
   url: string | null | JSX.Element | undefined,

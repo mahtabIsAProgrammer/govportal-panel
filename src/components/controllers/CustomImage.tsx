@@ -18,7 +18,7 @@ import {
 import { COLOR_PRIMARY, COLOR_WHITE } from "../../helpers/constants/colors";
 
 import emptyImage from "../../assets/images/empty-image.webp";
-import emptyImageUser from "../../assets/images/empty-image-user.webp";
+import emptyImageUser from "../../assets/images/empty-image-user.png";
 
 interface ICustomImageBox extends BoxProps {
   sx?: SxProps<Theme>;
@@ -183,7 +183,6 @@ const customImageBoxSX = (
   variant: ICustomImageBox["variant"],
   hasBorder?: boolean
 ): SxProps<Theme> => ({
-  borderRadius: "8px",
   "& .image-box,": {
     opacity: 1,
     transition: "0.2s all ",
@@ -191,6 +190,6 @@ const customImageBoxSX = (
     height: "100% !important",
     border: hasBorder ? `4px solid ${COLOR_PRIMARY}30` : "",
     borderRadius:
-      variant == "circular" ? "50%" : variant == "rounded" ? "8px" : undefined,
+      variant == "circular" ? "50%" : variant == "rounded" ? "0" : undefined,
   },
 });

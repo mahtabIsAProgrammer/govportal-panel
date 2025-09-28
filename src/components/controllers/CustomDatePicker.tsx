@@ -17,6 +17,7 @@ import {
   COLOR_RED,
   COLOR_BORDER,
   COLOR_PRIMARY,
+  COLOR_GRAY_LIGHT,
 } from "../../helpers/constants/colors";
 import { CustomLabel } from "./CustomLabel";
 import { ErrorMessage } from "./CustomTextfield";
@@ -332,7 +333,6 @@ const datePickerSX = (
   pb: SPACE_MD,
   opacity: disabled ? 0.4 : 1,
   "& .MuiPickersInputBase-root": {
-    borderRadius: "12px",
     fontFamily: "Poppins",
     "& fieldset": {
       border: disabled ? "none" : `1px solid ${COLOR_BORDER}`,
@@ -351,7 +351,7 @@ const datePickerSX = (
   },
   "& .MuiInputBase-input": {
     "&::placeholder": {
-      color: `${"#A3A3A3"} !important`,
+      color: `${COLOR_GRAY_LIGHT} !important`,
     },
   },
   "& .MuiFormLabel-root ": {

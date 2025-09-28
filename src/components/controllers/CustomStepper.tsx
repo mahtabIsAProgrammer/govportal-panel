@@ -17,6 +17,7 @@ import {
   COLOR_WHITE,
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
+  COLOR_GRAY_LIGHT,
 } from "../../helpers/constants/colors";
 import { SPACE_MD } from "../../helpers/constants/spaces";
 import { FONT_SMALL_TEXT } from "../../helpers/constants/fonts";
@@ -94,7 +95,7 @@ export const CustomStepperWithIcon = memo<ICustomStepperWithIcon>(
                             activeStep > index
                               ? undefined
                               : activeStep == index
-                              ? "#A3A3A3" + "24 !important"
+                              ? COLOR_GRAY_LIGHT + "24 !important"
                               : undefined,
                         },
                         "&.Mui-disabled": {
@@ -135,8 +136,8 @@ const customStepperWithIconSX = (
   "& .MuiStepLabel-iconContainer": {
     width: "48px",
     height: "48px",
-    backgroundColor: `${"#A3A3A3"}24`,
-    borderRadius: "50%",
+    backgroundColor: `${COLOR_GRAY_LIGHT}24`,
+    borderRadius: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -165,7 +166,7 @@ const customStepperWithIconSX = (
       borderColor: COLOR_PRIMARY,
     },
     "&.Mui-disabled .MuiStepConnector-line": {
-      borderColor: `${"#A3A3A3"}30`,
+      borderColor: `${COLOR_GRAY_LIGHT}30`,
     },
   },
   "& .step-label": {
@@ -232,7 +233,7 @@ const customStepIconSX = (active: boolean | undefined): SxProps<Theme> => ({
   "& .StepIcon-circle": {
     width: 8,
     height: 8,
-    borderRadius: "50%",
+    borderRadius: "0",
     backgroundColor: "currentColor",
   },
 });
@@ -243,7 +244,7 @@ const customCustomStepIconSX: SxProps<Theme> = {
   height: 50,
   display: "flex",
   color: COLOR_WHITE,
-  borderRadius: "50%",
+  borderRadius: "0",
   alignItems: "center",
   justifyContent: "center",
 };

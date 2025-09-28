@@ -2,11 +2,11 @@ import { memo } from "react";
 import { Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
 import {
-  COLOR_SECONDRY,
+  COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
 } from "../../../helpers/constants/colors";
-import { arrowCrookedIcon } from "../../other/FunctionalSVG";
 import { SPACE_MD } from "../../../helpers/constants/spaces";
+import { arrowCrookedIcon } from "../../other/FunctionalSVG";
 import { FONT_SMALL_TEXT } from "../../../helpers/constants/fonts";
 
 interface ICustomTitle {
@@ -50,7 +50,7 @@ const customTitle = (iconColor?: string, color?: string): SxProps<Theme> => ({
   fontSize: { xs: "27px", md: "34px" },
   color: color || COLOR_PRIMARY_TEXT,
   justifyContent: "space-between",
-  borderBottom: "2px solid" + (iconColor || COLOR_SECONDRY),
+  borderBottom: "2px solid" + (iconColor || COLOR_PRIMARY),
   "& .vector-image": {
     left: "-45px",
     width: "100px",

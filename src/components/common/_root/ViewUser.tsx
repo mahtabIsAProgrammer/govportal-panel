@@ -10,6 +10,7 @@ import {
   calenderICON,
   departmentICON,
   identityCardICON,
+  phoneNumberICON,
 } from "../../other/FunctionalSVG";
 import { HeaderPage } from "../Header";
 import { ViewUserLoading } from "../Loading";
@@ -136,7 +137,7 @@ const ViewUser: FC<IViewUser> = ({
           )}
           <Box className="item">
             <Box className="item-title">
-              <CustomIcon src={departmentICON(COLOR_SECONDARY_TEXT)} />
+              <CustomIcon src={phoneNumberICON(COLOR_SECONDARY_TEXT)} />
               <Typography className="title">Phone Number: </Typography>
             </Box>
             <Typography className="item-text">

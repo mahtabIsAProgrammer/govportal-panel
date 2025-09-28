@@ -1,8 +1,8 @@
 import type { SxProps, Theme } from "@mui/material";
 
 import {
-  COLOR_WHITE,
   COLOR_BORDER,
+  COLOR_PRIMARY_TEXT,
   COLOR_SECONDARY_TEXT,
 } from "../constants/colors";
 import {
@@ -15,18 +15,20 @@ import {
 } from "../constants/spaces";
 import { FONT_TITLE, FONT_WEIGHT_REGULAR } from "../constants/fonts";
 
-export const headerPageSX: SxProps<Theme> = {
+export const headerPageSX = (theme: TTheme): SxProps<Theme> => ({
   p: SPACE_MD,
   display: "flex",
   alignItems: "center",
   marginBottom: "20px",
-  borderRadius: "12px",
-  backgroundColor: COLOR_WHITE,
+  borderRadius: theme ? "0" : "0",
+  // backgroundColor: theme == "light" ? COLOR_WHITE : COLOR_BLACK,
+  border: `1px solid ${COLOR_BORDER}`,
   justifyContent: "space-between",
   "& .title-wrapper": {
     display: "flex",
     flexDirection: "column",
     "& .title": {
+      color: COLOR_PRIMARY_TEXT,
       fontSize: FONT_TITLE,
       fontWeight: FONT_WEIGHT_REGULAR,
     },
@@ -38,7 +40,7 @@ export const headerPageSX: SxProps<Theme> = {
     display: "flex",
     gap: SPACE_SM,
   },
-};
+});
 
 export const seeAllNotifyButton = (scrollTop: boolean): SxProps<Theme> => ({
   pt: "20px",
@@ -55,13 +57,14 @@ export const seeAllNotifyButton = (scrollTop: boolean): SxProps<Theme> => ({
 export const ViewRequestSX: SxProps<Theme> = {
   "&.view-request-page": {
     "& .container": {
-      backgroundColor: COLOR_WHITE,
+      // backgroundColor: COLOR_WHITE,
+      pt: SPACE_LG,
       "& .detail-wrapper": {
         p: SPACE_LG,
-        borderTop: `1px solid ${COLOR_BORDER}`,
+        border: `1px solid ${COLOR_BORDER}`,
         display: "flex",
         flexDirection: "column",
-        borderRadius: "16px",
+        borderRadius: "0",
         // mt: "12px",
         animation: "fadeIn 0.7s",
         // justifyContent: "space-between",
@@ -92,7 +95,7 @@ export const ViewRequestSX: SxProps<Theme> = {
     "& .comment-wrapper": {
       p: SPACE_LG,
       display: "flex",
-      borderRadius: "16px",
+      borderRadius: "0",
       mt: "12px",
       animation: "fadeIn 0.7s",
       justifyContent: "space-between",
@@ -127,6 +130,7 @@ export const ViewRequestSX: SxProps<Theme> = {
         fontWeight: "600",
         fontSize: "16px",
         textTransform: "capitalize",
+        color: COLOR_PRIMARY_TEXT,
         "& .status-box": {
           fontSize: "11px",
         },

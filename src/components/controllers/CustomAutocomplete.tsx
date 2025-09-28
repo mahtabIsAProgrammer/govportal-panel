@@ -110,7 +110,6 @@ export const CustomAutocomplete = memo<ICustomAutocomplete>(
 
 const customAutocompleteSX: SxProps<Theme> = {
   "& .MuiInputBase-root": {
-    borderRadius: "12px",
     px: `${"14px"} !important`,
     "&.Mui-focused": {
       backgroundColor: `${`${COLOR_PRIMARY}20`}10`,
@@ -128,14 +127,12 @@ const customAutocompleteSX: SxProps<Theme> = {
     width: { xs: "100%", md: "450px" },
     my: `${SPACE_SM} !important`,
     boxShadow: "unset !important",
-    borderRadius: `12px`,
     "& .MuiPaper-root ": {
       maxHeight: "340px",
       minWidth: "100px !important",
       overflowY: "hidden",
       background: COLOR_WHITE,
       p: `${SPACE_XS} !important`,
-      borderRadius: "12px",
     },
   },
   "& .MuiInputBase-input": {
@@ -153,7 +150,6 @@ const customAutocompleteSX: SxProps<Theme> = {
     my: SPACE_XS,
     height: "45px",
     width: "100% !important",
-    borderRadius: "8px",
     fontSize: `${FONT_SMALL_TEXT} !important`,
     "&:hover": {
       background: `${"#919EAB"}20`,

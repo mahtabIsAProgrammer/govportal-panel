@@ -38,7 +38,8 @@ import {
 } from "../../../helpers/styles/navbar";
 import {
   COLOR_PRIMARY,
-  COLOR_WARNING,
+  COLOR_PRIMARY_TEXT,
+  COLOR_YELLOW,
 } from "../../../helpers/constants/colors";
 import {
   useNotificationData,
@@ -170,7 +171,7 @@ export const CitizenNavbar = memo(() => {
           <Grid className="nav-list-wrapper">
             {map(navbarValues, ({ name, url }, index) => (
               <Link
-                sx={{ textDecoration: "none" }}
+                sx={{ textDecoration: "none", color: COLOR_PRIMARY_TEXT }}
                 key={index}
                 className={
                   url == "/citizen"
@@ -195,7 +196,7 @@ export const CitizenNavbar = memo(() => {
                 badge={{
                   isExist:
                     filteredNotificationData(true)?.length > 0 ? true : false,
-                  color: COLOR_WARNING,
+                  color: COLOR_YELLOW,
                   count: unReadNotify?.length,
                 }}
               />

@@ -21,7 +21,7 @@ import {
 } from "../../helpers/others/routeControl";
 import { NotFound } from "../../pages/_root/NotFound";
 import { Dashboard } from "../../pages/_root/Dashboard";
-import { ChangePassword } from "../../pages/_root/ChangePassword";
+import ChangePassword from "../../pages/_root/ChangePassword";
 
 export const dashboardRoutes: RouteObject[] = [
   {

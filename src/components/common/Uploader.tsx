@@ -22,7 +22,8 @@ import {
 import {
   COLOR_WHITE,
   COLOR_PRIMARY,
-  COLOR_SECONDRY,
+  COLOR_SECONDARY,
+  COLOR_GRAY_LIGHT,
 } from "../../helpers/constants/colors";
 import {
   SPACE_LG,
@@ -38,7 +39,7 @@ import { MainContext } from "../../helpers/others/mainContext";
 import { FONT_SMALL_TEXT } from "../../helpers/constants/fonts";
 import { guidGenerator, stringSepratorToArry } from "../../helpers/utils/array";
 
-import imageUploader from "../../assets/images/image.webp";
+import imageUploader from "../../assets/images/image.png";
 
 const UploadType: TFileUploaderTypes = {
   audio: "",
@@ -270,18 +271,16 @@ export const FileUploader = memo<IFileUploader>(
 const uploaderNewSX = (isLoadingUploader?: boolean): SxProps<Theme> => ({
   p: "20px",
   background: COLOR_WHITE,
-  borderRadius: "14px",
-  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+  boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}30`,
   "& .title": {
     marginBottom: SPACE_MD,
-    color: COLOR_SECONDRY,
+    color: COLOR_SECONDARY,
     fontSize: FONT_SMALL_TEXT,
     fontWeight: "600",
   },
   "& .wrapper-uploader-box": {
     p: SPACE_SM,
     cursor: isLoadingUploader ? "not-allowed" : "pointer",
-    borderRadius: "14px",
     background: "#F7F9FA",
     border: "1px dashed " + "#B2B2B2",
     height: "220px",
@@ -300,7 +299,7 @@ const uploaderNewSX = (isLoadingUploader?: boolean): SxProps<Theme> => ({
       flexDirection: "column",
       justifyContent: "center",
       "& .click-here-text": {
-        color: "#B2B2B2",
+        color: COLOR_PRIMARY,
         lineHeight: SPACE_LG,
         fontSize: FONT_SMALL_TEXT,
         fontWeight: "400",
@@ -339,7 +338,7 @@ const uploaderNewSX = (isLoadingUploader?: boolean): SxProps<Theme> => ({
     justifyContent: "center",
 
     "& .click-here-text": {
-      color: "#B2B2B2",
+      color: COLOR_PRIMARY,
       lineHeight: SPACE_LG,
       fontSize: FONT_SMALL_TEXT,
       fontWeight: "400",

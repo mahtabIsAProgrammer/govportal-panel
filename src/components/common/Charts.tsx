@@ -144,7 +144,6 @@ const userBoxChartSX = (colors?: string[]): SxProps<Theme> => ({
   height: "100%",
   boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
   p: SPACE_MD,
-  borderRadius: "12px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",

@@ -2,7 +2,11 @@ import type { SxProps, Theme } from "@mui/material";
 
 import { SPACE_LG } from "../constants/spaces";
 import { MAX_WIDTH_CITIZEN } from "../constants/statics";
-import { COLOR_PRIMARY, COLOR_PRIMARY_TEXT } from "../constants/colors";
+import {
+  COLOR_DESCRIPTION_DARK,
+  COLOR_PRIMARY,
+  COLOR_PRIMARY_TEXT,
+} from "../constants/colors";
 
 export const homeSectionSX: SxProps<Theme> = {
   width: "100%",
@@ -27,7 +31,7 @@ export const homeSectionSX: SxProps<Theme> = {
       },
     },
     "& .description": {
-      color: "#737373",
+      color: COLOR_DESCRIPTION_DARK,
       fontSize: "16px",
       fontWeight: "500",
     },

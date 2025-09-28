@@ -159,13 +159,13 @@ const textfieldSX = (
   opacity: disabled ? 0.4 : 1,
   "& .custom-textfield": {
     width: "100%",
-    borderRadius: "12px",
+    borderRadius: "0",
   },
   "& .MuiInputBase-root": {
     outline: "none",
     color: COLOR_PRIMARY_TEXT,
     fontSize: FONT_SMALL_TEXT,
-    borderRadius: "12px",
+    borderRadius: "0",
     fontWeight: FONT_WEIGHT_MEDUIM,
 
     "& fieldset": {

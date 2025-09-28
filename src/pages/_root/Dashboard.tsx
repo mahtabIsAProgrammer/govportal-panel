@@ -20,7 +20,7 @@ import {
   useGetTotalDepartmentHeadChart,
 } from "../../services/hooks/charts";
 import { HeaderPage } from "../../components/common/Header";
-import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { COLOR_BORDER } from "../../helpers/constants/colors";
 import { MainContext } from "../../helpers/others/mainContext";
 import { SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
 
@@ -124,10 +124,9 @@ export const Dashboard = () => {
           sx={{
             p: SPACE_LG,
             display: "flex",
-            borderRadius: "12px",
             justifyContent: "center",
-            backgroundColor: COLOR_WHITE,
-            boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+            border: `1px solid ${COLOR_BORDER}`,
+            // boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
           }}
         >
           <PieChart
@@ -140,9 +139,8 @@ export const Dashboard = () => {
           size={{ md: 7.5 }}
           sx={{
             p: SPACE_LG,
-            borderRadius: "12px",
-            backgroundColor: COLOR_WHITE,
-            boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+            border: `1px solid ${COLOR_BORDER}`,
+            // boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
           }}
         >
           <BarChart
@@ -176,9 +174,8 @@ export const Dashboard = () => {
           size={{ md: 5.9 }}
           sx={{
             p: SPACE_LG,
-            borderRadius: "12px",
-            backgroundColor: COLOR_WHITE,
-            boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+            border: `1px solid ${COLOR_BORDER}`,
+            // boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
           }}
         >
           <HorizentalChart
@@ -200,9 +197,8 @@ export const Dashboard = () => {
             size={{ md: 5.9 }}
             sx={{
               p: SPACE_LG,
-              borderRadius: "12px",
-              backgroundColor: COLOR_WHITE,
-              boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+              border: `1px solid ${COLOR_BORDER}`,
+              // boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
             }}
           >
             <BarChart

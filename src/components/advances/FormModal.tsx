@@ -76,7 +76,6 @@ export const FromModalProvider = memo<
             backgroundColor: "transparent",
             p: 0,
             pb: "20px",
-            borderRadius: 0,
             boxShadow: "unset",
           },
           "& .MuiDialogContent-root": {

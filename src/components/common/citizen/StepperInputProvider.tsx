@@ -9,7 +9,11 @@ import {
 import { isFunction, map } from "lodash";
 import { navigateListStepsButtonsSX } from "../../../helpers/styles/advances";
 import { CustomButton } from "../../controllers/CustomButton";
-import { COLOR_PRIMARY, COLOR_WHITE } from "../../../helpers/constants/colors";
+import {
+  COLOR_GRAY_LIGHT,
+  COLOR_PRIMARY,
+  COLOR_WHITE,
+} from "../../../helpers/constants/colors";
 import {
   SPACE_LG,
   SPACE_MD,
@@ -155,10 +159,9 @@ const stepperFormProviderOrdersViewSX = (
     mt: SPACE_LG,
     p: SPACE_LG,
     minHeight: "400px",
-    borderRadius: "12px",
     boxShadow: withoutBackground
       ? undefined
-      : `-20px 20px 40px -4px  ${"#A3A3A3"}30, 0px 0px 2px 0px  ${"#A3A3A3"}30`,
+      : `-20px 20px 40px -4px  ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px  ${COLOR_GRAY_LIGHT}30`,
     display: "flex",
     flexWrap: "wrap",
     alignItems: isCenter ? "center" : "start",
@@ -195,8 +198,7 @@ const stepperFormProviderOrdersViewSX = (
     flexDirection: "row",
     background: COLOR_WHITE,
     justifyContent: "space-between",
-    borderRadius: "14px",
-    boxShadow: `-20px 20px 40px -4px  ${"#A3A3A3"}30, 0px 0px 2px 0px  ${"#A3A3A3"}30`,
+    boxShadow: `-20px 20px 40px -4px  ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px  ${COLOR_GRAY_LIGHT}30`,
     "& .button": {
       minWidth: "170px",
       py: SPACE_SM,

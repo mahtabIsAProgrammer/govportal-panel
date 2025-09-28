@@ -4,7 +4,7 @@ import { CustomImageBox } from "../controllers/CustomImage";
 import { homeSectionSX } from "../../helpers/styles/sections";
 
 import vector from "../../assets/images/Vector.png";
-import homePicture from "../../assets/images/government-pic.webp";
+import homePicture from "../../assets/images/government-pic.png";
 
 export const HomeSection = () => {
   return (

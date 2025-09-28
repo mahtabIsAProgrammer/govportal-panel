@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { forEach, map } from "lodash";
 import { useContext, useMemo } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Skeleton, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -30,7 +30,7 @@ const RequestCitizenPage = () => {
   const { id: currentServiceId } = useParams();
   const { isLoadingUploader } = useContext(MainContext);
 
-  const { data: serviceData } = useGetServiceById(
+  const { data: serviceData, isLoading: isLoadingService } = useGetServiceById(
     currentServiceId ? +currentServiceId : 0
   );
   const {
@@ -116,97 +116,101 @@ const RequestCitizenPage = () => {
         </Grid>
 
         <Grid className="inputs-container-wrapper">
-          <Grid container size={{ md: 12 }} className="inputs-wrapper">
-            <InputsBox
-              inputs={
-                map(fields, ({ name, type, label, required }: TAny) =>
-                  type == "text"
-                    ? {
-                        type: "input",
-                        name,
-                        props: {
-                          input: {
-                            placeholder: label,
-                            customLabel: label,
-                            required: required,
+          {isLoadingService ? (
+            <Skeleton width="1100px" height="500px" />
+          ) : (
+            <Grid container size={{ md: 12 }} className="inputs-wrapper">
+              <InputsBox
+                inputs={
+                  map(fields, ({ name, type, label, required }: TAny) =>
+                    type == "text"
+                      ? {
+                          type: "input",
+                          name,
+                          props: {
+                            input: {
+                              placeholder: label,
+                              customLabel: label,
+                              required: required,
+                            },
                           },
-                        },
-                      }
-                    : type == "date"
-                    ? {
-                        type: "datePicker",
-                        name,
-                        props: {
-                          datePicker: {
-                            placeholder: label,
-                            customLabel: label,
-                            required: required,
+                        }
+                      : type == "date"
+                      ? {
+                          type: "datePicker",
+                          name,
+                          props: {
+                            datePicker: {
+                              placeholder: label,
+                              customLabel: label,
+                              required: required,
+                            },
                           },
-                        },
-                      }
-                    : type == "textarea"
-                    ? {
-                        type: "input",
-                        name,
-                        isFullWidth: true,
-                        props: {
-                          input: {
-                            isTextarea: true,
-                            placeholder: label,
-                            customLabel: label,
-                            required: required,
+                        }
+                      : type == "textarea"
+                      ? {
+                          type: "input",
+                          name,
+                          isFullWidth: true,
+                          props: {
+                            input: {
+                              isTextarea: true,
+                              placeholder: label,
+                              customLabel: label,
+                              required: required,
+                            },
                           },
-                        },
-                      }
-                    : type == "file"
-                    ? {
-                        name,
-                        thumbName: name,
-                        isFullWidth: true,
-                        type: "fileUploader",
-                        props: {
-                          fileUploader: {
-                            customLabel: label,
-                            // type: "image",
-                            required,
+                        }
+                      : type == "file"
+                      ? {
+                          name,
+                          thumbName: name,
+                          isFullWidth: true,
+                          type: "fileUploader",
+                          props: {
+                            fileUploader: {
+                              customLabel: label,
+                              // type: "image",
+                              required,
+                            },
                           },
-                        },
-                      }
-                    : ""
-                ) as TAny
-              }
-              columnGridSize={fields && fields?.length <= 3 ? 12 : 5.9}
-              formIK={formIK}
-            />
-            <Grid
-              size={{ md: 12 }}
-              sx={{
-                gap: "20px",
-                display: "flex",
-                p: 0,
-                justifyContent: "space-between",
-              }}
-            >
-              <CustomButton
-                text={"cancel"}
-                variant="outlined"
-                sx={{ width: "100%" }}
-                onClick={() => localNavigateHandler("/citizen")}
-              />
-              <CustomLoadingButton
-                text={"confirm"}
-                variant="contained"
-                loading={
-                  loadingCreate ||
-                  isLoaindCreateRequest ||
-                  isLoadingSubmitRequestWithPayment
+                        }
+                      : ""
+                  ) as TAny
                 }
-                onClick={() => formIK.handleSubmit()}
-                disabled={isLoadingUploader}
-                sx={{ width: "100%" }}
+                columnGridSize={fields && fields?.length <= 3 ? 12 : 5.9}
+                formIK={formIK}
               />
+              <Grid
+                size={{ md: 12 }}
+                sx={{
+                  gap: "20px",
+                  display: "flex",
+                  p: 0,
+                  justifyContent: "space-between",
+                }}
+              >
+                <CustomButton
+                  text={"cancel"}
+                  variant="outlined"
+                  sx={{ width: "100%" }}
+                  onClick={() => localNavigateHandler("/citizen")}
+                />
+                <CustomLoadingButton
+                  text={"confirm"}
+                  variant="contained"
+                  loading={
+                    loadingCreate ||
+                    isLoaindCreateRequest ||
+                    isLoadingSubmitRequestWithPayment
+                  }
+                  onClick={() => formIK.handleSubmit()}
+                  disabled={isLoadingUploader}
+                  sx={{ width: "100%" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

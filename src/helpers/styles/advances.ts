@@ -12,7 +12,10 @@ import {
 import {
   COLOR_WHITE,
   COLOR_BORDER,
+  COLOR_GRAY_LIGHT,
+  COLOR_PRIMARY_TEXT,
   COLOR_SECONDARY_TEXT,
+  COLOR_DARK_BACKGROUND,
 } from "../constants/colors";
 
 export const pageProviderSX: SxProps<Theme> = {
@@ -25,13 +28,14 @@ export const pageProviderSX: SxProps<Theme> = {
   },
 };
 
-export const tableProviderSX: SxProps<Theme> = {
+export const tableProviderSX = (theme: TTheme): SxProps<Theme> => ({
   p: SPACE_LG,
   display: "flex",
-  borderRadius: "16px",
+  borderRadius: "0",
   mt: "12px",
   animation: "fadeIn 0.7s",
-  backgroundColor: COLOR_WHITE,
+  border: theme == "light" ? "" : `1px solid ${COLOR_BORDER}`,
+  // backgroundColor: theme == "light" ? COLOR_WHITE : COLOR_BLACK,
   justifyContent: "space-between",
   "& .table-content": {
     width: "100%",
@@ -56,7 +60,7 @@ export const tableProviderSX: SxProps<Theme> = {
       },
     },
   },
-};
+});
 
 export const formButtonsSX: SxProps<Theme> = {
   display: "flex",
@@ -65,13 +69,13 @@ export const formButtonsSX: SxProps<Theme> = {
   gap: SPACE_SM,
   position: "sticky",
   bottom: "30px",
-  background: COLOR_WHITE,
+  background: COLOR_DARK_BACKGROUND,
   p: SPACE_MD,
-  borderRadius: "14px",
-  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}`,
+  borderRadius: "0",
+  border: `1px solid ${COLOR_BORDER}`,
+  // boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}`,
   zIndex: "1001",
   mt: SPACE_XL,
-  border: "none",
 };
 
 export const addEditProviderSX: SxProps<Theme> = {
@@ -91,8 +95,8 @@ export const addEditProviderSX: SxProps<Theme> = {
     "& .inputs-box": {
       p: SPACE_XL,
       height: "max-content",
-      background: COLOR_WHITE,
-      borderRadius: "14px",
+      // background: COLOR_WHITE,
+      borderRadius: "0",
       boxShadow: "none",
       border: `1px solid ${COLOR_BORDER}`,
       "&.px-box": {
@@ -110,9 +114,9 @@ export const addEditProviderSX: SxProps<Theme> = {
       backgroundColor: "transparent",
       "& .input-box-wrapper-main-divider": {
         p: SPACE_XL,
-        borderRadius: "14px",
-        backgroundColor: COLOR_WHITE,
-        boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+        borderRadius: "0",
+        // backgroundColor: COLOR_WHITE,
+        boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}30`,
       },
     },
   },
@@ -132,9 +136,10 @@ export const viewUserSX: SxProps<Theme> = {
       display: "flex",
       gap: SPACE_XL,
       width: "fit-content",
-      borderRadius: "12px",
+      borderRadius: "0",
       alignItems: "center",
-      backgroundColor: COLOR_WHITE,
+      // backgroundColor: COLOR_WHITE,
+      border: `1px solid ${COLOR_BORDER}`,
       "& .texts-wrapper": {
         pr: SPACE_2XL,
         display: "flex",
@@ -147,10 +152,11 @@ export const viewUserSX: SxProps<Theme> = {
       display: "flex",
       gap: SPACE_XL,
       width: "430px",
-      borderRadius: "12px",
+      borderRadius: "0",
       flexDirection: "column",
       height: "fit-content",
-      backgroundColor: COLOR_WHITE,
+      // backgroundColor: COLOR_WHITE,
+      border: `1px solid ${COLOR_BORDER}`,
     },
     "& .social-media-box": {
       p: SPACE_MD,
@@ -158,11 +164,12 @@ export const viewUserSX: SxProps<Theme> = {
       gap: SPACE_XL,
       alignItems: "center",
       width: "100%",
-      borderRadius: "12px",
+      borderRadius: "0",
       mt: "12px",
       height: "fit-content",
       justifyContent: "space-between",
-      backgroundColor: COLOR_WHITE,
+      // backgroundColor: COLOR_WHITE,
+      border: `1px solid ${COLOR_BORDER}`,
       "& .item": {
         display: "flex",
         flexDirection: "row !important",
@@ -171,6 +178,7 @@ export const viewUserSX: SxProps<Theme> = {
           fontWeight: "600",
           fontSize: "16px",
           textTransform: "capitalize",
+          color: COLOR_SECONDARY_TEXT,
         },
       },
     },
@@ -183,17 +191,19 @@ export const viewUserSX: SxProps<Theme> = {
         gap: SPACE_XS,
         alignItems: "center",
         "& .title": {
-          color: COLOR_SECONDARY_TEXT,
+          color: COLOR_PRIMARY_TEXT,
         },
         "& svg": {
           width: "20px",
         },
       },
+
       "& .item-text": {
         pl: SPACE_XL,
         fontWeight: "600",
         fontSize: "16px",
         textTransform: "capitalize",
+        color: COLOR_SECONDARY_TEXT,
       },
     },
   },
@@ -210,8 +220,8 @@ export const navigateListStepsButtonsSX: SxProps<Theme> = {
   flexDirection: "row",
   background: COLOR_WHITE,
   justifyContent: "flex-end",
-  borderRadius: "14px",
-  boxShadow: `-20px 20px 40px -4px ${"#A3A3A3"}30, 0px 0px 2px 0px ${"#A3A3A3"}30`,
+  borderRadius: "0",
+  boxShadow: `-20px 20px 40px -4px ${COLOR_GRAY_LIGHT}30, 0px 0px 2px 0px ${COLOR_GRAY_LIGHT}30`,
 
   "& .button": {
     minWidth: "170px",

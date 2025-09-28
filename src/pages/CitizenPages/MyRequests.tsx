@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {
   COLOR_RED,
   COLOR_GREEN,
-  COLOR_WARNING,
+  COLOR_YELLOW,
   COLOR_MUTED_TEXT,
 } from "../../helpers/constants/colors";
 import type {
@@ -135,4 +135,4 @@ const MyRequests = () => {
 
 export default MyRequests;
 
-const color = [COLOR_MUTED_TEXT, COLOR_WARNING, COLOR_GREEN, COLOR_RED];
+const color = [COLOR_MUTED_TEXT, COLOR_YELLOW, COLOR_GREEN, COLOR_RED];

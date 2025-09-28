@@ -42,7 +42,7 @@ import { useGetRequestDataByRequestId } from "../../services/hooks/requestData";
 import { MainContext } from "../../helpers/others/mainContext";
 import { StatusBox } from "../../components/common/StatusBox";
 import {
-  COLOR_WARNING,
+  COLOR_YELLOW,
   COLOR_GREEN,
   COLOR_RED,
 } from "../../helpers/constants/colors";
@@ -167,14 +167,6 @@ const View = () => {
               />
               <Grid>
                 <CustomLoadingButton
-                  sx={{
-                    height: "54px",
-                    mt: "14px",
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                    borderTopRightRadius: "12px",
-                    borderBottomRightRadius: "12px",
-                  }}
                   text={"Submit"}
                   variant="contained"
                   loading={isLoadingUpdateRequestStatus}
@@ -292,4 +284,4 @@ const ItemBox: FC<{ title: string; value: TAny; icon?: TAny }> = ({
     </Box>
   );
 };
-const color = [COLOR_WARNING, COLOR_GREEN, COLOR_RED];
+const color = [COLOR_YELLOW, COLOR_GREEN, COLOR_RED];

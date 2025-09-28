@@ -30,18 +30,18 @@ export const STYLE_AUTOCOMPLETE_ITEMS: SxProps<Theme> = {
   fontSize: `${FONT_SMALL_TEXT} !important`,
   overflowY: "auto",
   maxHeight: "150px",
-  borderRadius: "12px",
+  borderRadius: "0",
   "&::-webkit-scrollbar": {
     width: "5px",
     marginRight: "5px !important",
   },
   "&::-webkit-scrollbar-track": {
     my: SPACE_MD,
-    borderRadius: "14px",
+    borderRadius: "0",
     background: COLOR_BORDER,
   },
   "&::-webkit-scrollbar-thumb": {
     background: COLOR_PRIMARY,
-    borderRadius: "14px",
+    borderRadius: "0",
   },
 };

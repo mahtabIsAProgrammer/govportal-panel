@@ -4,10 +4,10 @@ import { Grid, Alert, type Theme, type SxProps, Stack } from "@mui/material";
 
 import {
   COLOR_RED,
-  COLOR_INFO,
+  COLOR_BLUE,
   COLOR_GREEN,
   COLOR_WHITE,
-  COLOR_WARNING,
+  COLOR_YELLOW,
   COLOR_PRIMARY_TEXT,
 } from "../../helpers/constants/colors";
 import { CustomButton } from "./CustomButton";
@@ -57,7 +57,7 @@ const alertSX: SxProps<Theme> = {
     alignContent: "center",
     fontSize: FONT_BODY,
     fontWeight: "600",
-    borderRadius: "12px",
+
     backgroundColor: COLOR_WHITE,
     justifyContent: "space-between",
     boxShadow: "0px 0px 16px 0px rgba(145, 158, 171, 0.16)",
@@ -80,16 +80,16 @@ const alertSX: SxProps<Theme> = {
     height: "22px",
     padding: SPACE_SM,
     color: COLOR_GREEN,
-    borderRadius: "12px",
+
     backgroundColor: `${COLOR_GREEN}30`,
   },
   "& .icon-warning": {
     width: "22px",
     height: "22px",
     padding: SPACE_SM,
-    color: COLOR_WARNING,
-    borderRadius: "12px",
-    backgroundColor: `${COLOR_WARNING}30`,
+    color: COLOR_YELLOW,
+
+    backgroundColor: `${COLOR_YELLOW}30`,
   },
   "& .icon-danger": {
     gap: SPACE_MD,
@@ -97,16 +97,16 @@ const alertSX: SxProps<Theme> = {
     height: "22px",
     padding: SPACE_SM,
     color: COLOR_RED,
-    borderRadius: "12px",
+
     backgroundColor: `${COLOR_RED}30`,
   },
   "& .icon-info": {
     width: "22px",
     height: "22px",
     padding: SPACE_SM,
-    color: COLOR_INFO,
-    borderRadius: "12px",
-    backgroundColor: `${COLOR_INFO}30`,
+    color: COLOR_BLUE,
+
+    backgroundColor: `${COLOR_BLUE}30`,
   },
   "& .MuiAlert-icon": {
     ml: "12px",

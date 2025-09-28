@@ -16,7 +16,6 @@ export const StatusBox: FC<IStatusBox> = ({ color, size, text }) => {
         py: SPACE_SM,
         px: "12px",
         textAlign: "center",
-        borderRadius: "8px",
         color: `${color}`,
         background: `${color}40`,
       }}

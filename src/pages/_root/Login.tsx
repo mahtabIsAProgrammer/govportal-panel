@@ -43,6 +43,7 @@ export const Login: FC = () => {
           else navigate("/");
         },
         successMessage: "login succeed",
+        errorCallback: (error) => error,
       });
     },
   });

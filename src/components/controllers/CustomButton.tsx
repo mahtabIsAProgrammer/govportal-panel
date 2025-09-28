@@ -12,7 +12,11 @@ import { type AriaAttributes, type DOMAttributes, memo } from "react";
 import { CustomIcon } from "./CustomImage";
 import { SPACE_XS } from "../../helpers/constants/spaces";
 import { FONT_BUTTON } from "../../helpers/constants/fonts";
-import { COLOR_PRIMARY, COLOR_WHITE } from "../../helpers/constants/colors";
+import {
+  COLOR_GRAY_LIGHT,
+  COLOR_PRIMARY,
+  COLOR_WHITE,
+} from "../../helpers/constants/colors";
 
 import loading from "../../assets/images/loading-white.gif";
 
@@ -55,7 +59,11 @@ export const CustomButton = memo<TCustomButton>(
 );
 
 export const CustomLoadingButton = memo<TLoadingButton>(
-  ({ text, variant, customColor, customWidth, ...props }) => {
+  ({ text, variant, customColor, customWidth, sx, ...props }) => {
+    const mergeSx = {
+      ...buttonSX(customColor || COLOR_PRIMARY, customWidth),
+      ...(sx || {}),
+    };
     return (
       <LoadingButton
         loadingPosition={"end"}
@@ -67,7 +75,7 @@ export const CustomLoadingButton = memo<TLoadingButton>(
           />
         }
         endIcon={<></>}
-        sx={buttonSX(customColor || COLOR_PRIMARY, customWidth)}
+        sx={mergeSx}
         {...props}
       >
         <Typography className="button-text">{text}</Typography>
@@ -81,10 +89,9 @@ const buttonSX = (
   customWidth?: string
 ): SxProps<Theme> => ({
   gap: SPACE_XS,
-  borderRadius: "8px",
   fontWeight: "700",
-  textTransform: "capitalize",
   width: customWidth,
+  textTransform: "capitalize",
   "& .button-text": {
     width: "max-content",
     textAlign: "center",
@@ -93,7 +100,7 @@ const buttonSX = (
   },
   "&.MuiButtonBase-root": {
     "&.MuiButton-contained": {
-      background: customColor,
+      backgroundColor: `${customColor} !important`,
       transition: "0.3s",
       border: `1px solid ${
         "transparent"
@@ -111,9 +118,9 @@ const buttonSX = (
     },
     "&.MuiButton-outlined": {
       color: customColor,
-      backgroundColor: COLOR_WHITE,
+      // backgroundColor: COLOR_WHITE,
       border: `1px solid ${
-        customColor == "#A3A3A3" ? customColor + "40" : customColor
+        customColor == COLOR_GRAY_LIGHT ? customColor + "40" : customColor
       }`,
       "&.Mui-disabled": {
         backgroundColor: `${customColor}30`,

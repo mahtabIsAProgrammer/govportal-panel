@@ -13,6 +13,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {
   COLOR_WHITE,
   COLOR_PRIMARY_TEXT,
+  COLOR_BORDER,
 } from "../../helpers/constants/colors";
 import { checkUndefiendOrNull } from "../../helpers/utils/values";
 import { SPACE_2XL, SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
@@ -98,18 +99,19 @@ export const CustomTab: FC<ICustomTab> = ({ data }) => {
 const customTabSX: SxProps<Theme> = {
   width: "100%",
   typography: "body1",
-  background: COLOR_WHITE,
-  borderRadius: "25px",
-  boxShadow:
-    " -20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
+  // background: COLOR_WHITE,
+  border: `1px solid ${COLOR_BORDER}`,
+  borderRadius: "0",
+  // boxShadow:
+  //   " -20px 20px 40px -4px rgba(145, 158, 171, 0.24), 0px 0px 2px 0px rgba(145, 158, 171, 0.24)",
   "& .tab-item": {
     margin: "auto",
     height: "60px",
     display: "flex",
     alignItems: "center",
-    background: `${"#DEE3ED"}50`,
-    borderTopLeftRadius: "25px",
-    borderTopRightRadius: "25px",
+    border: `1px solid ${COLOR_BORDER}`,
+    // background: `${"#DEE3ED"}50`,
+
     "& :first-of-type": {
       height: "100%",
     },
@@ -144,7 +146,7 @@ const customTabSX: SxProps<Theme> = {
         color: COLOR_WHITE,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: "4px",
+        borderRadius: "0",
         "& p": {
           marginTop: "5px",
           fontSize: FONT_SMALL_TEXT,

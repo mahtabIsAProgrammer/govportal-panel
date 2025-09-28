@@ -31,7 +31,7 @@ import { navbarSX, userInfoSX } from "../../helpers/styles/navbar";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 import { DateTimeFormatBasicMOMENT } from "../../helpers/utils/dateTime";
 import type { NotificationDataApi } from "../../services/configs/apiEndPoint";
-import { COLOR_PRIMARY, COLOR_WARNING } from "../../helpers/constants/colors";
+import { COLOR_BLUE, COLOR_YELLOW } from "../../helpers/constants/colors";
 
 type TPopperTypes = "userPopper" | "languagePopper";
 
@@ -108,6 +108,7 @@ export const Navbar = () => {
     (e: TAny, type: TPopperTypes) => {
       e.stopPropagation();
       setOpenPopper(openPopper == type ? undefined : type);
+      setOpenNotifyPaper(false);
     },
     [openPopper]
   );
@@ -125,6 +126,7 @@ export const Navbar = () => {
       tryCatchHandler({
         handler: async () => {
           e.stopPropagation();
+          setOpenPopper(undefined);
           setOpenNotifyPaper(!openNotifyPaper);
           if (checkFalsyValue(unReadNotify)) {
             const data = notificationUpdateIsRead(unReadNotify);
@@ -167,13 +169,13 @@ export const Navbar = () => {
       <Box ref={notifyIconRef}>
         <CustomIcon
           className="notif-icon"
-          src={notificationICON(COLOR_PRIMARY)}
+          src={notificationICON(COLOR_BLUE)}
           width={32}
           height={32}
           onClick={openNotifyPopperHandler}
           badge={{
             isExist: filteredNotificationData(true)?.length > 0 ? true : false,
-            color: COLOR_WARNING,
+            color: COLOR_YELLOW,
             count: unReadNotify?.length,
           }}
         />

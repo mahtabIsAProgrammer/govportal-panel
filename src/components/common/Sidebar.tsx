@@ -6,13 +6,17 @@ import { Grid, Typography } from "@mui/material";
 import {
   blogICON,
   userIcon,
-  commentICON,
-  productICON,
-  categoryICON,
+  serviceICON,
+  departmentICON,
+  paymentICON,
   dashboardICON,
+  notificationICON,
 } from "../other/FunctionalSVG";
 import { sidebarSX } from "../../helpers/styles/sidebar";
-import { COLOR_PRIMARY } from "../../helpers/constants/colors";
+import {
+  COLOR_PRIMARY,
+  COLOR_PRIMARY_TEXT,
+} from "../../helpers/constants/colors";
 import { MainContext } from "../../helpers/others/mainContext";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 
@@ -39,19 +43,19 @@ export const Sidebar = () => {
         : {
             name: "departments",
             url: "/dashboard/departments",
-            icon: productICON,
+            icon: departmentICON,
           },
     ],
-    { name: "services", url: "/dashboard/services", icon: commentICON },
+    { name: "services", url: "/dashboard/services", icon: serviceICON },
     { name: "requests", url: "/dashboard/requests", icon: blogICON },
     // { name: "documents", url: "/dashboard/documents", icon: categoryICON },
-    { name: "payments", url: "/dashboard/payments", icon: categoryICON },
+    { name: "payments", url: "/dashboard/payments", icon: paymentICON },
     ...[
       role === "admin"
         ? {
             name: "notifications",
             url: "/dashboard/notifications",
-            icon: categoryICON,
+            icon: notificationICON,
           }
         : {},
     ],
@@ -72,7 +76,11 @@ export const Sidebar = () => {
               <CustomIcon
                 src={
                   icon
-                    ? icon(location.pathname == url ? COLOR_PRIMARY : undefined)
+                    ? icon(
+                        location.pathname == url
+                          ? COLOR_PRIMARY
+                          : COLOR_PRIMARY_TEXT
+                      )
                     : undefined
                 }
               />

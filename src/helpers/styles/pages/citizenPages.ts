@@ -6,9 +6,13 @@ import {
   SPACE_XL,
   SPACE_2XL,
 } from "../../constants/spaces";
+import {
+  COLOR_BORDER,
+  COLOR_PRIMARY_TEXT,
+  COLOR_DESCRIPTION_DARK,
+} from "../../constants/colors";
 import { FONT_TITLE } from "../../constants/fonts";
 import { MAX_WIDTH_CITIZEN } from "../../constants/statics";
-import { COLOR_MUTED_TEXT, COLOR_WHITE } from "../../constants/colors";
 
 export const departmentCitizenPageSX: SxProps<Theme> = {
   "&.department-citizen-page": {
@@ -39,7 +43,7 @@ export const requestCitizenPageSX: SxProps<Theme> = {
     width: "100%",
     display: "flex",
     alignItems: "center",
-    backgroundColor: COLOR_WHITE,
+    // backgroundColor: COLOR_WHITE,
     flexDirection: "column",
     // mt: SPACE_2XL,
     "& .container": {
@@ -59,19 +63,21 @@ export const requestCitizenPageSX: SxProps<Theme> = {
         "& .name": {
           fontSize: FONT_TITLE,
           fontWeight: "700",
+          color: COLOR_PRIMARY_TEXT,
         },
         "& .description": {
-          color: COLOR_MUTED_TEXT,
+          color: COLOR_DESCRIPTION_DARK,
           ml: SPACE_SM,
         },
       },
       "& .inputs-container-wrapper": {
         p: SPACE_LG,
-        borderRadius: "12px",
+        borderRadius: "0",
         display: "flex",
         alignItems: "center",
         minHeight: "400px",
-        boxShadow: "1px -1px 25px -2px rgba(211,193,193,1)",
+        // boxShadow: "1px -1px 25px -2px rgba(211,193,193,1)",
+        border: `1px solid ${COLOR_BORDER}`,
         "& .inputs-wrapper": {
           columnGap: "18px",
           // justifyContent: "center",

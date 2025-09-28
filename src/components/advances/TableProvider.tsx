@@ -1,6 +1,13 @@
 import { Grid } from "@mui/material";
 import { debounce, isEmpty, isNumber } from "lodash";
-import { memo, useCallback, useMemo, useState, type FC } from "react";
+import {
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type FC,
+} from "react";
 
 import {
   CustomTable,
@@ -19,6 +26,7 @@ import { tableProviderSX } from "../../helpers/styles/advances";
 import { CustomTextfield } from "../controllers/CustomTextfield";
 import { CustomAutocomplete } from "../controllers/CustomAutocomplete";
 import { responsePropsByLengthOnStandard } from "../../helpers/utils/handlers";
+import { MainContext } from "../../helpers/others/mainContext";
 
 export type TTableProvider<T = TAny> = ITableProvider<
   IHeaderCell<T>,
@@ -44,6 +52,7 @@ export const TableProvider = memo<TTableProvider>(
       extraFilterItemList,
     } = tableOptions ?? {};
 
+    const { theme } = useContext(MainContext);
     const [page, setPage] = useState<number>(1);
     const [keyword, setKeyword] = useState<string>("");
     const [extraFilter, setExtraFilter] = useState<TAny>(undefined);
@@ -110,7 +119,7 @@ export const TableProvider = memo<TTableProvider>(
     );
 
     return (
-      <Grid container className="table-wrapper" sx={tableProviderSX}>
+      <Grid container className="table-wrapper" sx={tableProviderSX(theme)}>
         <Grid className="table-content">
           <Grid className="table-filter-wrapper">
             <Grid className="table-filters">

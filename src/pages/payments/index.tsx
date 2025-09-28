@@ -20,7 +20,7 @@ import {
   COLOR_GREEN,
   COLOR_MUTED_TEXT,
   COLOR_RED,
-  COLOR_WARNING,
+  COLOR_YELLOW,
 } from "../../helpers/constants/colors";
 
 const List: FC = () => {
@@ -174,4 +174,4 @@ const userHeadCells: IHeaderCell<PaymentDataApi>[] = [
   // },
 ];
 
-const color = [COLOR_MUTED_TEXT, COLOR_WARNING, COLOR_GREEN, COLOR_RED];
+const color = [COLOR_MUTED_TEXT, COLOR_YELLOW, COLOR_GREEN, COLOR_RED];

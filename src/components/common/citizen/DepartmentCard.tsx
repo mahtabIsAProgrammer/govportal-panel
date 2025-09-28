@@ -1,10 +1,17 @@
 import type { FC } from "react";
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
+import {
+  COLOR_WHITE,
+  COLOR_BORDER,
+  COLOR_PRIMARY,
+  COLOR_PRIMARY_TEXT,
+  COLOR_DESCRIPTION_DARK,
+  COLOR_DARK_BACKGROUND_SURFACE,
+} from "../../../helpers/constants/colors";
 import { CustomIcon } from "../../controllers/CustomImage";
 import { arrowCrookedIcon } from "../../other/FunctionalSVG";
 import { SPACE_LG } from "../../../helpers/constants/spaces";
-import { COLOR_PRIMARY, COLOR_WHITE } from "../../../helpers/constants/colors";
 import type { DepartmentDataApi } from "../../../services/configs/apiEndPoint";
 
 interface IDepartmentCard {
@@ -42,33 +49,29 @@ const departmentCardSX: SxProps<Theme> = {
   "&.department-card": {
     width: "350px",
     p: "18px",
-    borderRadius: "12px",
     height: "100%",
     minHeight: "200px",
-    backgroundColor: COLOR_WHITE,
+    // backgroundColor: COLOR_WHITE,
     minWidth: "200px",
     borderTop: `10px solid ${COLOR_PRIMARY}`,
+    borderLeft: `1px solid ${COLOR_BORDER}`,
+    borderRight: `1px solid ${COLOR_BORDER}`,
+    borderBottom: `1px solid ${COLOR_BORDER}`,
     borderTopRightRadius: "0",
     borderTopLeftRadius: "0",
     position: "relative",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    boxShadow: `0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814`,
+    // boxShadow: `0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814`,
     cursor: "pointer",
     "&:hover": {
       transition: "0.3s",
-      backgroundColor: "#3D3F3C",
+      backgroundColor: COLOR_DARK_BACKGROUND_SURFACE,
       "& .title-wrapper ": {
-        ".name": {
-          color: COLOR_WHITE,
-        },
         ".description": {
-          color: "#C4C4C4",
+          color: COLOR_DESCRIPTION_DARK,
         },
-      },
-      "& .icon-wrapper": {
-        visibility: "visible",
       },
     },
 
@@ -79,13 +82,13 @@ const departmentCardSX: SxProps<Theme> = {
       "& .name": {
         fontSize: "24px",
         fontWeight: "700",
-        color: "#3D3F3C",
+        color: COLOR_PRIMARY_TEXT,
         width: "60%",
       },
       "& .description": {
         fontSize: "16px",
         fontWeight: "500",
-        color: "#747474",
+        color: COLOR_DESCRIPTION_DARK,
       },
     },
     "& .icon-wrapper": {
@@ -93,7 +96,6 @@ const departmentCardSX: SxProps<Theme> = {
       top: "33px",
       right: "15px",
       backgroundColor: "#5C5D5B",
-      borderRadius: "50%",
       rotate: "-75deg",
       visibility: "hidden",
     },

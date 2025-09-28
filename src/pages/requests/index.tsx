@@ -6,8 +6,9 @@ import { useCallback, useMemo, type FC } from "react";
 import {
   COLOR_RED,
   COLOR_GREEN,
-  COLOR_WARNING,
+  COLOR_YELLOW,
   COLOR_MUTED_TEXT,
+  COLOR_PRIMARY,
 } from "../../helpers/constants/colors";
 import type {
   UserDataApi,
@@ -94,7 +95,7 @@ const List: FC = () => {
             <Grid sx={{ display: "flex" }}>
               <IconsTable
                 title="view details"
-                icon={eyeIcon()}
+                icon={eyeIcon(COLOR_PRIMARY)}
                 onClick={() => navigate(`view/${value}`)}
               />
             </Grid>
@@ -154,4 +155,4 @@ const List: FC = () => {
 
 export default List;
 
-const color = [COLOR_MUTED_TEXT, COLOR_WARNING, COLOR_GREEN, COLOR_RED];
+const color = [COLOR_MUTED_TEXT, COLOR_YELLOW, COLOR_GREEN, COLOR_RED];

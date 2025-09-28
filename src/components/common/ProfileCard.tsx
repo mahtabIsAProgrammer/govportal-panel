@@ -184,7 +184,7 @@ const profileCardSX = (
       "& .profile-subtitle-text": {
         fontSize: FONT_SMALL_TEXT,
         fontWeight: "500",
-        color: "#A0A0A0",
+        // color: COLOR_DESCRIPTION_DARK,
         textAlign: "start",
       },
       "& .icon-subtitle": {},
@@ -193,7 +193,6 @@ const profileCardSX = (
       px: "30px",
       display: "flex",
       alignItems: "center",
-      borderRadius: "16px",
       background: colorBadge + "30",
       "& p": {
         color: colorBadge,
@@ -218,7 +217,6 @@ const profileCardSX = (
   "& .icon-profile-card": {
     width: "45px",
     height: "45px",
-    borderRadius: "50%",
     backgroundColor: `${color}40`,
   },
 });
