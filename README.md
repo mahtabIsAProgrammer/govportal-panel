@@ -1,69 +1,43 @@
-# React + TypeScript + Vite
+# 🌐 GovPortal Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **frontend** of the **GovPortal** project — a government service management platform that allows users (Admins, Department Heads, Officers, and Citizens) to interact with digital government services.  
 
-Currently, two official plugins are available:
+This frontend is built with **Next.js** and **Tailwind CSS**, providing a clean, responsive, and role-based dashboard experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🌈 **Modern UI** using Tailwind CSS  
+- 🔐 **Role-based access control** (Admin, Department Head, Officer, Citizen)
+- 📊 **Dynamic dashboards** with Recharts
+- 💬 **Notifications** for officers and citizens
+- 🧾 **Service request management** and **payments**
+- ⚙️ **Integration** with the backend API (`govportal-backend`)
+- 💡 Fully deployable on **Vercel** or **Render**
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+# 🧑‍💻 Roles and Interfaces
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Role                | Capabilities                                                       |
+| ------------------- | ------------------------------------------------------------------ |
+| **Admin**           | Full access to dashboards, analytics, and all data                 |
+| **Department Head** | View departments, manage officers, view payments & requests        |
+| **Officer**         | Manage citizen requests (approve/reject), view department services |
+| **Citizen**         | Submit service requests, make payments, view statuses              |
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# 📊 Charts & Dashboards
+
+The frontend visualizes analytics using Recharts:
+
+Bar chart: Requests by service
+
+Pie chart: Approval vs. Rejection rates
+
+Line chart: Payments over time
+
+
+
