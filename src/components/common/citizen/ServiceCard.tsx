@@ -48,7 +48,7 @@ export const ServiceCard: FC<IServiceCard> = ({
 
 const serviceCardSX: SxProps<Theme> = {
   "&.service-card": {
-    width: "300px",
+    width: { xs: "90%", md: "300px" },
     p: "12px",
     minHeight: "200px",
     // height: "100%",

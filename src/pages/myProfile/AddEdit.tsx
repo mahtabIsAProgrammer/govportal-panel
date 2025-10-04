@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { useMemo, type FC } from "react";
 import { useParams } from "react-router-dom";
 
@@ -45,7 +45,7 @@ const AddEdit: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
     last_name: last_name || "",
     email: email || "",
     password: password || "",
-    date_of_birth: date_of_birth || "",
+    date_of_birth: date_of_birth || null,
     department_id: department_id || null,
     national_id: national_id || "",
     phone_number: phone_number || "",
@@ -60,6 +60,9 @@ const AddEdit: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
     () => (departmentData as { data: DepartmentDataApi[] })?.data ?? [],
     [departmentData]
   );
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Grid
@@ -251,7 +254,7 @@ const AddEdit: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
                   },
                 },
               ],
-              columnGridSize: 5.9,
+              columnGridSize: isMobile ? 12 : 5.9,
               side: {
                 profileUploader: {
                   name: "image",
@@ -285,7 +288,7 @@ const AddEdit: FC<{ isCitizen?: boolean }> = ({ isCitizen }) => {
                   last_name: last_name || "",
                   email: email || "",
                   password: password || "",
-                  date_of_birth: date_of_birth || "",
+                  date_of_birth: date_of_birth || null,
                   department_id: department_id || null,
                   national_id: national_id || "",
                   phone_number: phone_number || "",

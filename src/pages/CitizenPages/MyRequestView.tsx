@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 
 import View from "../requests/View";
+import { SPACE_2XL } from "../../helpers/constants/spaces";
 
 const MyRequestView = () => {
   return (
@@ -11,6 +12,8 @@ const MyRequestView = () => {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
+        mt: { xs: SPACE_2XL, md: "" },
+        pt: { xs: SPACE_2XL, md: "" },
         "& .view-request-page ": {
           width: "100%",
           maxWidth: "1200px",

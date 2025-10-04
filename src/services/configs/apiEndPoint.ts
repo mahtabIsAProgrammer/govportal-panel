@@ -12,7 +12,7 @@ export interface UserDataApi {
   first_name?: string;
   last_name?: string;
   national_id?: string;
-  date_of_birth?: string;
+  date_of_birth?: string | null;
   username?: string;
   email?: string;
   password?: string;

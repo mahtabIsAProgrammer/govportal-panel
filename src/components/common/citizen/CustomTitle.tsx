@@ -22,7 +22,15 @@ export const CustomTitle = memo<ICustomTitle>(
   ({ title, description, setting }) => {
     const { color, iconColor } = setting ?? {};
     return (
-      <Grid sx={{ display: "flex", flexDirection: "column", gap: SPACE_MD }}>
+      <Grid
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: SPACE_MD,
+          alignItems: { xs: "center", md: "" },
+          pb: { xs: SPACE_MD, md: "" },
+        }}
+      >
         <Typography sx={customTitle(iconColor, color)}>
           {title}
           {arrowCrookedIcon(iconColor)}
@@ -30,7 +38,12 @@ export const CustomTitle = memo<ICustomTitle>(
         </Typography>
         {description && (
           <Typography
-            sx={{ color: "#747474", fontSize: FONT_SMALL_TEXT, width: "52%" }}
+            sx={{
+              color: "#747474",
+              fontSize: FONT_SMALL_TEXT,
+              textAlign: { xs: "center", md: "" },
+              width: { xs: "90%", md: "52%" },
+            }}
           >
             {description}
           </Typography>

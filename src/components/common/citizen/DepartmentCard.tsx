@@ -47,7 +47,7 @@ export const DepartmentCard: FC<IDepartmentCard> = ({
 
 const departmentCardSX: SxProps<Theme> = {
   "&.department-card": {
-    width: "350px",
+    width: { xs: "90%", md: "350px" },
     p: "18px",
     height: "100%",
     minHeight: "200px",

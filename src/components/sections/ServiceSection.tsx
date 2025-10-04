@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { map, slice } from "lodash";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { CustomTitle } from "../common/citizen/CustomTitle";
@@ -10,6 +10,11 @@ import type { ServiceDataApi } from "../../services/configs/apiEndPoint";
 
 export const ServiceSection: FC<{ data: ServiceDataApi[] }> = ({ data }) => {
   const navigate = useNavigate();
+
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMd = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Grid sx={serviceSectionSX}>
       <div id={"services"}></div>
@@ -21,7 +26,7 @@ We provide a comprehensive suite of    services designed      to empower citizen
         />
         <Grid className="serivces-wrapper">
           {data &&
-            map(slice(data, 0, 8), (item) => (
+            map(slice(data, 0, isMobile ? 3 : isMd ? 6 : 8), (item) => (
               <ServiceCard
                 onClick={() => navigate(`/citizen/services/${item?.id}`)}
                 data={item}

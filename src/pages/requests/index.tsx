@@ -24,7 +24,6 @@ import { useGetServiceById } from "../../services/hooks/services";
 import { PageProvider } from "../../components/advances/PageProvider";
 import { REQUEST_STATUS_TYPES_DATA } from "../../helpers/utils/types";
 import type { IHeaderCell } from "../../components/controllers/CustomTable";
-import { emptyValueString } from "../../components/other/EmptyComponents";
 import { PAGE_SIZE } from "../../helpers/constants/statics";
 
 const List: FC = () => {
@@ -82,7 +81,9 @@ const List: FC = () => {
           const { first_name, last_name } =
             (departmentById as { data: UserDataApi } | undefined)?.data ?? {};
           return (
-            <>{first_name ? `${first_name} ${last_name}` : emptyValueString}</>
+            <>
+              {first_name ? `${first_name} ${last_name}` : "-Not Reviewed Yet-"}
+            </>
           );
         },
       },

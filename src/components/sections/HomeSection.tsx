@@ -1,10 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 
-import { CustomImageBox } from "../controllers/CustomImage";
 import { homeSectionSX } from "../../helpers/styles/sections";
-
-import vector from "../../assets/images/Vector.png";
-import homePicture from "../../assets/images/government-pic.png";
 
 export const HomeSection = () => {
   return (
@@ -23,11 +19,11 @@ export const HomeSection = () => {
           Egestas purus eiusmod viverra accumsan in nisl nisi. Arcu cursus vitae
           congue mauris rhoncus aenean is aenean scelerisque.
         </Typography>
-        <CustomImageBox src={vector} />
+        {/* <CustomImageBox src={vector} /> */}
       </Grid>
-      <Grid className="right-side">
+      {/* <Grid className="right-side">
         <CustomImageBox src={homePicture} />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

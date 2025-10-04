@@ -103,6 +103,7 @@ export const userInfoSX: SxProps<Theme> = {
       borderRadius: "0",
       wordBreak: "break-word",
       minHeight: "fit-content",
+      "&.home": { display: { xs: "flex", md: "none" } },
       "& p": {
         fontSize: FONT_SMALL_TEXT,
         color: COLOR_PRIMARY_TEXT,
@@ -129,7 +130,7 @@ export const navbarCitizenX = (
   mx: "auto",
   px: SPACE_MD,
   py: "12px",
-  top: "40px",
+  top: { xs: "20px", md: "40px" },
   zIndex: 1200,
   display: "flex",
   position: "fixed",
@@ -230,8 +231,8 @@ export const drawerSX: SxProps<Theme> = {
   width: 250,
   "& .MuiDrawer-paper": {
     width: 250,
-    backgroundColor: COLOR_PRIMARY,
-    padding: "1rem",
+    backgroundColor: COLOR_DARK_BACKGROUND,
+    padding: SPACE_MD,
     display: "flex",
     flexDirection: "column",
     gap: "1rem",

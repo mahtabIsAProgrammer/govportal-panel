@@ -1,13 +1,4 @@
-import {
-  Grid,
-  Box,
-  List,
-  Drawer,
-  ListItem,
-  Typography,
-  ListItemText,
-  Link,
-} from "@mui/material";
+import { Grid, Box, Typography, Link } from "@mui/material";
 import {
   memo,
   useRef,
@@ -26,16 +17,12 @@ import {
 } from "../NotificationPopper";
 import {
   homeICON,
-  menuIcon,
   notificationICON,
   profileUpdateICON,
   changePasswordICON,
+  blogICON,
 } from "../../other/FunctionalSVG";
-import {
-  drawerSX,
-  userInfoSX,
-  navbarCitizenX,
-} from "../../../helpers/styles/navbar";
+import { userInfoSX, navbarCitizenX } from "../../../helpers/styles/navbar";
 import {
   COLOR_PRIMARY,
   COLOR_PRIMARY_TEXT,
@@ -59,7 +46,6 @@ import { DateTimeFormatBasicMOMENT } from "../../../helpers/utils/dateTime";
 import type { NotificationDataApi } from "../../../services/configs/apiEndPoint";
 
 export const CitizenNavbar = memo(() => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [openPopper, setOpenPopper] = useState<boolean>(false);
   const [openNotifyPaper, setOpenNotifyPaper] = useState<boolean>(false);
 
@@ -158,8 +144,6 @@ export const CitizenNavbar = memo(() => {
     [openPopper]
   );
 
-  const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
-
   return (
     <>
       <Grid className="navbar-wrapper">
@@ -209,6 +193,7 @@ export const CitizenNavbar = memo(() => {
                 height="42px"
                 sx={{
                   cursor: "pointer",
+
                   "&:hover": { scale: "1.1", transition: "0.3s" },
                 }}
                 withOutPreview
@@ -216,13 +201,6 @@ export const CitizenNavbar = memo(() => {
                 variant="circular"
                 onClick={(e) => handleOpenPopper(e)}
               />
-            </Box>
-
-            <Box
-              sx={{ display: { xs: "flex", md: "none" } }}
-              onClick={handleDrawerToggle}
-            >
-              {menuIcon()}
             </Box>
           </Grid>
           <CustomPopper
@@ -244,6 +222,10 @@ export const CitizenNavbar = memo(() => {
                 </Typography>
               </Grid>
               <Grid className="action-items">
+                <Box className="item home" onClick={() => navigate("/citizen")}>
+                  <CustomIcon src={homeICON()} />
+                  <Typography>Home</Typography>
+                </Box>
                 <Box onClick={() => navigate("/citizen/me")} className="item">
                   <CustomIcon src={profileUpdateICON()} />
                   <Typography>Profile</Typography>
@@ -253,7 +235,7 @@ export const CitizenNavbar = memo(() => {
                   className="item"
                   onClick={() => navigate("/citizen/my-request")}
                 >
-                  <CustomIcon src={homeICON()} />
+                  <CustomIcon src={blogICON()} />
                   <Typography>My Request</Typography>
                 </Box>
                 <Box
@@ -298,27 +280,6 @@ export const CitizenNavbar = memo(() => {
           }
         />
       </Grid>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        sx={drawerSX}
-        anchor="left"
-        open={drawerOpen}
-        onClose={handleDrawerToggle}
-      >
-        <Box sx={{ width: 250, p: 2 }}>
-          <List>
-            {navbarValues.map(({ name, url }, index) => (
-              <ListItem
-                key={index}
-                onClick={() => document.getElementById(url)}
-              >
-                <ListItemText primary={name} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
     </>
   );
 });

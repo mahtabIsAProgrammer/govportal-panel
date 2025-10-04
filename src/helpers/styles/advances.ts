@@ -124,6 +124,8 @@ export const addEditProviderSX: SxProps<Theme> = {
 
 export const viewUserSX: SxProps<Theme> = {
   width: "100%",
+  // height: { xs: "100%", md: "" },
+  mt: { xs: "100px", md: "0" },
   "& .container": {
     width: "100%",
     display: "flex",
@@ -135,9 +137,10 @@ export const viewUserSX: SxProps<Theme> = {
       pr: SPACE_2XL,
       display: "flex",
       gap: SPACE_XL,
-      width: "fit-content",
+      width: { xs: "100%", md: "fit-content" },
       borderRadius: "0",
       alignItems: "center",
+      flexDirection: { xs: "column", md: "row" },
       // backgroundColor: COLOR_WHITE,
       border: `1px solid ${COLOR_BORDER}`,
       "& .texts-wrapper": {
@@ -151,7 +154,7 @@ export const viewUserSX: SxProps<Theme> = {
       p: SPACE_LG,
       display: "flex",
       gap: SPACE_XL,
-      width: "430px",
+      width: { xs: "100%", md: "430px" },
       borderRadius: "0",
       flexDirection: "column",
       height: "fit-content",

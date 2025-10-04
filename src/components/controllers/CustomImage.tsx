@@ -23,8 +23,8 @@ import emptyImageUser from "../../assets/images/empty-image-user.png";
 interface ICustomImageBox extends BoxProps {
   sx?: SxProps<Theme>;
   src: string;
-  width?: string;
-  height?: string;
+  width?: TAny;
+  height?: TAny;
   isAvatar?: boolean;
   hasBorder?: boolean;
   withOutPreview?: boolean;

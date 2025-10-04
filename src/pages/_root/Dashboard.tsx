@@ -23,21 +23,50 @@ import { HeaderPage } from "../../components/common/Header";
 import { COLOR_BORDER } from "../../helpers/constants/colors";
 import { MainContext } from "../../helpers/others/mainContext";
 import { SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
+import { Loading } from "../../components/common/Loading";
 
 export const Dashboard = () => {
   const {
     globalProfileInformation: { role },
   } = useContext(MainContext);
 
-  const { data: totalUsers } = useGetTotalUsersChart();
-  const { data: totalAdmins } = useGetTotalAdminsChart();
-  const { data: totalCitizen } = useGetTotalCitizensChart();
-  const { data: totalOfficers } = useGetTotalOfficersChart();
-  const { data: totalDeptHead } = useGetTotalDepartmentHeadChart();
-  const { data: getRequestsByStatusChart } = useGetRequestsByStatusChart();
-  const { data: getRequestsByOfficerChart } = useGetRequestsByOfficerChart();
-  const { data: getRequestsByServiceChart } = useGetRequestsByServiceChart();
-  const { data: getPaymentsByServiceChart } = useGetPaymentsByServiceChart();
+  const { data: totalUsers, isLoading: isLoadingTotalUsersChart } =
+    useGetTotalUsersChart();
+  const { data: totalAdmins, isLoading: isLoadingTotalAdminsChart } =
+    useGetTotalAdminsChart();
+  const { data: totalCitizen, isLoading: isLoadingTotalCitizensChart } =
+    useGetTotalCitizensChart();
+  const { data: totalOfficers, isLoading: isLoadingTotalOfficersChart } =
+    useGetTotalOfficersChart();
+  const { data: totalDeptHead, isLoading: isLoadingTotalDepartmentHeadChart } =
+    useGetTotalDepartmentHeadChart();
+  const {
+    data: getRequestsByStatusChart,
+    isLoading: isLoadingRequestsByStatusChart,
+  } = useGetRequestsByStatusChart();
+  const {
+    data: getRequestsByOfficerChart,
+    isLoading: isLoadingRequestsByOfficerChart,
+  } = useGetRequestsByOfficerChart();
+  const {
+    data: getRequestsByServiceChart,
+    isLoading: isLoadingRequestsByServiceChart,
+  } = useGetRequestsByServiceChart();
+  const {
+    data: getPaymentsByServiceChart,
+    isLoading: isLoadingPaymentsByServiceChart,
+  } = useGetPaymentsByServiceChart();
+
+  const isLoading =
+    isLoadingTotalUsersChart ||
+    isLoadingTotalAdminsChart ||
+    isLoadingTotalCitizensChart ||
+    isLoadingTotalOfficersChart ||
+    isLoadingTotalDepartmentHeadChart ||
+    isLoadingRequestsByStatusChart ||
+    isLoadingRequestsByOfficerChart ||
+    isLoadingRequestsByServiceChart ||
+    isLoadingPaymentsByServiceChart;
 
   const chartData = useMemo(() => {
     const base = [0, 0, 0];
@@ -53,7 +82,9 @@ export const Dashboard = () => {
     return base;
   }, [getRequestsByStatusChart]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <HeaderPage title={"Dashboard"} breadcrumbData={[]} />
       <Grid
@@ -202,6 +233,7 @@ export const Dashboard = () => {
             }}
           >
             <BarChart
+              title="Request By Officer"
               data={{
                 labels: map(getRequestsByOfficerChart, (d) => d.officer),
                 datasets: [

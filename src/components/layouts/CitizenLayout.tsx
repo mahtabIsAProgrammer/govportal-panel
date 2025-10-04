@@ -6,6 +6,7 @@ import { CitizenLoading } from "../common/Loading";
 import { citizenLayoutSX } from "../../helpers/styles/layout";
 import { MainContext } from "../../helpers/others/mainContext";
 import { CitizenNavbar } from "../common/citizen/CitizenNavbar";
+import { Footer } from "../common/citizen/Footer";
 
 export const CitizenLayout = () => {
   const {
@@ -22,6 +23,7 @@ export const CitizenLayout = () => {
         <Grid className="container">
           {isLoadingProfileInformation ? <CitizenLoading /> : content}
         </Grid>
+        <Footer />
       </Grid>
     </Grid>
   );

@@ -48,7 +48,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
     name: name || "",
     fee: fee || null,
     description: description || "",
-    form_schema: (JSON.stringify(form_schema) as TAny) || null,
+    form_schema: (JSON.stringify(form_schema) as TAny) || "{}",
     department_id: department_id || null,
   };
 
@@ -156,7 +156,7 @@ const AddEdit: FC<IAddEdit> = ({ isEdit }) => {
                 fee: fee || null,
                 name: name || "",
                 description: description || "",
-                form_schema: form_schema || "",
+                form_schema: form_schema || "{}",
                 department_id: department_id || null,
               };
 

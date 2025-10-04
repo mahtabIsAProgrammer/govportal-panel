@@ -61,8 +61,8 @@ const ViewUser: FC<IViewUser> = ({
           <Box className="image-wrapper">
             <CustomImageBox
               src={urlImageHandler(data?.image, true) ?? ""}
-              width="380px"
-              height="380px"
+              width={{ xs: "200px", md: "380px" }}
+              height={{ xs: "200px", md: "380px" }}
             />
           </Box>
           <Box className="texts-wrapper">
