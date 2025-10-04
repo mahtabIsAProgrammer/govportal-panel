@@ -20,7 +20,7 @@ export const homeSectionSX: SxProps<Theme> = {
   justifyContent: "center",
   backgroundPosition: "right",
   backgroundRepeat: "no-repeat",
-  backgroundImage: `linear-gradient(rgba(0,0,0,0.7)), 
+  backgroundImage: `linear-gradient(rgba(0,0,0,0.8)), 
   url(${bgImage})`,
   "& .left-side": {
     width: "100%",
@@ -42,10 +42,11 @@ export const homeSectionSX: SxProps<Theme> = {
       },
     },
     "& .description": {
-      color: COLOR_DESCRIPTION_LIGHT,
-      fontSize: "16px",
-      width: { xs: "90%", md: "60%" },
-      fontWeight: "500",
+      color: COLOR_WHITE,
+      fontSize: "18px",
+      width: { xs: "90%", md: "70%" },
+      fontWeight: "400",
+      WebkitTextStroke: "0.3px #000000",
       textAlign: "center",
     },
     "& .image-box-wrapper": {
