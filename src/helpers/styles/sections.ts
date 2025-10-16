@@ -1,10 +1,6 @@
 import type { SxProps, Theme } from "@mui/material";
 
-import {
-  COLOR_WHITE,
-  COLOR_PRIMARY,
-  COLOR_DESCRIPTION_LIGHT,
-} from "../constants/colors";
+import { COLOR_WHITE, COLOR_PRIMARY } from "../constants/colors";
 import { SPACE_LG, SPACE_XL } from "../constants/spaces";
 import { MAX_WIDTH_CITIZEN } from "../constants/statics";
 
